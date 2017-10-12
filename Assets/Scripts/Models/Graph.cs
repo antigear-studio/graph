@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Antigear.Graph.Model {
+namespace Antigear.Graph {
     /// <summary>
     /// Encapsulates a single graph object. This includes any graph-specific 
     /// user settings.

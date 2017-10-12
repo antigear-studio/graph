@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Antigear.Graph.Model {
+namespace Antigear.Graph {
     /// <summary>
     /// Models a simple straight line.
     /// </summary>

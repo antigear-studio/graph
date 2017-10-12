@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Antigear.Graph.Model {
+namespace Antigear.Graph {
     /// <summary>
     /// Maintains metadata for line objects in general, such as line color,
     /// style, etc.

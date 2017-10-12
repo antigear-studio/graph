@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Antigear.Graph.Model {
+namespace Antigear.Graph {
     /// <summary>
     /// Maintains metadata for each component of the graph and provides common
     /// methods such as translation and rotation.
