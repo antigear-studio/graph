@@ -8,7 +8,7 @@ namespace Antigear.Graph {
     /// <summary>
     /// Standard Unity scroll rect, except also controls scroll bar opacity.
     /// </summary>
-    public class ScrollView : ScrollRect {
+    public class ScrollRect : UnityEngine.UI.ScrollRect {
         Coroutine fadeHorizontal, fadeVertical;
         Image handleHorizontal, handleVertical;
 
@@ -22,14 +22,12 @@ namespace Antigear.Graph {
                 handleHorizontal = 
                     horizontalScrollbar.handleRect.GetComponent<Image>();
                 handleHorizontal.color = Color.clear;
-                Debug.Log("Found h");
             }
 
             if (verticalScrollbar != null) {
                 handleVertical = 
                     verticalScrollbar.handleRect.GetComponent<Image>();
                 handleVertical.color = Color.clear;
-                Debug.Log("Found v");
             }
         }
 
