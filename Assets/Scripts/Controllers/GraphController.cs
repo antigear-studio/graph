@@ -6,6 +6,9 @@ namespace Antigear.Graph {
     /// settings.
     /// </summary>
     public class GraphController : MonoBehaviour {
-        
+        void Awake() {
+            // Application specific settings go here.
+            Application.targetFrameRate = 60;
+        }
     }
 }
