@@ -12,7 +12,7 @@ namespace Antigear.Graph {
         Coroutine fadeHorizontal, fadeVertical;
         Image handleHorizontal, handleVertical;
 
-        public Color targetColor = new Color(0, 0, 0, 0.5f);
+        Color targetColor = new Color(0, 0, 0, 0.25f);
         public float fadeDuration = 0.15f;
 
         protected override void Start() {
