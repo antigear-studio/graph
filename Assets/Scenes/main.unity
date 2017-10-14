@@ -1778,6 +1778,11 @@ Prefab:
       propertyPath: m_Text
       value: Graph's name, ...
       objectReference: {fileID: 0}
+    - target: {fileID: 224502450590440412, guid: cba6be5fad572437d8823cd236d2e53d,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cba6be5fad572437d8823cd236d2e53d, type: 2}
   m_IsPrefabParent: 0
@@ -3449,6 +3454,7 @@ GameObject:
   - component: {fileID: 817995399}
   - component: {fileID: 817995398}
   - component: {fileID: 817995400}
+  - component: {fileID: 817995401}
   m_Layer: 5
   m_Name: App Bar
   m_TagString: Untagged
@@ -3513,10 +3519,30 @@ MonoBehaviour:
   m_AnimatedShadows:
   - {fileID: 1635902372}
   - {fileID: 1675765006}
-  m_ShadowNormalSize: 1
+  m_ShadowNormalSize: 2
   m_ShadowActiveSize: 1
   m_ShadowsActiveWhen: 2
   m_IsEnabled: 1
+--- !u!114 &817995401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 817995396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5506cfc9f06404da989ae3b2ced444f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  titleText: {fileID: 1068976609}
+  toolbarCanvasGroup: {fileID: 1377907058}
+  appBarRectTransform: {fileID: 893239374}
+  appBarMaterialShadow: {fileID: 817995400}
+  titleName: Drawing Name
+  showToolbar: 0
+  upperBarHeight: 56
+  toolbarHeight: 40
+  animationDuration: 0.3
 --- !u!1 &819012486
 GameObject:
   m_ObjectHideFlags: 0
@@ -3956,7 +3982,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 8, y: 96}
+  m_SizeDelta: {x: 8, y: 56}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &913158376
 GameObject:
@@ -4342,7 +4368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MatchOrientationToScreen: 1
   m_ScaleFactor: 1
-  m_LastResolution: {x: 640, y: 480}
+  m_LastResolution: {x: 314, y: 558}
 --- !u!114 &969334223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4801,7 +4827,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Draw A Graph!
+  m_Text: Drawing Name
 --- !u!222 &1068976610
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4959,18 +4985,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1836163210}
-        m_MethodName: Open
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &1134519187
@@ -5390,7 +5405,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1254604092}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -48, z: -2}
+  m_LocalPosition: {x: 0, y: -28, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1635902370}
@@ -5867,7 +5882,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1325548012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -48, z: 0}
+  m_LocalPosition: {x: 0, y: -28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1610489351}
@@ -6473,7 +6488,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1377907053}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -48, z: 0}
+  m_LocalPosition: {x: 0, y: -28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 629893663}
@@ -6528,7 +6543,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1377907053}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -8418,7 +8433,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1610489350}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 48, z: 0}
+  m_LocalPosition: {x: 0, y: 28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1068976608}
@@ -8599,7 +8614,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1635902370
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8625,7 +8640,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1635902369}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -8640,7 +8655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84fb88f80357bf14e8a30b1e2bfda1cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsVisible: 1
+  m_IsVisible: 0
 --- !u!114 &1635902373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8943,7 +8958,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1675765004
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8969,7 +8984,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1675765003}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -8984,7 +8999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84fb88f80357bf14e8a30b1e2bfda1cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsVisible: 0
+  m_IsVisible: 1
 --- !u!114 &1675765007
 MonoBehaviour:
   m_ObjectHideFlags: 0

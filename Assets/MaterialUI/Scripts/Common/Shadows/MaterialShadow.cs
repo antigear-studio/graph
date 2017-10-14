@@ -114,7 +114,7 @@ namespace MaterialUI
         {
             if (m_LastShadowNormalSize != shadowNormalSize)
             {
-                SetShadowsInstant();
+                SetShadowsInstant(shadowNormalSize);
                 m_LastShadowNormalSize = shadowNormalSize;
             }
         }
@@ -210,13 +210,13 @@ namespace MaterialUI
         /// <summary>
         /// Sets the 'normal' shadow to be shown, instantly with no animation.
         /// </summary>
-        private void SetShadowsInstant()
+        public void SetShadowsInstant(int shadowOn)
         {
             if (isEnabled && m_AnimatedShadows != null)
             {
                 for (int i = 0; i < m_AnimatedShadows.Length; i++)
                 {
-                    m_AnimatedShadows[i].SetShadow(i == m_ShadowNormalSize - 1);
+                    m_AnimatedShadows[i].SetShadow(i == shadowOn - 1);
                 }
             }
         }

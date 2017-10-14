@@ -81,7 +81,7 @@ namespace MaterialUI
             {
                 TweenManager.EndTween(m_Tweener);
 
-                m_Tweener = TweenManager.TweenFloat(f => canvasGroup.alpha = f, () => canvasGroup.alpha, set ? 1f : 0f, 0.5f, 0f, () => gameObject.SetActive(set), tweenType: tweenType);
+                m_Tweener = TweenManager.TweenFloat(f => canvasGroup.alpha = f, () => canvasGroup.alpha, set ? 1f : 0f, 0.3f, 0f, () => gameObject.SetActive(set), tweenType: tweenType);
             }
             else
             {
