@@ -210,7 +210,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &55169954
 RectTransform:
   m_ObjectHideFlags: 0
@@ -218,7 +218,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 55169953}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -125, y: -28, z: 0}
+  m_LocalPosition: {x: -129, y: -28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1918417207}
@@ -228,7 +228,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 36, y: 0}
+  m_AnchoredPosition: {x: 32, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &55169955
@@ -257,12 +257,12 @@ MonoBehaviour:
   m_AutoMatchGraphicColor: 1
   m_ColorMatchGraphic: {fileID: 1507140129}
   m_RippleData:
-    AutoSize: 0
-    SizePercent: 200
+    AutoSize: 1
+    SizePercent: 100
     ManualSize: 56
     SizeMode: 1
     Speed: 12
-    Color: {r: 0, g: 0, b: 0, a: 0.5411765}
+    Color: {r: 1, g: 1, b: 1, a: 1}
     StartAlpha: 0.3
     EndAlpha: 0.1
     MoveTowardCenter: 1
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_CanvasGroup: {fileID: 55169955}
   m_ShadowsCanvasGroup: {fileID: 0}
   m_Interactable: 1
-  m_ContentPadding: {x: 32, y: 32}
+  m_ContentPadding: {x: 24, y: 24}
   m_ContentSize: {x: 24, y: 24}
   m_Size: {x: 56, y: 56}
   m_FitWidthToContent: 1
@@ -357,6 +357,101 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!1 &76331144
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 76331145}
+  - component: {fileID: 76331148}
+  - component: {fileID: 76331147}
+  - component: {fileID: 76331146}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &76331145
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 76331144}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1132073093}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &76331146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 76331144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d6373964e81114c93785dbe9bc6f81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: dcb678aff71bc544e91d4f2be1420503, type: 3}
+    m_FontSize: 48
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 56
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: \uE902
+  m_Size: 56
+  m_ScaledSize: 48
+  m_SizeMode: 3
+  m_MaterialUiScaler: {fileID: 969334222}
+  m_VectorImageData:
+    m_Glyph:
+      m_Name: circle
+      m_Unicode: \uE902
+    m_Font: {fileID: 12800000, guid: dcb678aff71bc544e91d4f2be1420503, type: 3}
+--- !u!225 &76331147
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 76331144}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!222 &76331148
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 76331144}
 --- !u!1 &85426939
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,7 +591,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
-    m_FontSize: 0
+    m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -509,7 +604,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uf44f
   m_Size: 24
-  m_ScaledSize: 0
+  m_ScaledSize: 24
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -882,7 +977,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 191300137}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 61, y: 20, z: -4}
+  m_LocalPosition: {x: 65, y: 20, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1247370017}
@@ -919,23 +1014,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RipplesEnabled: 1
   m_AutoMatchGraphicColor: 1
-  m_ColorMatchGraphic: {fileID: 0}
+  m_ColorMatchGraphic: {fileID: 881187929}
   m_RippleData:
     AutoSize: 1
     SizePercent: 100
     ManualSize: 0
     SizeMode: 1
     Speed: 8
-    Color: {r: 0, g: 0, b: 0, a: 1}
+    Color: {r: 1, g: 1, b: 1, a: 1}
     StartAlpha: 0.3
     EndAlpha: 0.1
     MoveTowardCenter: 1
     RippleParent: {fileID: 1247370017}
     PlaceRippleBehind: 0
-  m_HighlightGraphic: {fileID: 1247370018}
-  m_HighlightWhen: 2
+  m_HighlightGraphic: {fileID: 881187929}
+  m_HighlightWhen: 0
   m_AutoHighlightColor: 1
-  m_HighlightColor: {r: 0, g: 0, b: 0, a: 0.2}
+  m_HighlightColor: {r: 1, g: 1, b: 1, a: 0.2}
   m_MaskMode: 2
   m_CheckForScroll: 0
   m_AutoHighlightBlendAmount: 0.2
@@ -953,7 +1048,7 @@ MonoBehaviour:
   m_RectTransform: {fileID: 191300138}
   m_ContentRectTransform: {fileID: 881187928}
   m_ButtonObject: {fileID: 191300142}
-  m_BackgroundImage: {fileID: 1247370018}
+  m_BackgroundImage: {fileID: 0}
   m_Text: {fileID: 0}
   m_Icon: {fileID: 881187929}
   m_MaterialRipple: {fileID: 191300140}
@@ -2304,7 +2399,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: dcb678aff71bc544e91d4f2be1420503, type: 3}
-    m_FontSize: 56
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -2317,7 +2412,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 56
+  m_ScaledSize: 48
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -2462,7 +2557,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 629893662}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -125, y: 20, z: -4}
+  m_LocalPosition: {x: -129, y: 20, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 786435515}
@@ -2499,23 +2594,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RipplesEnabled: 1
   m_AutoMatchGraphicColor: 1
-  m_ColorMatchGraphic: {fileID: 0}
+  m_ColorMatchGraphic: {fileID: 1284010226}
   m_RippleData:
     AutoSize: 1
     SizePercent: 100
     ManualSize: 0
     SizeMode: 1
     Speed: 8
-    Color: {r: 0, g: 0, b: 0, a: 1}
+    Color: {r: 1, g: 1, b: 1, a: 1}
     StartAlpha: 0.3
     EndAlpha: 0.1
     MoveTowardCenter: 1
     RippleParent: {fileID: 786435515}
     PlaceRippleBehind: 0
-  m_HighlightGraphic: {fileID: 786435516}
-  m_HighlightWhen: 2
+  m_HighlightGraphic: {fileID: 1284010226}
+  m_HighlightWhen: 0
   m_AutoHighlightColor: 1
-  m_HighlightColor: {r: 0, g: 0, b: 0, a: 1}
+  m_HighlightColor: {r: 1, g: 1, b: 1, a: 0.2}
   m_MaskMode: 2
   m_CheckForScroll: 0
   m_AutoHighlightBlendAmount: 0.2
@@ -2538,7 +2633,7 @@ MonoBehaviour:
   m_CapitalizeButtonText: 0
   m_HighlightCurrentlySelected: 1
   m_UpdateHeader: 1
-  m_AnimationDuration: 0.3
+  m_AnimationDuration: 0.2
   m_MinDistanceFromEdge: 16
   m_PanelColor: {r: 1, g: 1, b: 1, a: 1}
   m_ItemRippleData:
@@ -2559,7 +2654,7 @@ MonoBehaviour:
   m_BaseSelectable: {fileID: 629893668}
   m_ButtonTextContent: {fileID: 0}
   m_ButtonImageContent: {fileID: 1284010226}
-  m_CurrentlySelected: -1
+  m_CurrentlySelected: 0
   m_OptionDataList:
     m_ImageType: 1
     m_Options:
@@ -2600,7 +2695,7 @@ MonoBehaviour:
   m_RectTransform: {fileID: 629893663}
   m_ContentRectTransform: {fileID: 1284010225}
   m_ButtonObject: {fileID: 629893668}
-  m_BackgroundImage: {fileID: 786435516}
+  m_BackgroundImage: {fileID: 0}
   m_Text: {fileID: 0}
   m_Icon: {fileID: 1284010226}
   m_MaterialRipple: {fileID: 629893665}
@@ -2900,7 +2995,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
-    m_FontSize: 0
+    m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -2913,7 +3008,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uf54d
   m_Size: 24
-  m_ScaledSize: 0
+  m_ScaledSize: 24
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -3040,17 +3135,17 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 764232493}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 125, y: -28, z: 0}
+  m_LocalPosition: {x: 129, y: -28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 572524797}
   - {fileID: 1827227777}
   m_Father: {fileID: 1610489351}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -36, y: 0}
+  m_AnchoredPosition: {x: -32, y: 0}
   m_SizeDelta: {x: 56, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &764232495
@@ -3079,8 +3174,8 @@ MonoBehaviour:
   m_AutoMatchGraphicColor: 1
   m_ColorMatchGraphic: {fileID: 1827227778}
   m_RippleData:
-    AutoSize: 0
-    SizePercent: 200
+    AutoSize: 1
+    SizePercent: 100
     ManualSize: 56
     SizeMode: 1
     Speed: 12
@@ -3119,9 +3214,9 @@ MonoBehaviour:
   m_CanvasGroup: {fileID: 764232495}
   m_ShadowsCanvasGroup: {fileID: 0}
   m_Interactable: 1
-  m_ContentPadding: {x: 32, y: 32}
+  m_ContentPadding: {x: 24, y: 24}
   m_ContentSize: {x: 24, y: 24}
-  m_Size: {x: 56, y: 56}
+  m_Size: {x: 48, y: 48}
   m_FitWidthToContent: 1
   m_FitHeightToContent: 1
   m_IsCircularButton: 0
@@ -3418,7 +3513,7 @@ MonoBehaviour:
   m_AnimatedShadows:
   - {fileID: 1635902372}
   - {fileID: 1675765006}
-  m_ShadowNormalSize: 2
+  m_ShadowNormalSize: 1
   m_ShadowActiveSize: 1
   m_ShadowsActiveWhen: 2
   m_IsEnabled: 1
@@ -3861,7 +3956,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 8, y: 56}
+  m_SizeDelta: {x: 8, y: 96}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &913158376
 GameObject:
@@ -4247,7 +4342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MatchOrientationToScreen: 1
   m_ScaleFactor: 1
-  m_LastResolution: {x: 314, y: 558}
+  m_LastResolution: {x: 640, y: 480}
 --- !u!114 &969334223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4713,6 +4808,171 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1068976607}
+--- !u!1 &1132073092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1132073093}
+  - component: {fileID: 1132073097}
+  - component: {fileID: 1132073096}
+  - component: {fileID: 1132073095}
+  - component: {fileID: 1132073094}
+  m_Layer: 5
+  m_Name: Button - Close
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1132073093
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1132073092}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -129, y: -28, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 76331145}
+  - {fileID: 1303102626}
+  m_Father: {fileID: 1610489351}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 32, y: 0}
+  m_SizeDelta: {x: 56, y: 56}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1132073094
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1132073092}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &1132073095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1132073092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc16b9d7bd6f3a4eb41836b842a98b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RipplesEnabled: 1
+  m_AutoMatchGraphicColor: 1
+  m_ColorMatchGraphic: {fileID: 1303102627}
+  m_RippleData:
+    AutoSize: 1
+    SizePercent: 100
+    ManualSize: 56
+    SizeMode: 1
+    Speed: 12
+    Color: {r: 0, g: 0, b: 0, a: 0.5411765}
+    StartAlpha: 0.3
+    EndAlpha: 0.1
+    MoveTowardCenter: 1
+    RippleParent: {fileID: 76331145}
+    PlaceRippleBehind: 0
+  m_HighlightGraphic: {fileID: 76331146}
+  m_HighlightWhen: 0
+  m_AutoHighlightColor: 1
+  m_HighlightColor: {r: 0, g: 0, b: 0, a: 0.1}
+  m_MaskMode: 2
+  m_CheckForScroll: 0
+  m_AutoHighlightBlendAmount: 0.1
+--- !u!114 &1132073096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1132073092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b88913c0b9b414895ed5824ddfad9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RectTransform: {fileID: 1132073093}
+  m_ContentRectTransform: {fileID: 1303102626}
+  m_ButtonObject: {fileID: 1132073097}
+  m_BackgroundImage: {fileID: 76331146}
+  m_Text: {fileID: 0}
+  m_Icon: {fileID: 1303102627}
+  m_MaterialRipple: {fileID: 1132073095}
+  m_MaterialShadow: {fileID: 0}
+  m_CanvasGroup: {fileID: 1132073094}
+  m_ShadowsCanvasGroup: {fileID: 0}
+  m_Interactable: 1
+  m_ContentPadding: {x: 24, y: 24}
+  m_ContentSize: {x: 24, y: 24}
+  m_Size: {x: 48, y: 48}
+  m_FitWidthToContent: 1
+  m_FitHeightToContent: 1
+  m_IsCircularButton: 0
+  m_IsRaisedButton: 0
+  m_ResetRippleOnDisable: 1
+--- !u!114 &1132073097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1132073092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 0
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1836163210}
+        m_MethodName: Open
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1134519187
 GameObject:
   m_ObjectHideFlags: 0
@@ -5130,7 +5390,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1254604092}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -28, z: -2}
+  m_LocalPosition: {x: 0, y: -48, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1635902370}
@@ -5366,7 +5626,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1286965337
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5404,8 +5664,91 @@ MonoBehaviour:
   - {fileID: 1310963801}
   m_ShadowNormalSize: 0
   m_ShadowActiveSize: 3
-  m_ShadowsActiveWhen: 1
+  m_ShadowsActiveWhen: 2
   m_IsEnabled: 1
+--- !u!1 &1303102625
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1303102626}
+  - component: {fileID: 1303102628}
+  - component: {fileID: 1303102627}
+  m_Layer: 5
+  m_Name: Icon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1303102626
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1303102625}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1132073093}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1303102627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1303102625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d6373964e81114c93785dbe9bc6f81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: a0a40789b9baa45a68c6d593e02f648a, type: 3}
+    m_FontSize: 24
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: \ue5cd
+  m_Size: 24
+  m_ScaledSize: 24
+  m_SizeMode: 3
+  m_MaterialUiScaler: {fileID: 969334222}
+  m_VectorImageData:
+    m_Glyph:
+      m_Name: close
+      m_Unicode: \ue5cd
+    m_Font: {fileID: 12800000, guid: a0a40789b9baa45a68c6d593e02f648a, type: 3}
+--- !u!222 &1303102628
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1303102625}
 --- !u!1 &1310963798
 GameObject:
   m_ObjectHideFlags: 0
@@ -5524,7 +5867,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1325548012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -28, z: 0}
+  m_LocalPosition: {x: 0, y: -48, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1610489351}
@@ -5613,7 +5956,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1325979267}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -93, y: 20, z: -4}
+  m_LocalPosition: {x: -97, y: 20, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 279361631}
@@ -5650,23 +5993,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RipplesEnabled: 1
   m_AutoMatchGraphicColor: 1
-  m_ColorMatchGraphic: {fileID: 0}
+  m_ColorMatchGraphic: {fileID: 2044742819}
   m_RippleData:
     AutoSize: 1
     SizePercent: 100
     ManualSize: 0
     SizeMode: 1
     Speed: 8
-    Color: {r: 0, g: 0, b: 0, a: 1}
+    Color: {r: 1, g: 1, b: 1, a: 1}
     StartAlpha: 0.3
     EndAlpha: 0.1
     MoveTowardCenter: 1
     RippleParent: {fileID: 279361631}
     PlaceRippleBehind: 0
-  m_HighlightGraphic: {fileID: 279361632}
-  m_HighlightWhen: 2
+  m_HighlightGraphic: {fileID: 2044742819}
+  m_HighlightWhen: 0
   m_AutoHighlightColor: 1
-  m_HighlightColor: {r: 0, g: 0, b: 0, a: 1}
+  m_HighlightColor: {r: 1, g: 1, b: 1, a: 0.2}
   m_MaskMode: 2
   m_CheckForScroll: 0
   m_AutoHighlightBlendAmount: 0.2
@@ -5689,7 +6032,7 @@ MonoBehaviour:
   m_CapitalizeButtonText: 0
   m_HighlightCurrentlySelected: 1
   m_UpdateHeader: 1
-  m_AnimationDuration: 0.3
+  m_AnimationDuration: 0.2
   m_MinDistanceFromEdge: 16
   m_PanelColor: {r: 1, g: 1, b: 1, a: 1}
   m_ItemRippleData:
@@ -5710,7 +6053,7 @@ MonoBehaviour:
   m_BaseSelectable: {fileID: 1325979273}
   m_ButtonTextContent: {fileID: 0}
   m_ButtonImageContent: {fileID: 2044742819}
-  m_CurrentlySelected: -1
+  m_CurrentlySelected: 0
   m_OptionDataList:
     m_ImageType: 1
     m_Options:
@@ -5769,7 +6112,7 @@ MonoBehaviour:
   m_RectTransform: {fileID: 1325979268}
   m_ContentRectTransform: {fileID: 2044742818}
   m_ButtonObject: {fileID: 1325979273}
-  m_BackgroundImage: {fileID: 279361632}
+  m_BackgroundImage: {fileID: 0}
   m_Text: {fileID: 0}
   m_Icon: {fileID: 2044742819}
   m_MaterialRipple: {fileID: 1325979270}
@@ -6114,7 +6457,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1377907054}
   - component: {fileID: 1377907057}
-  - component: {fileID: 1377907056}
   - component: {fileID: 1377907055}
   - component: {fileID: 1377907058}
   m_Layer: 5
@@ -6131,7 +6473,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1377907053}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -28, z: 0}
+  m_LocalPosition: {x: 0, y: -48, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 629893663}
@@ -6163,8 +6505,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 20
-    m_Right: 20
+    m_Left: 16
+    m_Right: 16
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
@@ -6173,33 +6515,6 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
---- !u!114 &1377907056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1377907053}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.2509804}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
 --- !u!222 &1377907057
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6213,7 +6528,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1377907053}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -6244,7 +6559,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1379035648}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3, y: 20, z: -4}
+  m_LocalPosition: {x: -1, y: 20, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 305627270}
@@ -6281,23 +6596,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RipplesEnabled: 1
   m_AutoMatchGraphicColor: 1
-  m_ColorMatchGraphic: {fileID: 0}
+  m_ColorMatchGraphic: {fileID: 85426941}
   m_RippleData:
     AutoSize: 1
     SizePercent: 100
     ManualSize: 0
     SizeMode: 1
     Speed: 8
-    Color: {r: 0, g: 0, b: 0, a: 1}
+    Color: {r: 1, g: 1, b: 1, a: 1}
     StartAlpha: 0.3
     EndAlpha: 0.1
     MoveTowardCenter: 1
     RippleParent: {fileID: 305627270}
     PlaceRippleBehind: 0
-  m_HighlightGraphic: {fileID: 305627271}
-  m_HighlightWhen: 2
+  m_HighlightGraphic: {fileID: 85426941}
+  m_HighlightWhen: 0
   m_AutoHighlightColor: 1
-  m_HighlightColor: {r: 0, g: 0, b: 0, a: 1}
+  m_HighlightColor: {r: 1, g: 1, b: 1, a: 0.2}
   m_MaskMode: 2
   m_CheckForScroll: 0
   m_AutoHighlightBlendAmount: 0.2
@@ -6320,7 +6635,7 @@ MonoBehaviour:
   m_CapitalizeButtonText: 0
   m_HighlightCurrentlySelected: 1
   m_UpdateHeader: 1
-  m_AnimationDuration: 0.3
+  m_AnimationDuration: 0.2
   m_MinDistanceFromEdge: 16
   m_PanelColor: {r: 1, g: 1, b: 1, a: 1}
   m_ItemRippleData:
@@ -6341,7 +6656,7 @@ MonoBehaviour:
   m_BaseSelectable: {fileID: 1379035654}
   m_ButtonTextContent: {fileID: 0}
   m_ButtonImageContent: {fileID: 85426941}
-  m_CurrentlySelected: -1
+  m_CurrentlySelected: 0
   m_OptionDataList:
     m_ImageType: 1
     m_Options:
@@ -6382,7 +6697,7 @@ MonoBehaviour:
   m_RectTransform: {fileID: 1379035649}
   m_ContentRectTransform: {fileID: 85426940}
   m_ButtonObject: {fileID: 1379035654}
-  m_BackgroundImage: {fileID: 305627271}
+  m_BackgroundImage: {fileID: 0}
   m_Text: {fileID: 0}
   m_Icon: {fileID: 85426941}
   m_MaterialRipple: {fileID: 1379035651}
@@ -6550,7 +6865,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1413737000}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 109, y: 251, z: 0}
+  m_LocalPosition: {x: -20, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 801500326}
@@ -6933,7 +7248,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1472389440}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -29, y: 20, z: -4}
+  m_LocalPosition: {x: -33, y: 20, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 839312321}
@@ -6970,23 +7285,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RipplesEnabled: 1
   m_AutoMatchGraphicColor: 1
-  m_ColorMatchGraphic: {fileID: 0}
+  m_ColorMatchGraphic: {fileID: 171954060}
   m_RippleData:
     AutoSize: 1
     SizePercent: 100
     ManualSize: 0
     SizeMode: 1
     Speed: 8
-    Color: {r: 0, g: 0, b: 0, a: 1}
+    Color: {r: 1, g: 1, b: 1, a: 1}
     StartAlpha: 0.3
     EndAlpha: 0.1
     MoveTowardCenter: 1
     RippleParent: {fileID: 839312321}
     PlaceRippleBehind: 0
-  m_HighlightGraphic: {fileID: 839312322}
-  m_HighlightWhen: 2
+  m_HighlightGraphic: {fileID: 171954060}
+  m_HighlightWhen: 0
   m_AutoHighlightColor: 1
-  m_HighlightColor: {r: 0, g: 0, b: 0, a: 1}
+  m_HighlightColor: {r: 1, g: 1, b: 1, a: 0.2}
   m_MaskMode: 2
   m_CheckForScroll: 0
   m_AutoHighlightBlendAmount: 0.2
@@ -7009,7 +7324,7 @@ MonoBehaviour:
   m_CapitalizeButtonText: 0
   m_HighlightCurrentlySelected: 1
   m_UpdateHeader: 1
-  m_AnimationDuration: 0.3
+  m_AnimationDuration: 0.2
   m_MinDistanceFromEdge: 16
   m_PanelColor: {r: 1, g: 1, b: 1, a: 1}
   m_ItemRippleData:
@@ -7030,7 +7345,7 @@ MonoBehaviour:
   m_BaseSelectable: {fileID: 1472389446}
   m_ButtonTextContent: {fileID: 0}
   m_ButtonImageContent: {fileID: 171954060}
-  m_CurrentlySelected: -1
+  m_CurrentlySelected: 0
   m_OptionDataList:
     m_ImageType: 1
     m_Options:
@@ -7071,7 +7386,7 @@ MonoBehaviour:
   m_RectTransform: {fileID: 1472389441}
   m_ContentRectTransform: {fileID: 171954059}
   m_ButtonObject: {fileID: 1472389446}
-  m_BackgroundImage: {fileID: 839312322}
+  m_BackgroundImage: {fileID: 0}
   m_Text: {fileID: 0}
   m_Icon: {fileID: 171954060}
   m_MaterialRipple: {fileID: 1472389443}
@@ -7288,7 +7603,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: a0a40789b9baa45a68c6d593e02f648a, type: 3}
-    m_FontSize: 24
+    m_FontSize: 0
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -7301,7 +7616,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \ue5d2
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 0
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -7491,7 +7806,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1537088760}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -61, y: 20, z: -4}
+  m_LocalPosition: {x: -65, y: 20, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 298753526}
@@ -7528,23 +7843,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RipplesEnabled: 1
   m_AutoMatchGraphicColor: 1
-  m_ColorMatchGraphic: {fileID: 0}
+  m_ColorMatchGraphic: {fileID: 1033942067}
   m_RippleData:
     AutoSize: 1
     SizePercent: 100
     ManualSize: 0
     SizeMode: 1
     Speed: 8
-    Color: {r: 0, g: 0, b: 0, a: 1}
+    Color: {r: 1, g: 1, b: 1, a: 1}
     StartAlpha: 0.3
     EndAlpha: 0.1
     MoveTowardCenter: 1
     RippleParent: {fileID: 298753526}
     PlaceRippleBehind: 0
-  m_HighlightGraphic: {fileID: 298753527}
-  m_HighlightWhen: 2
+  m_HighlightGraphic: {fileID: 1033942067}
+  m_HighlightWhen: 0
   m_AutoHighlightColor: 1
-  m_HighlightColor: {r: 0, g: 0, b: 0, a: 1}
+  m_HighlightColor: {r: 1, g: 1, b: 1, a: 0.2}
   m_MaskMode: 2
   m_CheckForScroll: 0
   m_AutoHighlightBlendAmount: 0.2
@@ -7567,7 +7882,7 @@ MonoBehaviour:
   m_CapitalizeButtonText: 0
   m_HighlightCurrentlySelected: 1
   m_UpdateHeader: 1
-  m_AnimationDuration: 0.3
+  m_AnimationDuration: 0.2
   m_MinDistanceFromEdge: 16
   m_PanelColor: {r: 1, g: 1, b: 1, a: 1}
   m_ItemRippleData:
@@ -7588,7 +7903,7 @@ MonoBehaviour:
   m_BaseSelectable: {fileID: 1537088766}
   m_ButtonTextContent: {fileID: 0}
   m_ButtonImageContent: {fileID: 1033942067}
-  m_CurrentlySelected: -1
+  m_CurrentlySelected: 0
   m_OptionDataList:
     m_ImageType: 1
     m_Options:
@@ -7629,7 +7944,7 @@ MonoBehaviour:
   m_RectTransform: {fileID: 1537088761}
   m_ContentRectTransform: {fileID: 1033942066}
   m_ButtonObject: {fileID: 1537088766}
-  m_BackgroundImage: {fileID: 298753527}
+  m_BackgroundImage: {fileID: 0}
   m_Text: {fileID: 0}
   m_Icon: {fileID: 1033942067}
   m_MaterialRipple: {fileID: 1537088763}
@@ -7900,7 +8215,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1562276832}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 125, y: 20, z: -4}
+  m_LocalPosition: {x: 129, y: 20, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1740953470}
@@ -7937,23 +8252,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RipplesEnabled: 1
   m_AutoMatchGraphicColor: 1
-  m_ColorMatchGraphic: {fileID: 0}
+  m_ColorMatchGraphic: {fileID: 440177622}
   m_RippleData:
     AutoSize: 1
     SizePercent: 100
     ManualSize: 0
     SizeMode: 1
     Speed: 8
-    Color: {r: 0, g: 0, b: 0, a: 1}
+    Color: {r: 1, g: 1, b: 1, a: 1}
     StartAlpha: 0.3
     EndAlpha: 0.1
     MoveTowardCenter: 1
     RippleParent: {fileID: 1740953470}
     PlaceRippleBehind: 0
-  m_HighlightGraphic: {fileID: 1740953471}
-  m_HighlightWhen: 2
+  m_HighlightGraphic: {fileID: 440177622}
+  m_HighlightWhen: 0
   m_AutoHighlightColor: 1
-  m_HighlightColor: {r: 0, g: 0, b: 0, a: 1}
+  m_HighlightColor: {r: 1, g: 1, b: 1, a: 0.2}
   m_MaskMode: 2
   m_CheckForScroll: 0
   m_AutoHighlightBlendAmount: 0.2
@@ -7971,7 +8286,7 @@ MonoBehaviour:
   m_RectTransform: {fileID: 1562276833}
   m_ContentRectTransform: {fileID: 440177621}
   m_ButtonObject: {fileID: 1562276837}
-  m_BackgroundImage: {fileID: 1740953471}
+  m_BackgroundImage: {fileID: 0}
   m_Text: {fileID: 0}
   m_Icon: {fileID: 440177622}
   m_MaterialRipple: {fileID: 1562276835}
@@ -8103,11 +8418,12 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1610489350}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 28, z: 0}
+  m_LocalPosition: {x: 0, y: 48, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1068976608}
   - {fileID: 55169954}
+  - {fileID: 1132073093}
   - {fileID: 764232494}
   m_Father: {fileID: 1325548013}
   m_RootOrder: 0
@@ -8131,7 +8447,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1614612018
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8283,7 +8599,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1635902370
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8309,7 +8625,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1635902369}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -8324,7 +8640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84fb88f80357bf14e8a30b1e2bfda1cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsVisible: 0
+  m_IsVisible: 1
 --- !u!114 &1635902373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8627,7 +8943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1675765004
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8653,7 +8969,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1675765003}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -8668,7 +8984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84fb88f80357bf14e8a30b1e2bfda1cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsVisible: 1
+  m_IsVisible: 0
 --- !u!114 &1675765007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9617,7 +9933,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1897357757}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 93, y: 20, z: -4}
+  m_LocalPosition: {x: 97, y: 20, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 480644253}
@@ -9654,23 +9970,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RipplesEnabled: 1
   m_AutoMatchGraphicColor: 1
-  m_ColorMatchGraphic: {fileID: 0}
+  m_ColorMatchGraphic: {fileID: 446641581}
   m_RippleData:
     AutoSize: 1
     SizePercent: 100
     ManualSize: 0
     SizeMode: 1
     Speed: 8
-    Color: {r: 0, g: 0, b: 0, a: 1}
+    Color: {r: 1, g: 1, b: 1, a: 1}
     StartAlpha: 0.3
     EndAlpha: 0.1
     MoveTowardCenter: 1
     RippleParent: {fileID: 480644253}
     PlaceRippleBehind: 0
-  m_HighlightGraphic: {fileID: 480644254}
-  m_HighlightWhen: 2
+  m_HighlightGraphic: {fileID: 446641581}
+  m_HighlightWhen: 0
   m_AutoHighlightColor: 1
-  m_HighlightColor: {r: 0, g: 0, b: 0, a: 1}
+  m_HighlightColor: {r: 1, g: 1, b: 1, a: 0.2}
   m_MaskMode: 2
   m_CheckForScroll: 0
   m_AutoHighlightBlendAmount: 0.2
@@ -9688,7 +10004,7 @@ MonoBehaviour:
   m_RectTransform: {fileID: 1897357758}
   m_ContentRectTransform: {fileID: 446641580}
   m_ButtonObject: {fileID: 1897357763}
-  m_BackgroundImage: {fileID: 480644254}
+  m_BackgroundImage: {fileID: 0}
   m_Text: {fileID: 0}
   m_Icon: {fileID: 446641581}
   m_MaterialRipple: {fileID: 1897357760}
@@ -9802,7 +10118,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: dcb678aff71bc544e91d4f2be1420503, type: 3}
-    m_FontSize: 56
+    m_FontSize: 0
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -9815,7 +10131,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 56
+  m_ScaledSize: 0
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
