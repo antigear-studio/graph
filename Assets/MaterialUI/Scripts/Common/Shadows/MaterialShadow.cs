@@ -26,7 +26,8 @@ namespace MaterialUI
         public enum ShadowsActive
         {
             Hovered,
-            Clicked
+            Clicked,
+            Script
         }
 
         /// <summary>

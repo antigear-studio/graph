@@ -1,0 +1,7 @@
+﻿HOW TO
+1. Create 'Canvas' in hierarchy.
+2. Add 'DeviceLayout' script to your canvas.
+3. Drag 'Device Simulator' prefab into hierarchy.
+4. Add Your target Canvas (with DeviceLayout) to Device Simulator.
+4. Change a Device Simulator setting at inspector.
+5. Design your User Interface !!!

@@ -288,6 +288,8 @@ namespace MaterialUI
         /// </summary>
         void Update()
         {
+            RefreshBackgroundSize();
+
             if (m_AnimState == 1)
             {
                 m_AnimDeltaTime = Time.realtimeSinceStartup - m_AnimStartTime;
