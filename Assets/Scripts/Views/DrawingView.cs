@@ -13,7 +13,7 @@ namespace Antigear.Graph {
         public MaterialShadow drawingViewMaterialShadow;
 
         public float expandedTopOffset = 96;
-        public float animationDuration = 0.3f;
+        public float animationDuration = 0.5f;
 
         readonly List<int> expansionAnimationTweenIds = new List<int>();
         public bool isExpanded;
@@ -40,8 +40,7 @@ namespace Antigear.Graph {
         /// <param name="tile">Tile to begin the animatino on.</param>
         /// <param name="handler">The completion handler.</param>
         public void SetExpansion(bool shouldExpand, bool animated, 
-                                 GraphTile tile = null, 
-                                 Action handler = null) {
+            GraphTile tile = null, Action handler = null) {
             // This animation consists an elevation from the grid view and a
             // new size and pos change.
             if (shouldExpand == wasExpanded)
@@ -73,46 +72,9 @@ namespace Antigear.Graph {
                 // Expanding from tile, so we need to calculate tile's coord on
                 // the fly.
                 int t1, t2;
-                Vector3[] currentCorners = new Vector3[4];
-                rectTransform.GetWorldCorners(currentCorners);
                 RectTransform tileRectTransform = 
                     tile.transform as RectTransform;
-
-                Func<Func<Vector2>> offsetMinFromTile = () => {
-                    // This is the difference between the bottom left world 
-                    // corners between our parent and the tile, plus offset from
-                    // current rect transform bottom left corner from the tile.
-                    Vector3[] tileCornersSnapShot = new Vector3[4];
-                    tileRectTransform.GetWorldCorners(tileCornersSnapShot);
-                    Vector3 offset = currentCorners[0] - tileCornersSnapShot[0];
-
-                    return () => {
-                        Vector3[] parentCorners = new Vector3[4];
-                        Vector3[] tileCorners = new Vector3[4];
-                        parentRectTransform.GetWorldCorners(parentCorners);
-                        tileRectTransform.GetWorldCorners(tileCorners);
-                        return tileCorners[0] - parentCorners[0] + offset;
-                    };
-                };
-
-                Func<Func<Vector2>> offsetMaxFromTile = () => {
-                    // This is the difference between the top right world 
-                    // corners between our parent and the tile, plus offset from
-                    // current rect transform top right corner from the tile.
-                    Vector3[] tileCornersSnapShot = new Vector3[4];
-                    tileRectTransform.GetWorldCorners(tileCornersSnapShot);
-                    Vector3 offset = currentCorners[2] - tileCornersSnapShot[2];
-
-                    return () => {
-                        Vector3[] parentCorners = new Vector3[4];
-                        Vector3[] tileCorners = new Vector3[4];
-                        parentRectTransform.GetWorldCorners(parentCorners);
-                        tileRectTransform.GetWorldCorners(tileCorners);
-
-                        return tileCorners[2] - parentCorners[2] + offset;
-                    };
-                };
-
+                
                 Func<Vector2> offsetMinToTile = () => {
                     // Much simpler, since we will always end up shrinking to
                     // the tile.
@@ -137,10 +99,10 @@ namespace Antigear.Graph {
 
                 if (shouldExpand) {
                     t1 = TweenManager.TweenVector2(
-                        v => rectTransform.offsetMin = v, offsetMinFromTile(), 
+                        v => rectTransform.offsetMin = v, offsetMinToTile, 
                         expandedOffsetMin, animationDuration, 0, handler);
                     t2 = TweenManager.TweenVector2(
-                        v => rectTransform.offsetMax = v, offsetMaxFromTile(), 
+                        v => rectTransform.offsetMax = v, offsetMaxToTile, 
                         expandedOffsetMax, animationDuration);
                 } else {
                     t1 = TweenManager.TweenVector2(

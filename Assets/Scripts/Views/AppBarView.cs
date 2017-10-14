@@ -1,6 +1,7 @@
 ﻿using MaterialUI;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Antigear.Graph {
     /// <summary>
@@ -28,13 +29,14 @@ namespace Antigear.Graph {
         public CanvasGroup navigationButtonCanvasGroup;
 
         // Exposed properties.
+        public IAppBarViewDelegate appBarViewDelegate;
         public string titleName = "";
         public bool showToolbar;
         public bool deepShadow;
         public LeftButtonType leftButton = LeftButtonType.NavigationButton;
         public float upperBarHeight = 56;
         public float toolbarHeight = 40;
-        public float animationDuration = 0.3f;
+        public float animationDuration = 0.5f;
 
         bool wasDeepShadow;
         bool didShowToolbar;
@@ -53,15 +55,15 @@ namespace Antigear.Graph {
                 titleText.text = titleName;
 
             if (didShowToolbar != showToolbar) {
-                setToolbarVisibility(showToolbar, false);
+                SetToolbarVisibility(showToolbar, false);
             }
 
             if (lastLeftButton != leftButton) {
-                setLeftButton(leftButton, false);
+                SetLeftButton(leftButton, false);
             }
 
             if (wasDeepShadow != deepShadow) {
-                setShadowDepth(deepShadow, false);
+                SetShadowDepth(deepShadow, false);
             }
         }
 
@@ -72,7 +74,7 @@ namespace Antigear.Graph {
         /// visible.</param>
         /// <param name="animated">If set to <c>true</c> animates this
         /// transition.</param>
-        public void setToolbarVisibility(bool isVisible, bool animated) {
+        public void SetToolbarVisibility(bool isVisible, bool animated) {
             if (isVisible == didShowToolbar)
                 return;
             
@@ -105,8 +107,8 @@ namespace Antigear.Graph {
                 }, startHeight, targetHeight, animationDuration);
 
                 int t2 = TweenManager.TweenFloat(
-                    a => toolbarCanvasGroup.alpha = a, startAlpha, targetAlpha, 
-                    animationDuration);
+                             a => toolbarCanvasGroup.alpha = a, startAlpha, 
+                             targetAlpha, animationDuration);
                 
                 toolbarAnimationTweenIds.Add(t1);
                 toolbarAnimationTweenIds.Add(t2);
@@ -127,7 +129,7 @@ namespace Antigear.Graph {
         /// depth.</param>
         /// <param name="animated">If set to <c>true</c> animates this 
         /// transition.</param>
-        public void setShadowDepth(bool isDeep, bool animated) {
+        public void SetShadowDepth(bool isDeep, bool animated) {
             if (isDeep == wasDeepShadow)
                 return;
 
@@ -150,7 +152,7 @@ namespace Antigear.Graph {
         /// <param name="buttonType">Button type.</param>
         /// <param name="animated">If set to <c>true</c> animates this
         /// transition.</param>
-        public void setLeftButton(LeftButtonType buttonType, bool animated) {
+        public void SetLeftButton(LeftButtonType buttonType, bool animated) {
             if (buttonType == lastLeftButton)
                 return;
 
@@ -188,14 +190,16 @@ namespace Antigear.Graph {
                 navigationButtonCanvasGroup.transform as RectTransform;
 
             if (animated) {
-                int t1 = TweenManager.TweenVector3(
-                    v => closeButtonRectTransform.localScale = v, 
-                    closeButtonRectTransform.localScale, closeButtonTargetScale, 
-                    animationDuration);
-                int t2 = TweenManager.TweenVector3(
-                    v => navigationButtonRectTransform.localScale = v, 
-                    navigationButtonRectTransform.localScale, 
-                    navigationButtonTargetScale, animationDuration);
+                int t1 = 
+                    TweenManager.TweenVector3(
+                        v => closeButtonRectTransform.localScale = v, 
+                        closeButtonRectTransform.localScale, 
+                        closeButtonTargetScale, animationDuration);
+                int t2 = 
+                    TweenManager.TweenVector3(
+                        v => navigationButtonRectTransform.localScale = v, 
+                        navigationButtonRectTransform.localScale, 
+                        navigationButtonTargetScale, animationDuration);
 
                 leftButtonAnimationTweenIds.Add(t1);
                 leftButtonAnimationTweenIds.Add(t2);
@@ -205,5 +209,24 @@ namespace Antigear.Graph {
                     navigationButtonTargetScale;
             }
         }
+
+        public void OnCloseButtonClick() {
+            if (appBarViewDelegate != null) {
+                appBarViewDelegate.OnCloseButtonClick(
+                    closeButtonCanvasGroup.GetComponent<Button>());
+            }
+        }
+    }
+
+    /// <summary>
+    /// Declares actions generated from the app bar that should be handled.
+    /// </summary>
+    public interface IAppBarViewDelegate {
+        /// <summary>
+        /// Raises the close button click event. Triggered when the close button
+        /// located on the top left of the drawing mode screen is pressed.
+        /// </summary>
+        /// <param name="clickedButton">Clicked button.</param>
+        void OnCloseButtonClick(Button clickedButton);
     }
 }

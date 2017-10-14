@@ -169,7 +169,9 @@ namespace MaterialUI
         /// <param name="data">Current event data.</param>
         public void OnPointerExit(PointerEventData data)
         {
-            SetShadows(shadowNormalSize);
+            if (shadowsActiveWhen != ShadowsActive.Script) {
+                SetShadows(shadowNormalSize);
+            }
         }
 
         /// <summary>
@@ -189,7 +191,9 @@ namespace MaterialUI
         /// <param name="eventData">Current event data.</param>
         public void OnDeselect(BaseEventData eventData)
         {
-            SetShadows(shadowNormalSize);
+            if (shadowsActiveWhen != ShadowsActive.Script) {
+                SetShadows(shadowNormalSize);
+            }
         }
 
         /// <summary>
