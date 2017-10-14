@@ -19,10 +19,6 @@ namespace Antigear.Graph {
         public bool isExpanded;
         bool wasExpanded;
 
-        void Start() {
-            wasExpanded = isExpanded;
-        }
-
         void Update() {
             if (wasExpanded != isExpanded) {
                 SetExpansion(isExpanded, false);
@@ -43,9 +39,6 @@ namespace Antigear.Graph {
             GraphTile tile = null, Action handler = null) {
             // This animation consists an elevation from the grid view and a
             // new size and pos change.
-            if (shouldExpand == wasExpanded)
-                return;
-
             if (expansionAnimationTweenIds.Count > 0) {
                 // Cancel existing animations.
                 foreach (int id in expansionAnimationTweenIds) {
@@ -82,8 +75,9 @@ namespace Antigear.Graph {
                     Vector3[] tileCorners = new Vector3[4];
                     parentRectTransform.GetWorldCorners(parentCorners);
                     tileRectTransform.GetWorldCorners(tileCorners);
+                    Vector3 offset = tileCorners[0] - parentCorners[0];
 
-                    return tileCorners[0] - parentCorners[0];
+                    return rectTransform.InverseTransformVector(offset);
                 };
 
                 Func<Vector2> offsetMaxToTile = () => {
@@ -93,8 +87,9 @@ namespace Antigear.Graph {
                     Vector3[] tileCorners = new Vector3[4];
                     parentRectTransform.GetWorldCorners(parentCorners);
                     tileRectTransform.GetWorldCorners(tileCorners);
+                    Vector3 offset = tileCorners[2] - parentCorners[2];
 
-                    return tileCorners[2] - parentCorners[2];  
+                    return rectTransform.InverseTransformVector(offset);
                 };
 
                 if (shouldExpand) {
