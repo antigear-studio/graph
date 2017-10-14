@@ -678,6 +678,7 @@ namespace MaterialUI
         {
             if (!m_RipplesEnabled) return;
 
+            DestroyRipple();
             m_CurrentRipple = RippleManager.instance.GetRipple();
             m_CurrentRipple.Setup(rippleData, position, this, oscillate);
             m_CurrentRipple.Expand();
@@ -804,11 +805,11 @@ namespace MaterialUI
 
             Vector2 endPos = Input.mousePosition;
 
-            if (Vector2.Distance(startPos, endPos) < 2f)
+            if (Vector2.Distance(startPos, endPos) < 2)
             {
                 CreateRipple(startPos);
 
-                if (highlightWhen == HighlightActive.Clicked)
+                if (highlightWhen == HighlightActive.Clicked && m_Clicked)
                 {
                     Highlight(1);
                 }

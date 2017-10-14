@@ -373,7 +373,7 @@ MonoBehaviour:
   m_AutoHighlightColor: 1
   m_HighlightColor: {r: 0, g: 0, b: 0, a: 0.2}
   m_MaskMode: 2
-  m_CheckForScroll: 0
+  m_CheckForScroll: 1
   m_AutoHighlightBlendAmount: 0.2
 --- !u!114 &114590138056303924
 MonoBehaviour:
