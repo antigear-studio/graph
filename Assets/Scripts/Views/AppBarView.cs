@@ -216,6 +216,20 @@ namespace Antigear.Graph {
                     closeButtonCanvasGroup.GetComponent<Button>());
             }
         }
+
+        public void OnNavigationButtonClick() {
+            if (appBarViewDelegate != null) {
+                appBarViewDelegate.OnNavigationButtonClick(
+                    navigationButtonCanvasGroup.GetComponent<Button>());
+            }
+        }
+
+        public void OnMoreButtonClick() {
+            // TODO - attach button
+            if (appBarViewDelegate != null) {
+                appBarViewDelegate.OnMoreButtonClick(null);
+            }
+        }
     }
 
     /// <summary>
@@ -228,5 +242,20 @@ namespace Antigear.Graph {
         /// </summary>
         /// <param name="clickedButton">Clicked button.</param>
         void OnCloseButtonClick(Button clickedButton);
+
+        /// <summary>
+        /// Raises the navigation button click event. Triggered when the 
+        /// navigation button located on the top left of the graph selection
+        /// mode screen is pressed.
+        /// </summary>
+        /// <param name="clickedButton">Clicked button.</param>
+        void OnNavigationButtonClick(Button clickedButton);
+
+        /// <summary>
+        /// Raises the more button click event. Triggered when the more button
+        /// located on the top right of the screen is pressed.
+        /// </summary>
+        /// <param name="clickedButton">Clicked button.</param>
+        void OnMoreButtonClick(Button clickedButton);
     }
 }

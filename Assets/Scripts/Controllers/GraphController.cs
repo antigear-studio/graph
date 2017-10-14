@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MaterialUI;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Antigear.Graph {
@@ -7,10 +8,11 @@ namespace Antigear.Graph {
     /// settings.
     /// </summary>
     public class GraphController : MonoBehaviour, IGraphScrollViewDelegate,
-        IAppBarViewDelegate {
+    IAppBarViewDelegate {
         public GraphScrollView graphScrollView;
         public DrawingView drawingView;
         public AppBarView appBarView;
+        public MaterialNavDrawer navigationSideBar;
 
         // Put this to model later
         GraphTile openGraphTile;
@@ -53,6 +55,16 @@ namespace Antigear.Graph {
             openGraphTile = null;
         }
 
+        public void OnNavigationButtonClick(Button clickedButton) {
+            // Opens the navigation side bar.
+            navigationSideBar.Open();
+        }
+
+        public void OnMoreButtonClick(Button clickedButton) {
+            // TODO
+        }
+
         #endregion
+
     }
 }

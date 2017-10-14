@@ -82,8 +82,9 @@ namespace Antigear.Graph {
                     Vector3[] tileCorners = new Vector3[4];
                     parentRectTransform.GetWorldCorners(parentCorners);
                     tileRectTransform.GetWorldCorners(tileCorners);
+                    Vector3 offset = tileCorners[0] - parentCorners[0];
 
-                    return tileCorners[0] - parentCorners[0];
+                    return rectTransform.InverseTransformVector(offset);
                 };
 
                 Func<Vector2> offsetMaxToTile = () => {
@@ -93,8 +94,9 @@ namespace Antigear.Graph {
                     Vector3[] tileCorners = new Vector3[4];
                     parentRectTransform.GetWorldCorners(parentCorners);
                     tileRectTransform.GetWorldCorners(tileCorners);
+                    Vector3 offset = tileCorners[2] - parentCorners[2];
 
-                    return tileCorners[2] - parentCorners[2];  
+                    return rectTransform.InverseTransformVector(offset);
                 };
 
                 if (shouldExpand) {
