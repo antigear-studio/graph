@@ -1,5 +1,4 @@
 ﻿using MaterialUI;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,11 +30,13 @@ namespace Antigear.Graph {
         // Exposed properties.
         public string titleName = "";
         public bool showToolbar;
+        public bool deepShadow;
         public LeftButtonType leftButton = LeftButtonType.NavigationButton;
         public float upperBarHeight = 56;
         public float toolbarHeight = 40;
         public float animationDuration = 0.3f;
 
+        bool wasDeepShadow;
         bool didShowToolbar;
         LeftButtonType lastLeftButton;
         readonly List<int> toolbarAnimationTweenIds = new List<int>();
@@ -44,6 +45,7 @@ namespace Antigear.Graph {
         void Start() {
             didShowToolbar = showToolbar;
             lastLeftButton = leftButton;
+            wasDeepShadow = deepShadow;
         }
 
         void Update() {
@@ -58,11 +60,8 @@ namespace Antigear.Graph {
                 setLeftButton(leftButton, false);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                setToolbarVisibility(!showToolbar, true);
-                setShadowDepth(showToolbar, true);
-                setLeftButton(
-                    (LeftButtonType)((int)(1 + leftButton) % 2), true);
+            if (wasDeepShadow != deepShadow) {
+                setShadowDepth(deepShadow, false);
             }
         }
 
@@ -74,6 +73,9 @@ namespace Antigear.Graph {
         /// <param name="animated">If set to <c>true</c> animates this
         /// transition.</param>
         public void setToolbarVisibility(bool isVisible, bool animated) {
+            if (isVisible == didShowToolbar)
+                return;
+            
             if (toolbarAnimationTweenIds.Count > 0) {
                 // Cancel existing animations.
                 foreach (int id in toolbarAnimationTweenIds) {
@@ -126,9 +128,15 @@ namespace Antigear.Graph {
         /// <param name="animated">If set to <c>true</c> animates this 
         /// transition.</param>
         public void setShadowDepth(bool isDeep, bool animated) {
+            if (isDeep == wasDeepShadow)
+                return;
+
+            wasDeepShadow = isDeep;
+            deepShadow = isDeep;
+            
             int shadowId = isDeep ? appBarMaterialShadow.shadowNormalSize
                 : appBarMaterialShadow.shadowActiveSize;
-
+            
             if (animated) {
                 appBarMaterialShadow.SetShadows(shadowId);
             } else {
@@ -143,6 +151,9 @@ namespace Antigear.Graph {
         /// <param name="animated">If set to <c>true</c> animates this
         /// transition.</param>
         public void setLeftButton(LeftButtonType buttonType, bool animated) {
+            if (buttonType == lastLeftButton)
+                return;
+
             if (leftButtonAnimationTweenIds.Count > 0) {
                 // Cancel existing animations.
                 foreach (int id in leftButtonAnimationTweenIds) {

@@ -36,6 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224537892007657304}
+  - component: {fileID: 114266030998262264}
   m_Layer: 5
   m_Name: GraphTile
   m_TagString: Untagged
@@ -281,6 +282,17 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114266030998262264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1225027827485176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9ae6342cc60745969a67138cd726a20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114287800029394044
 MonoBehaviour:
   m_ObjectHideFlags: 1
