@@ -10,23 +10,40 @@ namespace Antigear.Graph {
     /// </summary>
     [ExecuteInEditMode]
     public class AppBarView : MonoBehaviour {
+        /// <summary>
+        /// Enumerates valid button types for the left button on the app bar.
+        /// </summary>
+        public enum LeftButtonType {
+            NavigationButton,
+            CloseButton
+        }
+
+        /// <summary>
+        /// UI links.
+        /// </summary>
         public UnityEngine.UI.Text titleText;
         public CanvasGroup toolbarCanvasGroup;
         public RectTransform appBarRectTransform;
         public MaterialShadow appBarMaterialShadow;
+        public CanvasGroup closeButtonCanvasGroup;
+        public CanvasGroup navigationButtonCanvasGroup;
 
         // Exposed properties.
         public string titleName = "";
         public bool showToolbar;
+        public LeftButtonType leftButton = LeftButtonType.NavigationButton;
         public float upperBarHeight = 56;
         public float toolbarHeight = 40;
         public float animationDuration = 0.3f;
 
         bool didShowToolbar;
+        LeftButtonType lastLeftButton;
         readonly List<int> toolbarAnimationTweenIds = new List<int>();
+        readonly List<int> leftButtonAnimationTweenIds = new List<int>();
 
         void Start() {
             didShowToolbar = showToolbar;
+            lastLeftButton = leftButton;
         }
 
         void Update() {
@@ -37,8 +54,15 @@ namespace Antigear.Graph {
                 setToolbarVisibility(showToolbar, false);
             }
 
+            if (lastLeftButton != leftButton) {
+                setLeftButton(leftButton, false);
+            }
+
             if (Input.GetKeyDown(KeyCode.Space)) {
                 setToolbarVisibility(!showToolbar, true);
+                setShadowDepth(showToolbar, true);
+                setLeftButton(
+                    (LeftButtonType)((int)(1 + leftButton) % 2), true);
             }
         }
 
@@ -49,10 +73,7 @@ namespace Antigear.Graph {
         /// visible.</param>
         /// <param name="animated">If set to <c>true</c> animates this
         /// transition.</param>
-        /// <param name="callback">Callback to call at the end of the
-        /// transition.</param>
-        public void setToolbarVisibility(bool isVisible, bool animated, 
-                                         Action callback = null) {
+        public void setToolbarVisibility(bool isVisible, bool animated) {
             if (toolbarAnimationTweenIds.Count > 0) {
                 // Cancel existing animations.
                 foreach (int id in toolbarAnimationTweenIds) {
@@ -64,29 +85,27 @@ namespace Antigear.Graph {
 
             showToolbar = isVisible;
             didShowToolbar = isVisible;
+            toolbarCanvasGroup.interactable = isVisible;
+            toolbarCanvasGroup.blocksRaycasts = isVisible;
 
             float startHeight = appBarRectTransform.sizeDelta.y;
             float targetHeight = isVisible ? upperBarHeight + toolbarHeight : 
                 upperBarHeight;
             float startAlpha = toolbarCanvasGroup.alpha;
             float targetAlpha = isVisible ? 1 : 0;
-            int shadowId = isVisible ? appBarMaterialShadow.shadowActiveSize
-                : appBarMaterialShadow.shadowNormalSize;
+
             
             if (animated) {
                 int t1 = TweenManager.TweenFloat(h => {
                     Vector2 size = appBarRectTransform.sizeDelta;
                     size.y = h;
                     appBarRectTransform.sizeDelta = size;
-                }, startHeight, targetHeight, animationDuration, 0, callback);
+                }, startHeight, targetHeight, animationDuration);
 
-                int t2 = 
-                    TweenManager.TweenFloat(a => toolbarCanvasGroup.alpha = a, 
-                                            startAlpha, targetAlpha, 
-                                            animationDuration, 0);
-
-                appBarMaterialShadow.SetShadows(shadowId);
-
+                int t2 = TweenManager.TweenFloat(
+                    a => toolbarCanvasGroup.alpha = a, startAlpha, targetAlpha, 
+                    animationDuration);
+                
                 toolbarAnimationTweenIds.Add(t1);
                 toolbarAnimationTweenIds.Add(t2);
             } else {
@@ -94,10 +113,85 @@ namespace Antigear.Graph {
                 size.y = targetHeight;
                 appBarRectTransform.sizeDelta = size;
                 toolbarCanvasGroup.alpha = targetAlpha;
-                appBarMaterialShadow.SetShadowsInstant(shadowId);
+            }
+        }
 
-                if (callback != null)
-                    callback();
+        /// <summary>
+        /// Sets the shadow depth for the app bar. For drawing, the paper
+        /// material is at a higher elevation than graph grid view, so the
+        /// shadow should be shallower.
+        /// </summary>
+        /// <param name="isDeep">If set to <c>true</c> the shadow shows greater
+        /// depth.</param>
+        /// <param name="animated">If set to <c>true</c> animates this 
+        /// transition.</param>
+        public void setShadowDepth(bool isDeep, bool animated) {
+            int shadowId = isDeep ? appBarMaterialShadow.shadowNormalSize
+                : appBarMaterialShadow.shadowActiveSize;
+
+            if (animated) {
+                appBarMaterialShadow.SetShadows(shadowId);
+            } else {
+                appBarMaterialShadow.SetShadowsInstant(shadowId);
+            }
+        }
+
+        /// <summary>
+        /// Sets what the left button on the app bar should do.
+        /// </summary>
+        /// <param name="buttonType">Button type.</param>
+        /// <param name="animated">If set to <c>true</c> animates this
+        /// transition.</param>
+        public void setLeftButton(LeftButtonType buttonType, bool animated) {
+            if (leftButtonAnimationTweenIds.Count > 0) {
+                // Cancel existing animations.
+                foreach (int id in leftButtonAnimationTweenIds) {
+                    TweenManager.EndTween(id);
+                }
+
+                leftButtonAnimationTweenIds.Clear();
+            }
+
+            bool closeButtonEnabled = buttonType == LeftButtonType.CloseButton;
+
+            leftButton = buttonType;
+            lastLeftButton = buttonType;
+            closeButtonCanvasGroup.interactable = closeButtonEnabled;
+            closeButtonCanvasGroup.blocksRaycasts = closeButtonEnabled;
+            navigationButtonCanvasGroup.interactable = !closeButtonEnabled;
+            navigationButtonCanvasGroup.blocksRaycasts = !closeButtonEnabled;
+
+            Vector3 closeButtonTargetScale, navigationButtonTargetScale;
+
+            if (closeButtonEnabled) {
+                closeButtonTargetScale = new Vector3(1, 1, 1);
+                navigationButtonTargetScale = new Vector3(0, 0, 1);
+            } else {
+                navigationButtonTargetScale = new Vector3(1, 1, 1);
+                closeButtonTargetScale = new Vector3(0, 0, 1);
+            }
+
+            RectTransform closeButtonRectTransform = 
+                closeButtonCanvasGroup.transform as RectTransform;
+            RectTransform navigationButtonRectTransform = 
+                navigationButtonCanvasGroup.transform as RectTransform;
+
+            if (animated) {
+                int t1 = TweenManager.TweenVector3(
+                    v => closeButtonRectTransform.localScale = v, 
+                    closeButtonRectTransform.localScale, closeButtonTargetScale, 
+                    animationDuration);
+                int t2 = TweenManager.TweenVector3(
+                    v => navigationButtonRectTransform.localScale = v, 
+                    navigationButtonRectTransform.localScale, 
+                    navigationButtonTargetScale, animationDuration);
+
+                leftButtonAnimationTweenIds.Add(t1);
+                leftButtonAnimationTweenIds.Add(t2);
+            } else {
+                closeButtonRectTransform.localScale = closeButtonTargetScale;
+                navigationButtonRectTransform.localScale = 
+                    navigationButtonTargetScale;
             }
         }
     }

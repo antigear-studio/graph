@@ -210,7 +210,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &55169954
 RectTransform:
   m_ObjectHideFlags: 0
@@ -219,7 +219,7 @@ RectTransform:
   m_GameObject: {fileID: 55169953}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -129, y: -28, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 1}
   m_Children:
   - {fileID: 1918417207}
   - {fileID: 1507140128}
@@ -239,8 +239,8 @@ CanvasGroup:
   m_GameObject: {fileID: 55169953}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &55169956
 MonoBehaviour:
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Interactable: 1
   m_ContentPadding: {x: 24, y: 24}
   m_ContentSize: {x: 24, y: 24}
-  m_Size: {x: 56, y: 56}
+  m_Size: {x: 48, y: 48}
   m_FitWidthToContent: 1
   m_FitHeightToContent: 1
   m_IsCircularButton: 0
@@ -3538,8 +3538,11 @@ MonoBehaviour:
   toolbarCanvasGroup: {fileID: 1377907058}
   appBarRectTransform: {fileID: 893239374}
   appBarMaterialShadow: {fileID: 817995400}
+  closeButtonCanvasGroup: {fileID: 1132073094}
+  navigationButtonCanvasGroup: {fileID: 55169955}
   titleName: Drawing Name
   showToolbar: 0
+  leftButton: 1
   upperBarHeight: 56
   toolbarHeight: 40
   animationDuration: 0.3
@@ -5885,8 +5888,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: -28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1610489351}
   - {fileID: 1377907054}
+  - {fileID: 1610489351}
   m_Father: {fileID: 893239374}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6501,7 +6504,7 @@ RectTransform:
   - {fileID: 1897357758}
   - {fileID: 1562276833}
   m_Father: {fileID: 1325548013}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -6544,7 +6547,7 @@ CanvasGroup:
   m_GameObject: {fileID: 1377907053}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &1379035648
@@ -7618,7 +7621,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: a0a40789b9baa45a68c6d593e02f648a, type: 3}
-    m_FontSize: 0
+    m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -7631,7 +7634,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \ue5d2
   m_Size: 24
-  m_ScaledSize: 0
+  m_ScaledSize: 24
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -8441,7 +8444,7 @@ RectTransform:
   - {fileID: 1132073093}
   - {fileID: 764232494}
   m_Father: {fileID: 1325548013}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -10133,7 +10136,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: dcb678aff71bc544e91d4f2be1420503, type: 3}
-    m_FontSize: 0
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -10146,7 +10149,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 0
+  m_ScaledSize: 48
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
