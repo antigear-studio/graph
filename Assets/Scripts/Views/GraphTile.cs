@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using MaterialUI;
+using System;
 using UnityEngine;
 
 namespace Antigear.Graph {
@@ -7,8 +7,62 @@ namespace Antigear.Graph {
     /// Handles tile configurations, such as setting labels, graph previews and
     /// such.
     /// </summary>
+    [ExecuteInEditMode]
     public class GraphTile : MonoBehaviour {
         public IGraphTileDelegate graphTileDelegate;
+
+        public RectTransform overlayRectTransform;
+
+        // Exposed
+        public bool isOverlayVisible = true;
+        public float animationDuration = 0.2f;
+
+        bool wasOverlayVisible;
+        int overlayAnimationTweenId = -1;
+
+        void Start() {
+            wasOverlayVisible = isOverlayVisible;
+        }
+
+        void Update() {
+            if (wasOverlayVisible != isOverlayVisible) {
+                SetOverlayVisibility(isOverlayVisible, false);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                SetOverlayVisibility(!isOverlayVisible, true);
+            }
+        }
+
+        public void SetOverlayVisibility(bool visible, bool animated,
+            Action callback = null) {
+            wasOverlayVisible = visible;
+            isOverlayVisible = visible;
+
+            Vector2 targetPos = overlayRectTransform.anchoredPosition;
+            targetPos.y = visible ? 0 : -overlayRectTransform.sizeDelta.y;
+            Vector2 startPos = targetPos;
+            startPos.y = !visible ? 0 : -overlayRectTransform.sizeDelta.y;
+
+            if (overlayAnimationTweenId >= 0) {
+                TweenManager.EndTween(overlayAnimationTweenId);
+                overlayAnimationTweenId = -1;
+            }
+
+            if (animated) {
+                overlayRectTransform.anchoredPosition = startPos;
+                overlayAnimationTweenId = 
+                    TweenManager.TweenVector2(
+                        a => overlayRectTransform.anchoredPosition = a, 
+                        overlayRectTransform.anchoredPosition, targetPos, 
+                        animationDuration, 0, callback);
+            } else {
+                overlayRectTransform.anchoredPosition = targetPos;
+
+                if (callback != null)
+                    callback();
+            }
+        }
 
         public void OnGraphTileClick() {
             if (graphTileDelegate != null) {

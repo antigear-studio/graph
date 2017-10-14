@@ -25,18 +25,21 @@ namespace Antigear.Graph {
         void Start() {
             graphScrollView.graphScrollViewDelegate = this;
             appBarView.appBarViewDelegate = this;
+            drawingView.gameObject.SetActive(false);
         }
 
         #region IGraphScrollViewDelegate implementation
 
         public void OnGraphTileClick(GraphTile clickedTile) {
             // TODO: Checks if we are in selection mode. If not, start editing!
+
             drawingView.gameObject.SetActive(true);
             drawingView.SetExpansion(true, true, clickedTile);
             appBarView.SetLeftButton(AppBarView.LeftButtonType.CloseButton,
                 true);
             appBarView.SetShadowDepth(false, true);
             appBarView.SetToolbarVisibility(true, true);
+
             openGraphTile = clickedTile;
         }
 
@@ -46,8 +49,12 @@ namespace Antigear.Graph {
 
         public void OnCloseButtonClick(Button clickedButton) {
             // Dismisses graph.
+            GraphTile cached = openGraphTile;
             drawingView.SetExpansion(false, true, openGraphTile, 
-                () => drawingView.gameObject.SetActive(false));
+                () => {
+                    drawingView.gameObject.SetActive(false);
+                    cached.SetOverlayVisibility(true, true);
+                });
             appBarView.SetLeftButton(AppBarView.LeftButtonType.NavigationButton,
                 true);
             appBarView.SetShadowDepth(true, true);

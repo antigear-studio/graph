@@ -19,10 +19,6 @@ namespace Antigear.Graph {
         public bool isExpanded;
         bool wasExpanded;
 
-        void Start() {
-            wasExpanded = isExpanded;
-        }
-
         void Update() {
             if (wasExpanded != isExpanded) {
                 SetExpansion(isExpanded, false);
@@ -43,9 +39,6 @@ namespace Antigear.Graph {
             GraphTile tile = null, Action handler = null) {
             // This animation consists an elevation from the grid view and a
             // new size and pos change.
-            if (shouldExpand == wasExpanded)
-                return;
-
             if (expansionAnimationTweenIds.Count > 0) {
                 // Cancel existing animations.
                 foreach (int id in expansionAnimationTweenIds) {

@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224537892007657304}
   - component: {fileID: 114266030998262264}
+  - component: {fileID: 114973937130521300}
   m_Layer: 5
   m_Name: GraphTile
   m_TagString: Untagged
@@ -304,6 +305,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ae6342cc60745969a67138cd726a20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overlayRectTransform: {fileID: 224108061331195876}
+  isOverlayVisible: 1
+  animationDuration: 0.2
 --- !u!114 &114287800029394044
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -501,7 +505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3882353, g: 0.6431373, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -543,6 +547,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114973937130521300
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1225027827485176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -146154839, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222075591273738146
 CanvasRenderer:
   m_ObjectHideFlags: 1
