@@ -11,10 +11,12 @@ namespace Antigear.Graph {
         public GridLayoutGroup gridLayoutGroup;
 
         public IGraphScrollViewDelegate graphScrollViewDelegate;
+        public IGraphScrollViewDataSource graphScrollViewDataSource;
         public float cardWidthHeightRatio = 0.8f;
         public float minInchesPerColumn = 2.3f;
         public int minColumns = 2;
         public int maxColumns = 5;
+        public GraphTile graphTilePrefab;
 
         void Start() {
             int n = (int)(DeviceDiagonalSize() / minInchesPerColumn);
@@ -53,6 +55,26 @@ namespace Antigear.Graph {
             return diagonalInches;
         }
 
+        /// <summary>
+        /// Immediately triggers an update on all cells.
+        /// </summary>
+        public void UpdateTiles() {
+            int n = graphScrollViewDataSource.NumberOfTiles();
+
+            for (int j = 0; j < gridLayoutGroup.transform.childCount; j++) {
+                Destroy(gridLayoutGroup.transform.GetChild(j).gameObject);
+            }
+
+            for (int i = 0; i < n; i++) {
+                Graph graph = graphScrollViewDataSource.GraphForTileAtIndex(i);
+
+                GraphTile graphTile = Instantiate<GraphTile>(graphTilePrefab, 
+                    gridLayoutGroup.transform);
+                graphTile.graphTileDelegate = this;
+                graphTile.UpdateCellWithGraph(graph);
+            }
+        }
+
         #region IGraphTileDelegate implementation
 
         public void OnGraphTileClick(GraphTile clickedTile) {
@@ -75,5 +97,25 @@ namespace Antigear.Graph {
         /// </summary>
         /// <param name="clickedTile">Clicked tile.</param>
         void OnGraphTileClick(GraphTile clickedTile);
+    }
+
+    /// <summary>
+    /// Defines methods that must be implemented to be able to display data in
+    /// the graph view.
+    /// </summary>
+    public interface IGraphScrollViewDataSource {
+        /// <summary>
+        /// Gets the graph for the given tile index.
+        /// </summary>
+        /// <returns>The graph that should be displayed at the given tile index.
+        /// </returns>
+        /// <param name="index">Index of the tile.</param>
+        Graph GraphForTileAtIndex(int index);
+
+        /// <summary>
+        /// Gets the number of tiles.
+        /// </summary>
+        /// <returns>The number of tiles.</returns>
+        int NumberOfTiles();
     }
 }

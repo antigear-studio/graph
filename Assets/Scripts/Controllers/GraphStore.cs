@@ -17,13 +17,19 @@ namespace Antigear.Graph {
         /// </summary>
         List<Graph> graphs = new List<Graph>();
 
-        readonly string path = Application.persistentDataPath + "/Graphs/";
+        string path;
 
         JsonSerializer serializer;
 
-        void Start() {
+        void Awake() {
+            path = Application.persistentDataPath + "/Graphs/";
             serializer = new JsonSerializer();
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
+
+            if (!Directory.Exists(path)) {
+                Debug.Log("Creating graph directory.");
+                Directory.CreateDirectory(path);
+            }
         }
 
         /// <summary>
@@ -56,50 +62,79 @@ namespace Antigear.Graph {
                 }
 
                 return true;
-            } catch (Exception any) {
+            } catch {
                 return false;
             }
         }
 
         /// <summary>
-        /// Saves all graphs to disk.
+        /// Saves all graphs to disk. This only operates on dirty graphs, so
+        /// this method can be called without run time concerns even on large
+        /// graph collections. If a graph fails, other graphs will continue to
+        /// be saved.
         /// </summary>
         /// <returns><c>true</c>, if all graphs are saved to disk successfully, 
         /// <c>false</c> otherwise.</returns>
         public bool SaveAllToDisk() {
-            bool success = true;
+            bool allSuccess = true;
 
             foreach (Graph graph in graphs) {
-                success |= SaveToDisk(graph);
+                if (!graph.isDirty) {
+                    continue;
+                }
+
+                bool success = SaveToDisk(graph);
+                graph.isDirty = !success;
+                allSuccess |= success;
             }
 
-            return success;
+            return allSuccess;
         }
 
         /// <summary>
-        /// Loads all graphs from disk. If there is an error, this returns a
-        /// null object.
+        /// Loads all graphs from disk.
         /// </summary>
-        /// <returns>The all from disk.</returns>
-        public List<Graph> LoadAllFromDisk() {
+        /// <returns><c>true</c>, if all graphs were loaded, <c>false</c> 
+        /// otherwise.</returns>
+        public bool LoadAllFromDisk() {
             try {
                 string[] filePaths = Directory.GetFiles(path);
-                List<Graph> graphs = new List<Graph>();
+                graphs = new List<Graph>();
 
                 foreach (string filePath in filePaths) {
                     using (StreamReader sr = new StreamReader(filePath)) {
                         using (JsonReader reader = new JsonTextReader(sr)) {
                             Graph graph = serializer.Deserialize<Graph>(reader);
                             graph.localFileName = Path.GetFileName(path);
+                            graph.isDirty = false;
                             graphs.Add(graph);
                         }
                     }
                 }
 
-                return graphs;
-            } catch (Exception any) {
-                return null;
+                return true;
+            } catch {
+                return false;
             }
+        }
+
+        /// <summary>
+        /// Creates a new graph and return to the user. The new graph is not
+        /// immediately saved to disk, however.
+        /// </summary>
+        /// <returns>The graph.</returns>
+        public Graph CreateGraph() {
+            Graph graph = new Graph();
+            graphs.Add(graph);
+
+            return graph;
+        }
+
+        /// <summary>
+        /// Returns a list of the stored graphs, sorted by order.
+        /// </summary>
+        public List<Graph> GetGraphs() {
+            return new List<Graph>(graphs);
         }
     }
 }

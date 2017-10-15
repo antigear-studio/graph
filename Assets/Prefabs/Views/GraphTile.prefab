@@ -306,6 +306,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   overlayRectTransform: {fileID: 224108061331195876}
+  titleText: {fileID: 114624674900777552}
+  subtitleText: {fileID: 114414931428835960}
   isOverlayVisible: 1
   animationDuration: 0.2
 --- !u!114 &114287800029394044

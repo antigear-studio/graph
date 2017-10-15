@@ -1,5 +1,6 @@
 ﻿using MaterialUI;
 using System;
+using TimeAgo;
 using UnityEngine;
 
 namespace Antigear.Graph {
@@ -11,7 +12,10 @@ namespace Antigear.Graph {
     public class GraphTile : MonoBehaviour {
         public IGraphTileDelegate graphTileDelegate;
 
+        // UI links
         public RectTransform overlayRectTransform;
+        public Text titleText;
+        public Text subtitleText;
 
         // Exposed
         public bool isOverlayVisible = true;
@@ -68,6 +72,11 @@ namespace Antigear.Graph {
             if (graphTileDelegate != null) {
                 graphTileDelegate.OnGraphTileClick(this);
             }
+        }
+
+        public void UpdateCellWithGraph(Graph graph) {
+            titleText.text = graph.name;
+            subtitleText.text = graph.timeModified.ToLocalTime().TimeAgo();
         }
     }
 
