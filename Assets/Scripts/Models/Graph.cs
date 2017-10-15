@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Antigear.Graph {
@@ -12,6 +13,8 @@ namespace Antigear.Graph {
         public string name = "";
         public DateTime timeCreated;
         public DateTime timeModified;
+        [JsonIgnore]
+        public string localFileName;
 
         // graph content
         public List<Drawable> content;
