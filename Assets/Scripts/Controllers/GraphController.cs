@@ -44,19 +44,26 @@ namespace Antigear.Graph {
             graphScrollView.UpdateTiles();
         }
 
-        #region IGraphScrollViewDelegate implementation
-
-        public void OnGraphTileClick(GraphTile clickedTile) {
-            // TODO: Checks if we are in selection mode. If not, start editing!
-
+        void OpenGraphAnimation(GraphTile clickedTile) {
+            // Animating change.
             drawingView.gameObject.SetActive(true);
             drawingView.SetExpansion(true, true, clickedTile);
             appBarView.SetLeftButton(AppBarView.LeftButtonType.CloseButton,
                 true);
             appBarView.SetShadowDepth(false, true);
             appBarView.SetToolbarVisibility(true, true);
+        }
+
+        #region IGraphScrollViewDelegate implementation
+
+        public void OnGraphTileClick(GraphTile clickedTile) {
+            // TODO: Checks if we are in selection mode. If not, start editing!
+
+            // Animating change.
+            OpenGraphAnimation(clickedTile);
 
             openGraphTile = clickedTile;
+            drawingView.editingGraph = graphStore.GetGraphs()[0];
         }
 
         #endregion
@@ -88,6 +95,9 @@ namespace Antigear.Graph {
             appBarView.SetShadowDepth(true, true);
             appBarView.SetToolbarVisibility(false, true);
             openGraphTile = null;
+
+            // Save graphs.
+            graphStore.SaveAllToDisk();
         }
 
         public void OnNavigationButtonClick(Button clickedButton) {
