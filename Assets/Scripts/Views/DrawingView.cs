@@ -19,6 +19,8 @@ namespace Antigear.Graph {
         public bool isExpanded;
         bool wasExpanded;
 
+        public Graph editingGraph;
+
         void Update() {
             if (wasExpanded != isExpanded) {
                 SetExpansion(isExpanded, false);

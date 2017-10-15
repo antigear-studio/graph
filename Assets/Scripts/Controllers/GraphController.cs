@@ -8,7 +8,9 @@ namespace Antigear.Graph {
     /// settings.
     /// </summary>
     public class GraphController : MonoBehaviour, IGraphScrollViewDelegate,
-    IAppBarViewDelegate {
+    IAppBarViewDelegate, IGraphScrollViewDataSource {
+        public GraphStore graphStore;
+
         public GraphScrollView graphScrollView;
         public DrawingView drawingView;
         public AppBarView appBarView;
@@ -24,8 +26,32 @@ namespace Antigear.Graph {
 
         void Start() {
             graphScrollView.graphScrollViewDelegate = this;
+            graphScrollView.graphScrollViewDataSource = this;
             appBarView.appBarViewDelegate = this;
             drawingView.gameObject.SetActive(false);
+
+            bool success = graphStore.LoadAllFromDisk();
+
+            if (!success) {
+                Debug.LogError("Unable to load graphs from disk!");
+            }
+
+            graphScrollView.UpdateTiles();
+        }
+
+        public void OnCreateGraphPress() {
+            graphStore.CreateGraph();
+            graphScrollView.UpdateTiles();
+        }
+
+        void OpenGraphAnimation(GraphTile clickedTile) {
+            // Animating change.
+            drawingView.gameObject.SetActive(true);
+            drawingView.SetExpansion(true, true, clickedTile);
+            appBarView.SetLeftButton(AppBarView.LeftButtonType.CloseButton,
+                true);
+            appBarView.SetShadowDepth(false, true);
+            appBarView.SetToolbarVisibility(true, true);
         }
 
         #region IGraphScrollViewDelegate implementation
@@ -33,14 +59,23 @@ namespace Antigear.Graph {
         public void OnGraphTileClick(GraphTile clickedTile) {
             // TODO: Checks if we are in selection mode. If not, start editing!
 
-            drawingView.gameObject.SetActive(true);
-            drawingView.SetExpansion(true, true, clickedTile);
-            appBarView.SetLeftButton(AppBarView.LeftButtonType.CloseButton,
-                true);
-            appBarView.SetShadowDepth(false, true);
-            appBarView.SetToolbarVisibility(true, true);
+            // Animating change.
+            OpenGraphAnimation(clickedTile);
 
             openGraphTile = clickedTile;
+            drawingView.editingGraph = graphStore.GetGraphs()[0];
+        }
+
+        #endregion
+
+        #region IGraphScrollViewDataSource implementation
+
+        public Graph GraphForTileAtIndex(int index) {
+            return graphStore.GetGraphs()[index];
+        }
+
+        public int NumberOfTiles() {
+            return graphStore.GetGraphs().Count;
         }
 
         #endregion
@@ -60,6 +95,9 @@ namespace Antigear.Graph {
             appBarView.SetShadowDepth(true, true);
             appBarView.SetToolbarVisibility(false, true);
             openGraphTile = null;
+
+            // Save graphs.
+            graphStore.SaveAllToDisk();
         }
 
         public void OnNavigationButtonClick(Button clickedButton) {

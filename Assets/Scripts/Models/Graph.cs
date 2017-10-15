@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Antigear.Graph {
@@ -12,6 +13,10 @@ namespace Antigear.Graph {
         public string name = "";
         public DateTime timeCreated;
         public DateTime timeModified;
+        [JsonIgnore]
+        public string localFileName;
+        [JsonIgnore]
+        public bool isDirty;
 
         // graph content
         public List<Drawable> content;
@@ -20,10 +25,12 @@ namespace Antigear.Graph {
 
         /// <summary>
         /// Initializes a new instance of the 
-        /// <see cref="Antigear.Graph.Model.Graph"/> class.
+        /// <see cref="Antigear.Graph.Graph"/> class.
         /// </summary>
         public Graph() {
-            timeCreated = DateTime.Now;
+            timeCreated = DateTime.UtcNow;
+            timeModified = DateTime.UtcNow;
+            name = "Untitled";
         }
     }
 }
