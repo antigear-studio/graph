@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using MaterialUI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Antigear.Graph {
@@ -21,16 +23,23 @@ namespace Antigear.Graph {
         public UnityEngine.UI.ScrollRect scrollRect;
 
         // Exposed stuff.
+        public float animationDuration = 0.3f;
         public float minimumCellWidth = 100;
         public float cellWidthToHeightRatio = 1;
         public Vector2 spacing;
         public Vector4 padding;
 
-        readonly Dictionary<int, GridViewCell> visibleCellForIndex = 
+        Dictionary<int, GridViewCell> visibleCellForIndex = 
             new Dictionary<int, GridViewCell>();
 
         readonly Dictionary<string, Queue<GridViewCell>> reusableCells = 
             new Dictionary<string, Queue<GridViewCell>>();
+
+        // Kept for scrolling calculations.
+        int columns;
+        int firstVisibleIndex;
+        int visibleRows;
+        Vector2 cellSize;
 
         /// <summary>
         /// Registers the given prefab with the given reuse identifier.
@@ -143,81 +152,219 @@ namespace Antigear.Graph {
         public void ReloadData() {
             // We always load what is required. We first look at how many items
             // we can fit on screen.
-            RectTransform rectTransform = transform as RectTransform;
-            RectTransform contentRectTransform = 
-                cellContainer.transform as RectTransform;
-            Rect displayRect = rectTransform.rect;
-            int columns = (int)((displayRect.width - padding.x - padding.y + 
-                spacing.x) / minimumCellWidth / (1 + spacing.x / 
-                    minimumCellWidth));
-            
-            int n = dataSource.NumberOfItems(this);
-            int rows = Mathf.CeilToInt(n / (float)columns);
+            CalculateColumn();
 
             // Calculate actual cell size.
-            float cellWidth = (displayRect.width - padding.x - padding.y - 
-                (columns - 1) * spacing.x) / columns;
-            Vector2 cellSize = new Vector2(cellWidth, 
-                cellWidth / cellWidthToHeightRatio);
-
-            // Calculate visible bounds. Max is the bottom of the screen and min
-            // is the top of the screen.
-            float minHeight = scrollRect.content.offsetMax.y;
-            float maxHeight = minHeight + scrollRect.viewport.rect.height;
+            CalculateCellSize();
 
             // Set up the container view.
-            float height = rows * cellSize.y + (rows - 1) * spacing.y + 
-                padding.z + padding.w;
-            
-            Vector2 sizeDelta = contentRectTransform.sizeDelta;
-            sizeDelta.y = height;
-            contentRectTransform.sizeDelta = sizeDelta;
+            UpdateContentHeight();
 
             // Remove previous cells.
             DequeueAll();
 
             // Now calculate which cells would be on the screen at this time.
-            int rowsBefore = Mathf.Min(rows, Mathf.Max(0, 
-                (int)((minHeight - padding.z) / (cellSize.y + spacing.y))));
-            int rowsEnd = Mathf.Min(rows, Mathf.Max(0, Mathf.CeilToInt(
-                (maxHeight - padding.z) / (cellSize.y + spacing.y))));
-            int startIndex = rowsBefore * columns;
-            int endIndex = rowsEnd * columns;
+            CalculateVisibleIndices();
 
             // Fetch these cells.
-            for (int i = startIndex; i < endIndex && i < n; i++) {
-                // Insert the cell into the table view hierarchy.
-                int row = i / columns;
-                int col = i % columns;
-                GridViewCell cell = dataSource.CellForIndex(this, i);
-                visibleCellForIndex[i] = cell;
-                RectTransform t = cell.transform as RectTransform;
-                t.SetParent(cellContainer);
-                t.anchorMin = new Vector2(0, 1);
-                t.anchorMax = new Vector2(0, 1);
-                t.pivot = new Vector2(0, 1);
-                t.anchoredPosition = 
-                    new Vector2(padding.x + (cellSize.x + spacing.x) * col, 
-                                -padding.y - (cellSize.y + spacing.y) * row);
-                t.sizeDelta = cellSize;
+            int n = dataSource.NumberOfItems(this);
+
+            for (int i = firstVisibleIndex; i < visibleRows * columns && i < n; 
+                i++) {
+                EnqueueItem(i);
             }
         }
 
         /// <summary>
         /// Reloads the given items located at the paths.
         /// </summary>
-        /// <param name="indexPaths">Index paths.</param>
-        public void ReloadItems(List<Vector2Int> indexPaths) {
+        /// <param name="indices">Index paths.</param>
+        public void ReloadItems(List<int> indices) {
             // TODO
         }
 
         /// <summary>
-        /// Dequeues a single item with given index from visible cells.
+        /// Looks for new items at the given indices and insert them into the
+        /// view. If any of the items end up visible on screen, they will be
+        /// added to the view.
         /// </summary>
-        /// <param name="index">Index.</param>
-        void DequeueItem(int index) {
+        /// <param name="indices">Indices of the new items as part of the
+        /// updated data source. E.g. if data store contains [3, 7] and we want
+        /// to insert such that the end result is [3, 6, 7, 8, 9], then the list
+        /// is [1, 3, 4], the list of indices of the inserted elements. </param>
+        /// <param name="animated">If set to <c>true</c> animated.</param>
+        public void InsertItems(List<int> indices, bool animated) {
+            DeleteThenInsertItems(null, indices, animated);
+        }
+
+        /// <summary>
+        /// Mark the items at the given indices for deletion.
+        /// </summary>
+        /// <param name="indices">Indices of the items for deletion as part of 
+        /// the data source before the deletion took place. E.g. if data store
+        /// contains items [3, 6, 7, 8, 9] and we want to delete [6, 8, 9], then
+        /// the list is [1, 3, 4], while the new data store will be [3, 7].
+        /// </param>
+        /// <param name="animated">If set to <c>true</c> animated.</param>
+        public void DeleteItems(List<int> indices, bool animated) {
+            DeleteThenInsertItems(indices, null, animated);
+        }
+
+        /// <summary>
+        /// Deletes the then inserts items. Use this method instead of separate
+        /// insertions/deletions to avoid index inconsistencies.
+        /// </summary>
+        /// <param name="deletions">Indices of the items for deletion as part of 
+        /// the data source before the deletion took place. E.g. if data store
+        /// contains items [3, 6, 7, 8, 9] and we want to delete [6, 8, 9], then
+        /// the list is [1, 3, 4], while the new data store will be [3, 7].
+        /// </param>
+        /// <param name="insertions">Indices of the new items as part of the
+        /// updated data source. E.g. if data store contains [3, 7] and we want
+        /// to insert such that the end result is [3, 6, 7, 8, 9], then the list
+        /// is [1, 3, 4], the list of indices of the inserted elements. </param>
+        /// <param name="animated">If set to <c>true</c> animated.</param>
+        public void DeleteThenInsertItems(List<int> deletions, 
+            List<int> insertions, bool animated) {
+            // The list of new items may have several impacts on the current
+            // view:
+            // Anything after the visible index will change only the height.
+            // Anything inside the visible range might pull cells up from the
+            // bottom or push existing cells out of the bottom.
+            // Anything before the visible index might pull cells into the first
+            // row and change the height.
+
+            // For each deletion and insertion, we need to modify the head and
+            // tail. Ultimately, head, tail and marks on visible cells are the 
+            // ones that will animate.
+            int head = firstVisibleIndex;
+            int headOffset = 0;
+            int tailOffset = 0;
+
+            if (deletions != null) {
+                foreach (int i in deletions) {
+                    if (i < head) {
+                        // This cell will affect head & tail.
+                        headOffset -= 1;
+                    } else if (i < head + visibleRows * columns) {
+                        // Dequeue this with optional animation.
+                        tailOffset -= 1;
+                        DequeueItem(i, animated, true);
+                    }
+                }
+            }
+
+            // Now we perform insertion.
+            if (insertions != null) {
+                foreach (int i in insertions) {
+                    if (i < head) {
+                        // This cell will affect head & tail.
+                        headOffset += 1;
+                    }
+                }
+            }
+
+            // Now update visible cell indices.
+            Dictionary<int, GridViewCell> offsetVisibleCellForIndex = 
+                new Dictionary<int, GridViewCell>();
+
+            foreach (int key in visibleCellForIndex.Keys) {
+                offsetVisibleCellForIndex[key + headOffset] = 
+                    visibleCellForIndex[key];
+            }
+
+            visibleCellForIndex = offsetVisibleCellForIndex;
+
+            // Enqueue with animation.
+            if (insertions != null) {
+                foreach (int i in insertions) {
+                    if (i >= head && i < head + visibleRows * columns) {
+                        // Enqueue this with optional animation.
+                        EnqueueItem(i, animated);
+                        tailOffset += 1;
+                    }
+                }
+            }
+
+            int newHead = (head + headOffset) / columns * columns;
+
+            // Adjust height.
+            int rowOffset = (newHead - head) / columns;
+            Vector2 pos = scrollRect.content.anchoredPosition;
+            pos.y += rowOffset * (cellSize.y + spacing.y);
+            UpdateContentHeight();
+
+            int moddedHeadOffset = head + headOffset - newHead;
+            tailOffset += moddedHeadOffset;
+
+            // Update and animate change in positions for all visible cells
+            // (followed by dequeue if result is offscreen).
+            foreach (int key in visibleCellForIndex.Keys) {
+                GridViewCell cell = visibleCellForIndex[key];
+                RectTransform r = cell.transform as RectTransform;
+
+                if (cell.translationAnimationId >= 0) {
+                    TweenManager.EndTween(cell.translationAnimationId);
+                    cell.translationAnimationId = -1;
+                }
+
+                Vector2 target = PositionForItem(key);
+
+                if (animated) {
+                    cell.preventFromDequeue = true;
+                    cell.translationAnimationId = TweenManager.TweenVector2(
+                        v => r.anchoredPosition = v, r.anchoredPosition, target,
+                        animationDuration, 0, 
+                        () => cell.preventFromDequeue = false);
+                } else {
+                    r.anchoredPosition = target;
+                }
+            }
+
+            // Now generate cells from before and animate into view.
+            // We actually want to enqueue the item a bit different than usual -
+            // we first initialize the item at its OLD location, then ANIMATE it
+            // to its new location. Of course, if animation is off, this is a
+            // simple enqueue.
+            for (int i = newHead; i < head + headOffset; i++) {
+                EnqueueItem(i);
+
+                if (animated) {
+                    GridViewCell cell = visibleCellForIndex[i];
+                    RectTransform r = cell.transform as RectTransform;
+                    Vector2 start = PositionForItem(i - moddedHeadOffset);
+                    Vector2 target = r.anchoredPosition;
+                    cell.translationAnimationId = TweenManager.TweenVector2(
+                        v => r.anchoredPosition = v, start, target, 
+                        animationDuration);
+                }
+            }
+
+            // Generate cells from after and animate into view.
+            for (int i = -1; i >= tailOffset; i--) {
+                int index = newHead + columns * visibleRows + i;
+                EnqueueItem(index);
+
+                if (animated) {
+                    GridViewCell cell = visibleCellForIndex[index];
+                    RectTransform r = cell.transform as RectTransform;
+                    Vector2 start = PositionForItem(index - tailOffset);
+                    Vector2 target = r.anchoredPosition;
+                    cell.translationAnimationId = TweenManager.TweenVector2(
+                        v => r.anchoredPosition = v, start, target, 
+                        animationDuration);
+                }
+            }
+        }
+
+        void DequeueItem(int index, bool animated = false, bool force = false) {
             if (visibleCellForIndex.ContainsKey(index)) {
                 GridViewCell cell = visibleCellForIndex[index];
+
+                if (!force && cell.preventFromDequeue) {
+                    return;
+                }
+
                 cell.transform.SetParent(recycledCellContainer);
                 visibleCellForIndex.Remove(index);
 
@@ -248,12 +395,105 @@ namespace Antigear.Graph {
             visibleCellForIndex.Clear();
         }
 
+        Vector2 PositionForItem(int index) {
+            int row = index / columns;
+            int col = index % columns;
+
+            return new Vector2(padding.x + (cellSize.x + spacing.x) * col, 
+                -padding.y - (cellSize.y + spacing.y) * row);
+        }
+
+        void EnqueueItem(int index, bool animated = false) {
+            // Insert the cell into the table view hierarchy.
+            GridViewCell cell = dataSource.CellForIndex(this, index);
+            visibleCellForIndex[index] = cell;
+            RectTransform t = cell.transform as RectTransform;
+            t.SetParent(cellContainer, false);
+            t.localScale = Vector3.one;
+            t.anchorMin = new Vector2(0, 1);
+            t.anchorMax = new Vector2(0, 1);
+            t.pivot = new Vector2(0, 1);
+            t.anchoredPosition = PositionForItem(index);
+            t.sizeDelta = cellSize;
+        }
+
+        void CalculateColumn() {
+            float width = scrollRect.viewport.rect.width;
+            columns = Mathf.Max(1, (int)((width - padding.x - padding.y
+                + spacing.x) / (minimumCellWidth + spacing.x)));
+        }
+
+        void CalculateCellSize() {
+            float width = scrollRect.viewport.rect.width;
+            float cellWidth = (width - padding.x - padding.y - (columns - 1) * 
+                spacing.x) / columns;
+            cellSize.x = cellWidth;
+            cellSize.y = cellWidth / cellWidthToHeightRatio;
+        }
+
+        void CalculateVisibleIndices() {
+            int n = dataSource.NumberOfItems(this);
+            int rows = Mathf.CeilToInt(n / (float)columns);
+            float minHeight = scrollRect.content.offsetMax.y;
+            float maxHeight = minHeight + scrollRect.viewport.rect.height;
+            int rowsBefore = Mathf.Min(rows, Mathf.Max(0, 
+                (int)((minHeight - padding.z) / (cellSize.y + spacing.y))));
+            int rowsEnd = Mathf.Max(0, Mathf.CeilToInt((maxHeight - padding.z) / 
+                (cellSize.y + spacing.y)));
+            firstVisibleIndex = 
+                Mathf.Max(0, Mathf.Min(n - 1, rowsBefore * columns));
+            visibleRows = rowsEnd - rowsBefore + 1;
+        }
+
+        void UpdateContentHeight() {
+            int n = dataSource.NumberOfItems(this);
+            int rows = Mathf.CeilToInt(n / (float)columns);
+            float height = rows * cellSize.y + (rows - 1) * spacing.y + 
+                padding.z + padding.w;
+            scrollRect.content.sizeDelta = new Vector2(0, height);
+        }
+
+        void OnRectTransformDimensionsChange() {
+            if (dataSource != null)
+                // TODO: this should be animated according to a flag.
+                ReloadData();
+        }
+
         void Start() {
         }
 
         void Update() {
             if (dataSource != null) {
-                ReloadData();
+                // We recalculate some stuff here to see if stuff needs to be
+                // changed.
+
+                // Most of the time, we expect constant column and cell size.
+                // This is true as long as there is no resizing on the view.
+                // We expose a resizing with animation method. So we check
+                // displaying indices each frame to enable/disable views. These
+                // are done without animation.
+                int oldFirstVisibleIndex = firstVisibleIndex;
+                int oldVisibleRows = visibleRows;
+                CalculateVisibleIndices();
+                int itemCount = dataSource.NumberOfItems(this);
+
+                for (int i = oldFirstVisibleIndex; i < oldFirstVisibleIndex + 
+                    oldVisibleRows * columns && i < itemCount; i++) {
+                    if (i < firstVisibleIndex || 
+                        firstVisibleIndex + visibleRows * columns <= i) {
+                        // If not in new range, dequeue.
+                        DequeueItem(i);
+                    }
+                }
+
+                for (int i = firstVisibleIndex; i < firstVisibleIndex + 
+                    visibleRows * columns && i < itemCount; i++) {
+                    if (i < oldFirstVisibleIndex ||
+                        oldFirstVisibleIndex + oldVisibleRows * columns <= i) {
+                        // If not in old range, enqueue.
+                        EnqueueItem(i);
+                    }
+                }
             }
         }
     }

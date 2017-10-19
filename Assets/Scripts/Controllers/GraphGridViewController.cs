@@ -19,6 +19,7 @@ namespace Antigear.Graph {
             gridView.dataSource = this;
             gridView.eventDelegate = this;
             gridView.RegisterCellWithReuseIdentifier(graphTilePrefab, REUSE_ID);
+            gridView.ReloadData();
         }
 
         #region IGridViewDataSource implementation

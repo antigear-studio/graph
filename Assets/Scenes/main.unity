@@ -2073,8 +2073,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd39871cd9193d5488a3f9287d711f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_VerticalPivotType: 2
-  m_HorizontalPivotType: 1
+  m_VerticalPivotType: 1
+  m_HorizontalPivotType: 0
   m_ExpandStartType: 0
   m_IgnoreInputAfterShowTimer: 0
   m_MaxHeight: 0
@@ -4105,7 +4105,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1068976607
 GameObject:
@@ -4599,7 +4599,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1233241981}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: -126.00199, z: 0}
+  m_LocalPosition: {x: -2, y: -251, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2110596535}
@@ -5417,8 +5417,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd39871cd9193d5488a3f9287d711f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_VerticalPivotType: 2
-  m_HorizontalPivotType: 1
+  m_VerticalPivotType: 1
+  m_HorizontalPivotType: 0
   m_ExpandStartType: 0
   m_IgnoreInputAfterShowTimer: 0
   m_MaxHeight: 0
@@ -6031,8 +6031,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd39871cd9193d5488a3f9287d711f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_VerticalPivotType: 2
-  m_HorizontalPivotType: 1
+  m_VerticalPivotType: 1
+  m_HorizontalPivotType: 0
   m_ExpandStartType: 0
   m_IgnoreInputAfterShowTimer: 0
   m_MaxHeight: 0
@@ -6720,8 +6720,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd39871cd9193d5488a3f9287d711f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_VerticalPivotType: 2
-  m_HorizontalPivotType: 1
+  m_VerticalPivotType: 1
+  m_HorizontalPivotType: 0
   m_ExpandStartType: 0
   m_IgnoreInputAfterShowTimer: 0
   m_MaxHeight: 0
@@ -7176,8 +7176,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd39871cd9193d5488a3f9287d711f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_VerticalPivotType: 2
-  m_HorizontalPivotType: 1
+  m_VerticalPivotType: 1
+  m_HorizontalPivotType: 0
   m_ExpandStartType: 0
   m_IgnoreInputAfterShowTimer: 0
   m_MaxHeight: 0
@@ -8478,7 +8478,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 1000}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &1705668629
 CanvasRenderer:
@@ -9208,6 +9208,7 @@ MonoBehaviour:
   cellContainer: {fileID: 1705668627}
   recycledCellContainer: {fileID: 1052391798}
   scrollRect: {fileID: 1896887163}
+  animationDuration: 0.3
   minimumCellWidth: 145
   cellWidthToHeightRatio: 1
   spacing: {x: 8, y: 8}
@@ -9928,8 +9929,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1233241983}
   m_HandleRect: {fileID: 1233241982}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.502
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

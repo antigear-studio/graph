@@ -1,4 +1,5 @@
 ﻿using MaterialUI;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,6 +39,8 @@ namespace Antigear.Graph {
 
         public void OnCreateGraphPress() {
             graphStore.CreateGraph();
+            List<int> index = new List<int> {graphStore.GetGraphs().Count - 1};
+            graphGridViewController.gridView.InsertItems(index, true);
         }
 
         void OpenGraphAnimation(GraphTile clickedTile) {

@@ -859,6 +859,9 @@ namespace MaterialUI
         /// </summary>
         public void Hide()
         {
+            float cached = m_AnimationDuration;
+            m_AnimationDuration = 0;
+
             for (int i = 0; i < m_ListItemAutoTweeners.Count; i++)
             {
                 TweenManager.EndTween(m_ListItemAutoTweeners[i]);
@@ -889,6 +892,8 @@ namespace MaterialUI
 
                 Destroy(m_DropdownPanel.gameObject);
             }, false, Tween.TweenType.Linear);
+
+            m_AnimationDuration = cached;
         }
 
         /// <summary>
