@@ -125,7 +125,7 @@ namespace Antigear.Graph {
         /// <returns>The graph.</returns>
         public Graph CreateGraph() {
             Graph graph = new Graph();
-            graphs.Add(graph);
+            graphs.Insert(1, graph);
 
             return graph;
         }

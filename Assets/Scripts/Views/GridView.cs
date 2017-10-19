@@ -279,6 +279,17 @@ namespace Antigear.Graph {
             if (insertions != null) {
                 foreach (int i in insertions) {
                     if (i >= head && i < head + visibleRows * columns) {
+                        // Increment every visible offset by 1.
+                        Dictionary<int, GridViewCell> t = 
+                            new Dictionary<int, GridViewCell>();
+                        
+                        foreach (int key in visibleCellForIndex.Keys) {
+                            if (key >= i)
+                                t[key + 1] = visibleCellForIndex[key];
+                        }
+
+                        visibleCellForIndex = t;
+
                         // Enqueue this with optional animation.
                         EnqueueItem(i, animated);
                         tailOffset += 1;
@@ -415,6 +426,10 @@ namespace Antigear.Graph {
             t.pivot = new Vector2(0, 1);
             t.anchoredPosition = PositionForItem(index);
             t.sizeDelta = cellSize;
+
+            if (animated) {
+                cell.AnimateCreate();
+            }
         }
 
         void CalculateColumn() {
@@ -477,13 +492,18 @@ namespace Antigear.Graph {
                 CalculateVisibleIndices();
                 int itemCount = dataSource.NumberOfItems(this);
 
-                for (int i = oldFirstVisibleIndex; i < oldFirstVisibleIndex + 
-                    oldVisibleRows * columns && i < itemCount; i++) {
+                List<int> toDequeue = new List<int>();
+
+                foreach (int i in visibleCellForIndex.Keys) {
                     if (i < firstVisibleIndex || 
                         firstVisibleIndex + visibleRows * columns <= i) {
                         // If not in new range, dequeue.
-                        DequeueItem(i);
+                        toDequeue.Add(i);
                     }
+                }
+
+                foreach (int i in toDequeue) {
+                    DequeueItem(i);
                 }
 
                 for (int i = firstVisibleIndex; i < firstVisibleIndex + 
@@ -491,6 +511,7 @@ namespace Antigear.Graph {
                     if (i < oldFirstVisibleIndex ||
                         oldFirstVisibleIndex + oldVisibleRows * columns <= i) {
                         // If not in old range, enqueue.
+                        DequeueItem(i);
                         EnqueueItem(i);
                     }
                 }

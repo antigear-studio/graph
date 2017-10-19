@@ -39,7 +39,7 @@ namespace Antigear.Graph {
 
         public void OnCreateGraphPress() {
             graphStore.CreateGraph();
-            List<int> index = new List<int> {graphStore.GetGraphs().Count - 1};
+            List<int> index = new List<int> {0};
             graphGridViewController.gridView.InsertItems(index, true);
         }
 
