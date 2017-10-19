@@ -18,7 +18,6 @@ namespace Antigear.Graph {
 
         // Exposed
         public bool isOverlayVisible = true;
-        public float animationDuration = 0.2f;
 
         bool wasOverlayVisible;
         int overlayAnimationTweenId = -1;

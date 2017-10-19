@@ -9,9 +9,99 @@ using UnityEngine;
 namespace Antigear.Graph {
     /// <summary>
     /// Manages graph objects. This include (de)serialization, cloud syncing,
-    /// and updating.
+    /// updating and sorting.
     /// </summary>
     public class GraphStore : MonoBehaviour {
+        public enum SortOrder {
+            NaturalAscending,
+            NaturalDescending,
+            CreationDateAscending,
+            CreationDateDescending,
+            ModificationDateAscending,
+            ModificationDateDescending
+        }
+
+        class GraphComparer : IComparer<Graph> {
+            #region IComparer implementation
+            SortOrder sortOrder;
+
+            public GraphComparer(SortOrder s) {
+                sortOrder = s;
+            }
+
+            public int Compare(Graph g1, Graph g2) {
+                switch (sortOrder) {
+                    case SortOrder.NaturalAscending:
+                        if (g1 == null && g2 == null) {
+                            return 0;
+                        } else if (g1 == null) {
+                            return 1;
+                        } else if (g2 == null) {
+                            return -1;
+                        } else {
+                            return g1.name.CompareTo(g2.name);
+                        }
+                    case SortOrder.NaturalDescending:
+                        if (g1 == null && g2 == null) {
+                            return 0;
+                        } else if (g1 == null) {
+                            return -1;
+                        } else if (g2 == null) {
+                            return 1;
+                        } else {
+                            return -g1.name.CompareTo(g2.name);
+                        }
+                    case SortOrder.CreationDateAscending:
+                        if (g1 == null && g2 == null) {
+                            return 0;
+                        } else if (g1 == null) {
+                            return 1;
+                        } else if (g2 == null) {
+                            return -1;
+                        } else {
+                            return g1.timeCreated.CompareTo(g2.timeCreated);
+                        }
+                    case SortOrder.CreationDateDescending:
+                        if (g1 == null && g2 == null) {
+                            return 0;
+                        } else if (g1 == null) {
+                            return -1;
+                        } else if (g2 == null) {
+                            return 1;
+                        } else {
+                            return -g1.timeCreated.CompareTo(g2.timeCreated);
+                        }
+                    case SortOrder.ModificationDateAscending:
+                        if (g1 == null && g2 == null) {
+                            return 0;
+                        } else if (g1 == null) {
+                            return 1;
+                        } else if (g2 == null) {
+                            return -1;
+                        } else {
+                            return g1.timeModified.CompareTo(g2.timeModified);
+                        }
+                    case SortOrder.ModificationDateDescending:
+                        if (g1 == null && g2 == null) {
+                            return 0;
+                        } else if (g1 == null) {
+                            return -1;
+                        } else if (g2 == null) {
+                            return 1;
+                        } else {
+                            return -g1.timeModified.CompareTo(g2.timeModified);
+                        }
+                }
+
+                return 0;
+            }
+            #endregion
+        }
+
+        public SortOrder sortOrder = SortOrder.ModificationDateDescending;
+
+        SortOrder lastSortOrder;
+
         /// <summary>
         /// The current maintained list of graphs.
         /// </summary>
@@ -29,6 +119,17 @@ namespace Antigear.Graph {
             if (!Directory.Exists(path)) {
                 Debug.Log("Creating graph directory.");
                 Directory.CreateDirectory(path);
+            }
+        }
+
+        void Start() {
+            lastSortOrder = sortOrder;
+        }
+
+        void Update() {
+            if (lastSortOrder != sortOrder) {
+                Sort();
+                lastSortOrder = sortOrder;
             }
         }
 
@@ -122,19 +223,28 @@ namespace Antigear.Graph {
         /// Creates a new graph and return to the user. The new graph is not
         /// immediately saved to disk, however.
         /// </summary>
-        /// <returns>The graph.</returns>
-        public Graph CreateGraph() {
+        /// <returns>The index of the graph in the current sorted order.
+        /// </returns>
+        public int CreateGraph() {
             Graph graph = new Graph();
-            graphs.Insert(1, graph);
+            int i = graphs.BinarySearch(graph, new GraphComparer(sortOrder));
+            if (i < 0) i = ~i;
+            graphs.Insert(i, graph);
 
-            return graph;
+            return i;
         }
 
         /// <summary>
-        /// Returns a list of the stored graphs, sorted by order.
+        /// Returns a list of the stored graphs.
         /// </summary>
         public List<Graph> GetGraphs() {
-            return new List<Graph>(graphs);
+            List<Graph> copy = new List<Graph>(graphs);
+
+            return copy;
+        }
+
+        void Sort() {
+            graphs.Sort(new GraphComparer(sortOrder));
         }
     }
 }

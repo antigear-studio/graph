@@ -37,12 +37,6 @@ namespace Antigear.Graph {
             }
         }
 
-        public void OnCreateGraphPress() {
-            graphStore.CreateGraph();
-            List<int> index = new List<int> {0};
-            graphGridViewController.gridView.InsertItems(index, true);
-        }
-
         void OpenGraphAnimation(GraphTile clickedTile) {
             // Animating change.
             drawingView.gameObject.SetActive(true);
