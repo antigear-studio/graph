@@ -7,11 +7,11 @@ namespace Antigear.Graph {
     /// Manages the main interface, including drawing management, syncing, and
     /// settings.
     /// </summary>
-    public class GraphController : MonoBehaviour, IGraphScrollViewDelegate,
-    IAppBarViewDelegate, IGraphScrollViewDataSource {
-        public GraphStore graphStore;
+    public class GraphController : MonoBehaviour, IAppBarViewDelegate, 
+    IGridViewDelegate {
+        public GraphGridViewController graphGridViewController;
 
-        public GraphScrollView graphScrollView;
+        public GraphStore graphStore;
         public DrawingView drawingView;
         public AppBarView appBarView;
         public MaterialNavDrawer navigationSideBar;
@@ -25,8 +25,7 @@ namespace Antigear.Graph {
         }
 
         void Start() {
-            graphScrollView.graphScrollViewDelegate = this;
-            graphScrollView.graphScrollViewDataSource = this;
+            graphGridViewController.SetGraphStore(graphStore);
             appBarView.appBarViewDelegate = this;
             drawingView.gameObject.SetActive(false);
 
@@ -35,13 +34,10 @@ namespace Antigear.Graph {
             if (!success) {
                 Debug.LogError("Unable to load graphs from disk!");
             }
-
-            graphScrollView.UpdateTiles();
         }
 
         public void OnCreateGraphPress() {
             graphStore.CreateGraph();
-            graphScrollView.UpdateTiles();
         }
 
         void OpenGraphAnimation(GraphTile clickedTile) {
@@ -53,32 +49,6 @@ namespace Antigear.Graph {
             appBarView.SetShadowDepth(false, true);
             appBarView.SetToolbarVisibility(true, true);
         }
-
-        #region IGraphScrollViewDelegate implementation
-
-        public void OnGraphTileClick(GraphTile clickedTile) {
-            // TODO: Checks if we are in selection mode. If not, start editing!
-
-            // Animating change.
-            OpenGraphAnimation(clickedTile);
-
-            openGraphTile = clickedTile;
-            drawingView.editingGraph = graphStore.GetGraphs()[0];
-        }
-
-        #endregion
-
-        #region IGraphScrollViewDataSource implementation
-
-        public Graph GraphForTileAtIndex(int index) {
-            return graphStore.GetGraphs()[index];
-        }
-
-        public int NumberOfTiles() {
-            return graphStore.GetGraphs().Count;
-        }
-
-        #endregion
 
         #region IAppBarViewDelegate implementation
 

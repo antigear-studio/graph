@@ -55,9 +55,11 @@ namespace Antigear.Graph {
                 // Dequeue and call PrepareForReuse.
                 cell = reusableCells[identifier].Dequeue();
                 cell.PrepareForReuse();
+                cell.reuseIdentifier = identifier;
             } else if (cellPrefabs.ContainsKey(identifier)) {
                 // Creates a new cell.
                 cell = Instantiate(cellPrefabs[identifier]);
+                cell.reuseIdentifier = identifier;
             }
 
             return cell;
@@ -142,8 +144,13 @@ namespace Antigear.Graph {
             // We always load what is required. We first look at how many items
             // we can fit on screen.
             RectTransform rectTransform = transform as RectTransform;
+            RectTransform contentRectTransform = 
+                cellContainer.transform as RectTransform;
             Rect displayRect = rectTransform.rect;
-            int columns = (int)(displayRect.width / minimumCellWidth);
+            int columns = (int)((displayRect.width - padding.x - padding.y + 
+                spacing.x) / minimumCellWidth / (1 + spacing.x / 
+                    minimumCellWidth));
+            
             int n = dataSource.NumberOfItems(this);
             int rows = Mathf.CeilToInt(n / (float)columns);
 
@@ -153,21 +160,27 @@ namespace Antigear.Graph {
             Vector2 cellSize = new Vector2(cellWidth, 
                 cellWidth / cellWidthToHeightRatio);
 
-            // Calculate visible bounds. Min is the bottom of the screen and max
+            // Calculate visible bounds. Max is the bottom of the screen and min
             // is the top of the screen.
-            float minHeight = scrollRect.content.offsetMin.y;
-            float maxHeight = scrollRect.content.offsetMax.y;
+            float minHeight = scrollRect.content.offsetMax.y;
+            float maxHeight = minHeight + scrollRect.viewport.rect.height;
 
             // Set up the container view.
-            (cellContainer.transform as RectTransform).offsetMin = 
-                new Vector2(0, -(rows * cellSize.y + (rows - 1) * spacing.y + 
-                    padding.z + padding.w));
+            float height = rows * cellSize.y + (rows - 1) * spacing.y + 
+                padding.z + padding.w;
+            
+            Vector2 sizeDelta = contentRectTransform.sizeDelta;
+            sizeDelta.y = height;
+            contentRectTransform.sizeDelta = sizeDelta;
+
+            // Remove previous cells.
+            DequeueAll();
 
             // Now calculate which cells would be on the screen at this time.
-            int rowsBefore = 
-                (int)((maxHeight - padding.z) / (cellSize.y + spacing.y));
-            int rowsEnd = Mathf.CeilToInt((minHeight - padding.z) / 
-                (cellSize.y + spacing.y));
+            int rowsBefore = Mathf.Min(rows, Mathf.Max(0, 
+                (int)((minHeight - padding.z) / (cellSize.y + spacing.y))));
+            int rowsEnd = Mathf.Min(rows, Mathf.Max(0, Mathf.CeilToInt(
+                (maxHeight - padding.z) / (cellSize.y + spacing.y))));
             int startIndex = rowsBefore * columns;
             int endIndex = rowsEnd * columns;
 
@@ -177,6 +190,7 @@ namespace Antigear.Graph {
                 int row = i / columns;
                 int col = i % columns;
                 GridViewCell cell = dataSource.CellForIndex(this, i);
+                visibleCellForIndex[i] = cell;
                 RectTransform t = cell.transform as RectTransform;
                 t.SetParent(cellContainer);
                 t.anchorMin = new Vector2(0, 1);
@@ -184,9 +198,8 @@ namespace Antigear.Graph {
                 t.pivot = new Vector2(0, 1);
                 t.anchoredPosition = 
                     new Vector2(padding.x + (cellSize.x + spacing.x) * col, 
-                                -padding.y + (cellSize.y + spacing.y) * row);
-                t.offsetMin = new Vector2(0, -cellSize.y);
-                t.offsetMax = new Vector2(cellSize.x, 0);
+                                -padding.y - (cellSize.y + spacing.y) * row);
+                t.sizeDelta = cellSize;
             }
         }
 
@@ -198,7 +211,47 @@ namespace Antigear.Graph {
             // TODO
         }
 
+        /// <summary>
+        /// Dequeues a single item with given index from visible cells.
+        /// </summary>
+        /// <param name="index">Index.</param>
+        void DequeueItem(int index) {
+            if (visibleCellForIndex.ContainsKey(index)) {
+                GridViewCell cell = visibleCellForIndex[index];
+                cell.transform.SetParent(recycledCellContainer);
+                visibleCellForIndex.Remove(index);
+
+                if (!reusableCells.ContainsKey(cell.reuseIdentifier)) {
+                    reusableCells[cell.reuseIdentifier] = 
+                        new Queue<GridViewCell>();
+                }
+
+                reusableCells[cell.reuseIdentifier].Enqueue(cell);
+            }
+        }
+
+        /// <summary>
+        /// Dequeues all visible cells.
+        /// </summary>
+        void DequeueAll() {
+            foreach (GridViewCell cell in visibleCellForIndex.Values) {
+                cell.transform.SetParent(recycledCellContainer);
+
+                if (!reusableCells.ContainsKey(cell.reuseIdentifier)) {
+                    reusableCells[cell.reuseIdentifier] = 
+                        new Queue<GridViewCell>();
+                }
+
+                reusableCells[cell.reuseIdentifier].Enqueue(cell);
+            }
+
+            visibleCellForIndex.Clear();
+        }
+
         void Start() {
+        }
+
+        void Update() {
             if (dataSource != null) {
                 ReloadData();
             }

@@ -8,8 +8,7 @@ namespace Antigear.Graph {
     /// Handles tile configurations, such as setting labels, graph previews and
     /// such.
     /// </summary>
-    [ExecuteInEditMode]
-    public class GraphTile : MonoBehaviour {
+    public class GraphTile : GridViewCell {
         public IGraphTileDelegate graphTileDelegate;
 
         // UI links

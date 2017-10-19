@@ -7,6 +7,8 @@ namespace Antigear.Graph {
     /// A generic cell used in a grid view. Subclass to provide more behavior.
     /// </summary>
     public class GridViewCell : MonoBehaviour {
+        public string reuseIdentifier;
+
         /// <summary>
         /// Prepares the cell for reinsertion into the grid view.
         /// </summary>
