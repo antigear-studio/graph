@@ -8,8 +8,7 @@ namespace Antigear.Graph {
     /// Handles tile configurations, such as setting labels, graph previews and
     /// such.
     /// </summary>
-    [ExecuteInEditMode]
-    public class GraphTile : MonoBehaviour {
+    public class GraphTile : GridViewCell {
         public IGraphTileDelegate graphTileDelegate;
 
         // UI links
@@ -19,7 +18,6 @@ namespace Antigear.Graph {
 
         // Exposed
         public bool isOverlayVisible = true;
-        public float animationDuration = 0.2f;
 
         bool wasOverlayVisible;
         int overlayAnimationTweenId = -1;
