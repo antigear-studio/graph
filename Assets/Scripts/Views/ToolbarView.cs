@@ -1,7 +1,7 @@
-﻿using MaterialUI;
+﻿using I2;
+using MaterialUI;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Antigear.Graph {
     [ExecuteInEditMode]
@@ -21,10 +21,11 @@ namespace Antigear.Graph {
         public MaterialDropdown selectionDropdown;
         public MaterialDropdown canvasControlDropdown;
         public RectTransform indicatorRectTransform;
+        public UnityEngine.UI.Text toolText;
 
         MaterialDropdown activeDropdown;
 
-        Tool currentTool = Tool.StraightLine;
+        Tool currentTool = Tool.Unknown;
 
         readonly List<int> toolbarAnimationTweenIds = new List<int>();
         int indicatorAnimationTweenId = -1;
@@ -34,6 +35,7 @@ namespace Antigear.Graph {
         void Start() {
             didShowToolbar = showToolbar;
             activeDropdown = lineDropdown;
+            ChangeTool(Tool.StraightLine);
         }
 	
         // Update is called once per frame
@@ -73,6 +75,7 @@ namespace Antigear.Graph {
                 Vector2 pos = r.anchoredPosition;
                 pos.y = targetValue;
                 r.anchoredPosition = pos;
+                toolGroup.alpha = targetAlpha;
             }
         }
 
@@ -130,6 +133,7 @@ namespace Antigear.Graph {
         void ChangeTool(Tool t) {
             if (t != currentTool) {
                 currentTool = t;
+                toolText.text = t.LocalizedName().ToUpper();
 
                 if (viewDelegate != null)
                     viewDelegate.OnToolChanged(t);

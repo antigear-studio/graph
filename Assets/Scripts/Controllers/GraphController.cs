@@ -49,7 +49,7 @@ namespace Antigear.Graph {
                 true);
             appBarView.SetMinimized(true, true);
             toolbarView.SetToolbarVisibility(true, true);
-            newGraphButton.Dismiss(true, 0.5f, 0.1f);
+            newGraphButton.Dismiss(true, 0.4f, 0.15f);
         }
 
         public void OnCreateGraphPress() {
@@ -81,7 +81,7 @@ namespace Antigear.Graph {
             appBarView.SetMinimized(false, true);
             toolbarView.SetToolbarVisibility(false, true);
             editingGraphIndex = -1;
-            newGraphButton.Show(true, 0.5f, 0.1f);
+            newGraphButton.Show(true, 0.4f, 0.1f);
             // Save graphs.
             graphStore.SaveAllToDisk();
         }
