@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using MaterialUI;
 using System.Collections.Generic;
 using UnityEngine;
-using MaterialUI;
+using UnityEngine.UI;
 
 namespace Antigear.Graph {
     [ExecuteInEditMode]
@@ -10,13 +10,27 @@ namespace Antigear.Graph {
         public float toolbarHeight = 40;
         public float animationDuration = 0.5f;
         public CanvasGroup toolGroup;
+        public IToolbarViewDelegate viewDelegate;
 
-        List<int> toolbarAnimationTweenIds = new List<int>();
+
+        // Outlets.
+        public MaterialDropdown lineDropdown;
+        public MaterialDropdown brushDropdown;
+        public MaterialDropdown mediaDropdown;
+        public MaterialDropdown selectionDropdown;
+        public MaterialDropdown canvasControlDropdown;
+
+        MaterialDropdown activeDropdown;
+
+        Tool currentTool = Tool.StraightLine;
+
+        readonly List<int> toolbarAnimationTweenIds = new List<int>();
         bool didShowToolbar;
 
         // Use this for initialization
         void Start() {
             didShowToolbar = showToolbar;
+            activeDropdown = lineDropdown;
         }
 	
         // Update is called once per frame
@@ -58,5 +72,68 @@ namespace Antigear.Graph {
                 r.anchoredPosition = pos;
             }
         }
+
+        public void OnToolButtonPress(MaterialDropdown dropdown) {
+            if (dropdown != activeDropdown) {
+                activeDropdown = dropdown;
+                Tool t = LookupTool(dropdown, dropdown.currentlySelected);
+                ChangeTool(t);
+            } else {
+                activeDropdown.Show();
+            }
+        }
+
+        public void OnDropdownValueChange(MaterialDropdown dropdown) {
+            Tool t = LookupTool(dropdown, dropdown.currentlySelected);
+            ChangeTool(t);
+        }
+
+        Tool LookupTool(MaterialDropdown dropdown, int index) {
+            if (dropdown == lineDropdown) {
+                if (index == 0)
+                    return Tool.StraightLine;
+                if (index == 1)
+                    return Tool.BezierCurve;
+                if (index == 2)
+                    return Tool.Arc;
+                if (index == 3)
+                    return Tool.FreeformLine;
+            } else if (dropdown == brushDropdown) {
+                if (index == 0)
+                    return Tool.Pencil;
+                if (index == 1)
+                    return Tool.Eraser;
+            }  else if (dropdown == mediaDropdown) {
+                if (index == 0)
+                    return Tool.Text;
+                if (index == 1)
+                    return Tool.Image;
+            }  else if (dropdown == selectionDropdown) {
+                if (index == 0)
+                    return Tool.RectangleSelection;
+                if (index == 1)
+                    return Tool.LassoSelection;
+            }  else if (dropdown == canvasControlDropdown) {
+                if (index == 0)
+                    return Tool.Zoom;
+                if (index == 1)
+                    return Tool.Pan;
+            }
+
+            return Tool.Unknown;
+        }
+
+        void ChangeTool(Tool t) {
+            if (t != currentTool) {
+                currentTool = t;
+
+                if (viewDelegate != null)
+                    viewDelegate.OnToolChanged(t);
+            }
+        }
+    }
+
+    public interface IToolbarViewDelegate {
+        void OnToolChanged(Tool newTool);
     }
 }

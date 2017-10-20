@@ -18,7 +18,7 @@ namespace Antigear.Graph {
         public bool isExpanded;
         bool wasExpanded;
 
-        public RectTransform canvasRectTransform;
+        public RectTransform paperRectTransform;
         public Graph editingGraph;
 
         void Update() {
@@ -60,9 +60,8 @@ namespace Antigear.Graph {
 
             Vector2 expandedOffsetMin = Vector2.zero;
             Vector2 expandedOffsetMax = Vector2.zero;
-            RectTransform rectTransform = transform as RectTransform;
-            RectTransform parentRectTransform = 
-                transform.parent as RectTransform;
+            RectTransform rectTransform = paperRectTransform;
+            RectTransform parentRectTransform = transform as RectTransform;
 
             if (animated) {
                 if (tile != null) {
@@ -135,7 +134,7 @@ namespace Antigear.Graph {
 
                 drawingViewMaterialShadow.SetShadows(shadowId);
             } else {
-                Vector2 shrunkOffset = parentRectTransform.sizeDelta / 2.0f;
+                Vector2 shrunkOffset = parentRectTransform.rect.size / 2.0f;
 
                 if (shouldExpand) {
                     rectTransform.offsetMin = expandedOffsetMin;

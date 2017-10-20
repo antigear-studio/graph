@@ -1962,7 +1962,7 @@ MonoBehaviour:
     ManualSize: 0
     SizeMode: 1
     Speed: 8
-    Color: {r: 1, g: 1, b: 1, a: 1}
+    Color: {r: 0, g: 0, b: 0, a: 1}
     StartAlpha: 0.3
     EndAlpha: 0.1
     MoveTowardCenter: 1
@@ -1972,7 +1972,7 @@ MonoBehaviour:
   m_HighlightWhen: 0
   m_AutoHighlightColor: 1
   m_HighlightColor: {r: 1, g: 1, b: 1, a: 0.2}
-  m_MaskMode: 2
+  m_MaskMode: 1
   m_CheckForScroll: 0
   m_AutoHighlightBlendAmount: 0.2
 --- !u!114 &629893666
@@ -1987,7 +1987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_VerticalPivotType: 5
-  m_HorizontalPivotType: 0
+  m_HorizontalPivotType: 1
   m_ExpandStartType: 0
   m_IgnoreInputAfterShowTimer: 0
   m_MaxHeight: 0
@@ -2019,7 +2019,7 @@ MonoBehaviour:
   m_OptionDataList:
     m_ImageType: 1
     m_Options:
-    - m_Text: Pencil
+    - m_Text: 
       m_ImageData:
         m_ImageDataType: 1
         m_Sprite: {fileID: 0}
@@ -2028,7 +2028,7 @@ MonoBehaviour:
             m_Name: lead_pencil
             m_Unicode: \uf64f
           m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
-    - m_Text: Eraser
+    - m_Text: 
       m_ImageData:
         m_ImageDataType: 1
         m_Sprite: {fileID: 0}
@@ -2039,7 +2039,18 @@ MonoBehaviour:
           m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
   m_OnItemSelected:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1377907056}
+        m_MethodName: OnDropdownValueChange
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 629893666}
+          m_ObjectArgumentAssemblyTypeName: MaterialUI.MaterialDropdown, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: MaterialUI.MaterialDropdown+MaterialDropdownEvent, Assembly-CSharp,
       Version=1.0.8.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &629893667
@@ -2111,12 +2122,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 629893666}
-        m_MethodName: Show
-        m_Mode: 1
+      - m_Target: {fileID: 1377907056}
+        m_MethodName: OnToolButtonPress
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 629893666}
+          m_ObjectArgumentAssemblyTypeName: MaterialUI.MaterialDropdown, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2858,7 +2869,7 @@ RectTransform:
   - {fileID: 1132073093}
   - {fileID: 764232494}
   m_Father: {fileID: 969334226}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -3703,7 +3714,6 @@ RectTransform:
   - {fileID: 1286965337}
   - {fileID: 1360455907}
   - {fileID: 1614612018}
-  - {fileID: 1377907054}
   - {fileID: 817995397}
   - {fileID: 1836163209}
   m_Father: {fileID: 0}
@@ -4556,7 +4566,7 @@ GameObject:
   - component: {fileID: 1272704829}
   - component: {fileID: 1272704828}
   m_Layer: 5
-  m_Name: PanelLayer
+  m_Name: Paper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4580,7 +4590,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -314, y: -558}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1272704828
 MonoBehaviour:
@@ -4743,13 +4753,14 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1272704827}
+  - {fileID: 1377907054}
   m_Father: {fileID: 969334226}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -314, y: -558}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1286965338
 MonoBehaviour:
@@ -4784,7 +4795,7 @@ MonoBehaviour:
   drawingViewMaterialShadow: {fileID: 1286965338}
   animationDuration: 0.5
   isExpanded: 0
-  canvasRectTransform: {fileID: 0}
+  paperRectTransform: {fileID: 1272704827}
   editingGraph:
     name: Untitled
     localFileName: 
@@ -5138,7 +5149,7 @@ MonoBehaviour:
   m_HighlightWhen: 0
   m_AutoHighlightColor: 1
   m_HighlightColor: {r: 1, g: 1, b: 1, a: 0.2}
-  m_MaskMode: 2
+  m_MaskMode: 1
   m_CheckForScroll: 0
   m_AutoHighlightBlendAmount: 0.2
 --- !u!114 &1325979271
@@ -5153,7 +5164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_VerticalPivotType: 5
-  m_HorizontalPivotType: 0
+  m_HorizontalPivotType: 1
   m_ExpandStartType: 0
   m_IgnoreInputAfterShowTimer: 0
   m_MaxHeight: 0
@@ -5185,7 +5196,7 @@ MonoBehaviour:
   m_OptionDataList:
     m_ImageType: 1
     m_Options:
-    - m_Text: Straight Line
+    - m_Text: 
       m_ImageData:
         m_ImageDataType: 1
         m_Sprite: {fileID: 0}
@@ -5194,7 +5205,7 @@ MonoBehaviour:
             m_Name: ray_start_end
             m_Unicode: \uf444
           m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
-    - m_Text: Bezier Curve
+    - m_Text: 
       m_ImageData:
         m_ImageDataType: 1
         m_Sprite: {fileID: 0}
@@ -5203,7 +5214,7 @@ MonoBehaviour:
             m_Name: ribbon
             m_Unicode: \uf460
           m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
-    - m_Text: Arc
+    - m_Text: 
       m_ImageData:
         m_ImageDataType: 1
         m_Sprite: {fileID: 0}
@@ -5212,7 +5223,7 @@ MonoBehaviour:
             m_Name: chart_donut
             m_Unicode: \uf7ae
           m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
-    - m_Text: Freeform Line
+    - m_Text: 
       m_ImageData:
         m_ImageDataType: 1
         m_Sprite: {fileID: 0}
@@ -5223,7 +5234,18 @@ MonoBehaviour:
           m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
   m_OnItemSelected:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1377907056}
+        m_MethodName: OnDropdownValueChange
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1325979271}
+          m_ObjectArgumentAssemblyTypeName: MaterialUI.MaterialDropdown, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: MaterialUI.MaterialDropdown+MaterialDropdownEvent, Assembly-CSharp,
       Version=1.0.8.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &1325979272
@@ -5295,12 +5317,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1325979271}
-        m_MethodName: Show
-        m_Mode: 1
+      - m_Target: {fileID: 1377907056}
+        m_MethodName: OnToolButtonPress
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1325979271}
+          m_ObjectArgumentAssemblyTypeName: MaterialUI.MaterialDropdown, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5708,7 +5730,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1377907053}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -327, z: 4}
+  m_LocalPosition: {x: 0, y: -327, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1325979268}
@@ -5720,8 +5742,8 @@ RectTransform:
   - {fileID: 191300138}
   - {fileID: 1897357758}
   - {fileID: 1562276833}
-  m_Father: {fileID: 969334226}
-  m_RootOrder: 4
+  m_Father: {fileID: 1286965337}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -5765,6 +5787,11 @@ MonoBehaviour:
   toolbarHeight: 48
   animationDuration: 0.5
   toolGroup: {fileID: 1377907058}
+  lineDropdown: {fileID: 1325979271}
+  brushDropdown: {fileID: 629893666}
+  mediaDropdown: {fileID: 1537088764}
+  selectionDropdown: {fileID: 1472389444}
+  canvasControlDropdown: {fileID: 1379035652}
 --- !u!222 &1377907057
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5863,7 +5890,7 @@ MonoBehaviour:
   m_HighlightWhen: 0
   m_AutoHighlightColor: 1
   m_HighlightColor: {r: 1, g: 1, b: 1, a: 0.2}
-  m_MaskMode: 2
+  m_MaskMode: 1
   m_CheckForScroll: 0
   m_AutoHighlightBlendAmount: 0.2
 --- !u!114 &1379035652
@@ -5878,7 +5905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_VerticalPivotType: 5
-  m_HorizontalPivotType: 0
+  m_HorizontalPivotType: 1
   m_ExpandStartType: 0
   m_IgnoreInputAfterShowTimer: 0
   m_MaxHeight: 0
@@ -5910,7 +5937,7 @@ MonoBehaviour:
   m_OptionDataList:
     m_ImageType: 1
     m_Options:
-    - m_Text: Zoom
+    - m_Text: 
       m_ImageData:
         m_ImageDataType: 1
         m_Sprite: {fileID: 0}
@@ -5919,7 +5946,7 @@ MonoBehaviour:
             m_Name: magnify
             m_Unicode: \uf349
           m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
-    - m_Text: Pan
+    - m_Text: 
       m_ImageData:
         m_ImageDataType: 1
         m_Sprite: {fileID: 0}
@@ -5930,7 +5957,18 @@ MonoBehaviour:
           m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
   m_OnItemSelected:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1377907056}
+        m_MethodName: OnDropdownValueChange
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1379035652}
+          m_ObjectArgumentAssemblyTypeName: MaterialUI.MaterialDropdown, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: MaterialUI.MaterialDropdown+MaterialDropdownEvent, Assembly-CSharp,
       Version=1.0.8.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &1379035653
@@ -6002,12 +6040,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1379035652}
-        m_MethodName: Show
-        m_Mode: 1
+      - m_Target: {fileID: 1377907056}
+        m_MethodName: OnToolButtonPress
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1379035652}
+          m_ObjectArgumentAssemblyTypeName: MaterialUI.MaterialDropdown, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6552,7 +6590,7 @@ MonoBehaviour:
   m_HighlightWhen: 0
   m_AutoHighlightColor: 1
   m_HighlightColor: {r: 1, g: 1, b: 1, a: 0.2}
-  m_MaskMode: 2
+  m_MaskMode: 1
   m_CheckForScroll: 0
   m_AutoHighlightBlendAmount: 0.2
 --- !u!114 &1472389444
@@ -6567,7 +6605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_VerticalPivotType: 5
-  m_HorizontalPivotType: 0
+  m_HorizontalPivotType: 1
   m_ExpandStartType: 0
   m_IgnoreInputAfterShowTimer: 0
   m_MaxHeight: 0
@@ -6599,7 +6637,7 @@ MonoBehaviour:
   m_OptionDataList:
     m_ImageType: 1
     m_Options:
-    - m_Text: Rectangle Selection
+    - m_Text: 
       m_ImageData:
         m_ImageDataType: 1
         m_Sprite: {fileID: 0}
@@ -6608,7 +6646,7 @@ MonoBehaviour:
             m_Name: selection
             m_Unicode: \uf489
           m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
-    - m_Text: Lasso Selection
+    - m_Text: 
       m_ImageData:
         m_ImageDataType: 1
         m_Sprite: {fileID: 0}
@@ -6619,7 +6657,18 @@ MonoBehaviour:
           m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
   m_OnItemSelected:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1377907056}
+        m_MethodName: OnDropdownValueChange
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1472389444}
+          m_ObjectArgumentAssemblyTypeName: MaterialUI.MaterialDropdown, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: MaterialUI.MaterialDropdown+MaterialDropdownEvent, Assembly-CSharp,
       Version=1.0.8.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &1472389445
@@ -6691,12 +6740,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1472389444}
-        m_MethodName: Show
-        m_Mode: 1
+      - m_Target: {fileID: 1377907056}
+        m_MethodName: OnToolButtonPress
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1472389444}
+          m_ObjectArgumentAssemblyTypeName: MaterialUI.MaterialDropdown, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6943,7 +6992,7 @@ GameObject:
   - component: {fileID: 1537088763}
   - component: {fileID: 1537088762}
   m_Layer: 5
-  m_Name: Image & Text Dropdown
+  m_Name: Media Dropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7010,7 +7059,7 @@ MonoBehaviour:
   m_HighlightWhen: 0
   m_AutoHighlightColor: 1
   m_HighlightColor: {r: 1, g: 1, b: 1, a: 0.2}
-  m_MaskMode: 2
+  m_MaskMode: 1
   m_CheckForScroll: 0
   m_AutoHighlightBlendAmount: 0.2
 --- !u!114 &1537088764
@@ -7025,7 +7074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_VerticalPivotType: 5
-  m_HorizontalPivotType: 0
+  m_HorizontalPivotType: 1
   m_ExpandStartType: 0
   m_IgnoreInputAfterShowTimer: 0
   m_MaxHeight: 0
@@ -7057,7 +7106,7 @@ MonoBehaviour:
   m_OptionDataList:
     m_ImageType: 1
     m_Options:
-    - m_Text: Text
+    - m_Text: 
       m_ImageData:
         m_ImageDataType: 1
         m_Sprite: {fileID: 0}
@@ -7066,7 +7115,7 @@ MonoBehaviour:
             m_Name: format_text
             m_Unicode: \uf284
           m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
-    - m_Text: Image
+    - m_Text: 
       m_ImageData:
         m_ImageDataType: 1
         m_Sprite: {fileID: 0}
@@ -7077,7 +7126,18 @@ MonoBehaviour:
           m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
   m_OnItemSelected:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1377907056}
+        m_MethodName: OnDropdownValueChange
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1537088764}
+          m_ObjectArgumentAssemblyTypeName: MaterialUI.MaterialDropdown, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: MaterialUI.MaterialDropdown+MaterialDropdownEvent, Assembly-CSharp,
       Version=1.0.8.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &1537088765
@@ -7149,12 +7209,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1537088764}
-        m_MethodName: Show
-        m_Mode: 1
+      - m_Target: {fileID: 1377907056}
+        m_MethodName: OnToolButtonPress
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1537088764}
+          m_ObjectArgumentAssemblyTypeName: MaterialUI.MaterialDropdown, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8630,7 +8690,7 @@ RectTransform:
   - {fileID: 740214992}
   - {fileID: 1479111989}
   m_Father: {fileID: 969334226}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
@@ -9604,7 +9664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2114374293}
   m_Layer: 5
-  m_Name: Paper
+  m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9626,5 +9686,5 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
