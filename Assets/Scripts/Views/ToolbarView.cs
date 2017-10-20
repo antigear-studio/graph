@@ -9,6 +9,7 @@ namespace Antigear.Graph {
         public bool showToolbar;
         public float toolbarHeight = 40;
         public float animationDuration = 0.5f;
+        public float indicatorAnimationDuration = 0.2f;
         public CanvasGroup toolGroup;
         public IToolbarViewDelegate viewDelegate;
 
@@ -19,12 +20,14 @@ namespace Antigear.Graph {
         public MaterialDropdown mediaDropdown;
         public MaterialDropdown selectionDropdown;
         public MaterialDropdown canvasControlDropdown;
+        public RectTransform indicatorRectTransform;
 
         MaterialDropdown activeDropdown;
 
         Tool currentTool = Tool.StraightLine;
 
         readonly List<int> toolbarAnimationTweenIds = new List<int>();
+        int indicatorAnimationTweenId = -1;
         bool didShowToolbar;
 
         // Use this for initialization
@@ -78,6 +81,7 @@ namespace Antigear.Graph {
                 activeDropdown = dropdown;
                 Tool t = LookupTool(dropdown, dropdown.currentlySelected);
                 ChangeTool(t);
+                MoveIndicator(dropdown, true);
             } else {
                 activeDropdown.Show();
             }
@@ -129,6 +133,27 @@ namespace Antigear.Graph {
 
                 if (viewDelegate != null)
                     viewDelegate.OnToolChanged(t);
+            }
+        }
+
+        void MoveIndicator(MaterialDropdown target, bool animated) {
+            if (indicatorAnimationTweenId >= 0) {
+                TweenManager.EndTween(indicatorAnimationTweenId);
+            }
+
+            float targetValue = target.transform.localPosition.x;
+
+            if (animated) {
+                indicatorAnimationTweenId = TweenManager.TweenFloat(v => {
+                    Vector3 pos = indicatorRectTransform.localPosition;
+                    pos.x = v;
+                    indicatorRectTransform.localPosition = pos;
+                }, indicatorRectTransform.localPosition.x, targetValue, 
+                    indicatorAnimationDuration);
+            } else {
+                Vector3 pos = indicatorRectTransform.localPosition;
+                pos.x = targetValue;
+                indicatorRectTransform.localPosition = pos;
             }
         }
     }
