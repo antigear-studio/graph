@@ -12,7 +12,6 @@ namespace Antigear.Graph {
     public class DrawingView : MonoBehaviour {
         public MaterialShadow drawingViewMaterialShadow;
 
-        public float expandedTopOffset = 96;
         public float animationDuration = 0.5f;
 
         readonly List<int> expansionAnimationTweenIds = new List<int>();
@@ -58,7 +57,7 @@ namespace Antigear.Graph {
                 drawingViewMaterialShadow.shadowNormalSize;
 
             Vector2 expandedOffsetMin = Vector2.zero;
-            Vector2 expandedOffsetMax = new Vector2(0, -expandedTopOffset);
+            Vector2 expandedOffsetMax = Vector2.zero;
             RectTransform rectTransform = transform as RectTransform;
             RectTransform parentRectTransform = 
                 transform.parent as RectTransform;

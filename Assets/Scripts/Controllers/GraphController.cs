@@ -9,16 +9,17 @@ namespace Antigear.Graph {
     /// settings.
     /// </summary>
     public class GraphController : MonoBehaviour, IAppBarViewDelegate, 
-    IGridViewDelegate {
+    IGridViewDelegate, IGraphGridViewControllerDelegate {
         public GraphGridViewController graphGridViewController;
 
         public GraphStore graphStore;
         public DrawingView drawingView;
         public AppBarView appBarView;
+        public ToolbarView toolbarView;
         public MaterialNavDrawer navigationSideBar;
 
         // Put this to model later
-        GraphTile openGraphTile;
+        int editingGraphIndex;
 
         void Awake() {
             // Application specific settings go here.
@@ -27,6 +28,7 @@ namespace Antigear.Graph {
 
         void Start() {
             graphGridViewController.SetGraphStore(graphStore);
+            graphGridViewController.controllerDelegate = this;
             appBarView.appBarViewDelegate = this;
             drawingView.gameObject.SetActive(false);
 
@@ -43,26 +45,28 @@ namespace Antigear.Graph {
             drawingView.SetExpansion(true, true, clickedTile);
             appBarView.SetLeftButton(AppBarView.LeftButtonType.CloseButton,
                 true);
-            appBarView.SetShadowDepth(false, true);
-            appBarView.SetToolbarVisibility(true, true);
+            appBarView.SetMinimized(true, true);
+            toolbarView.SetToolbarVisibility(true, true);
         }
 
         #region IAppBarViewDelegate implementation
 
         public void OnCloseButtonClick(Button clickedButton) {
             // Dismisses graph.
-            GraphTile cached = openGraphTile;
-            drawingView.SetExpansion(false, true, openGraphTile, 
+            GraphTile tile = (GraphTile)graphGridViewController
+                .gridView.CellForItem(editingGraphIndex);
+            tile.preventFromDequeue = true;
+            drawingView.SetExpansion(false, true, tile, 
                 () => {
                     drawingView.gameObject.SetActive(false);
-                    cached.SetOverlayVisibility(true, true);
+                    tile.SetOverlayVisibility(true, true);
+                    tile.preventFromDequeue = false;
                 });
             appBarView.SetLeftButton(AppBarView.LeftButtonType.NavigationButton,
                 true);
-            appBarView.SetShadowDepth(true, true);
-            appBarView.SetToolbarVisibility(false, true);
-            openGraphTile = null;
-
+            appBarView.SetMinimized(false, true);
+            toolbarView.SetToolbarVisibility(false, true);
+            editingGraphIndex = -1;
             // Save graphs.
             graphStore.SaveAllToDisk();
         }
@@ -78,5 +82,20 @@ namespace Antigear.Graph {
 
         #endregion
 
+        #region IGraphGridViewControllerDelegate implementation
+
+        public void OpenGraph(int index) {
+            GraphTile clickedTile = 
+                (GraphTile)graphGridViewController.gridView.CellForItem(index);
+            drawingView.gameObject.SetActive(true);
+            drawingView.SetExpansion(true, true, clickedTile);
+            appBarView.SetLeftButton(AppBarView.LeftButtonType.CloseButton,
+                true);
+            appBarView.SetMinimized(true, true);
+            toolbarView.SetToolbarVisibility(true, true);
+            editingGraphIndex = index;
+        }
+
+        #endregion
     }
 }

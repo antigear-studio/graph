@@ -10,6 +10,7 @@ namespace Antigear.Graph {
     /// will be displayed.
     /// </summary>
     public class HistoryBarView : MonoBehaviour {
+        /*
         public bool showUndo;
         public bool showRedo;
 
@@ -33,6 +34,6 @@ namespace Antigear.Graph {
         public void SetShowHistory(bool hasUndo, bool hasRedo, bool animated) {
             // Animation consists of setting the right anchors, then fade the 
             // button not being used and shrink the rect at the same time.
-        }
+        }*/
     }
 }

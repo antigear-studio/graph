@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 namespace Antigear.Graph {
     /// <summary>
-    /// Provides functionalities for the app bar view. This also includes tool
-    /// handling. The app bar consists an upper bar and a lower tool bar.
+    /// Provides functionalities for the app bar view.
     /// </summary>
     [ExecuteInEditMode]
     public class AppBarView : MonoBehaviour {
@@ -22,127 +21,105 @@ namespace Antigear.Graph {
         /// UI links.
         /// </summary>
         public UnityEngine.UI.Text titleText;
-        public CanvasGroup toolbarCanvasGroup;
-        public RectTransform appBarRectTransform;
-        public MaterialShadow appBarMaterialShadow;
-        public CanvasGroup closeButtonCanvasGroup;
-        public CanvasGroup navigationButtonCanvasGroup;
+        public RectTransform barBackgroundRectTransform;
+
+        public MaterialButton closeButton;
+        public MaterialButton navigationButton;
+        public MaterialButton moreButton;
+
 
         // Exposed properties.
         public IAppBarViewDelegate appBarViewDelegate;
         public string titleName = "";
-        public bool showToolbar;
-        public bool deepShadow;
+        public bool isMinimized;
         public LeftButtonType leftButton = LeftButtonType.NavigationButton;
-        public float upperBarHeight = 56;
-        public float toolbarHeight = 40;
         public float animationDuration = 0.5f;
+        public float minimizedBarBackgroundOffset = 60;
 
-        bool wasDeepShadow;
-        bool didShowToolbar;
+        CanvasGroup closeButtonCanvasGroup;
+        CanvasGroup navigationButtonCanvasGroup;
+        CanvasGroup moreButtonCanvasGroup;
+
+        bool wasMinimized;
         LeftButtonType lastLeftButton;
-        readonly List<int> toolbarAnimationTweenIds = new List<int>();
+        readonly List<int> appBarAnimationTweenIds = new List<int>();
         readonly List<int> leftButtonAnimationTweenIds = new List<int>();
 
         void Start() {
-            didShowToolbar = showToolbar;
+            wasMinimized = isMinimized;
             lastLeftButton = leftButton;
-            wasDeepShadow = deepShadow;
+            closeButtonCanvasGroup = closeButton.GetComponent<CanvasGroup>();
+            navigationButtonCanvasGroup = 
+                navigationButton.GetComponent<CanvasGroup>();
+            moreButtonCanvasGroup = moreButton.GetComponent<CanvasGroup>();
         }
 
         void Update() {
             if (titleText != null)
                 titleText.text = titleName;
 
-            if (didShowToolbar != showToolbar) {
-                SetToolbarVisibility(showToolbar, false);
+            if (wasMinimized != isMinimized) {
+                SetMinimized(isMinimized, false);
             }
 
             if (lastLeftButton != leftButton) {
                 SetLeftButton(leftButton, false);
             }
-
-            if (wasDeepShadow != deepShadow) {
-                SetShadowDepth(deepShadow, false);
-            }
         }
 
         /// <summary>
-        /// Sets the tool bar visibility.
+        /// Sets the style of the app bar. Minimized hides solid color chunk and
+        /// only shows the two buttons.
         /// </summary>
-        /// <param name="isVisible">If set to <c>true</c> tool bar will be
-        /// visible.</param>
+        /// <param name="minimized">If set to <c>true</c> app bar will be
+        /// minimized.</param>
         /// <param name="animated">If set to <c>true</c> animates this
         /// transition.</param>
-        public void SetToolbarVisibility(bool isVisible, bool animated) {
-            if (isVisible == didShowToolbar)
+        public void SetMinimized(bool minimized, bool animated) {
+            if (minimized == wasMinimized)
                 return;
-            
-            if (toolbarAnimationTweenIds.Count > 0) {
+
+            if (appBarAnimationTweenIds.Count > 0) {
                 // Cancel existing animations.
-                foreach (int id in toolbarAnimationTweenIds) {
+                foreach (int id in appBarAnimationTweenIds) {
                     TweenManager.EndTween(id);
                 }
 
-                toolbarAnimationTweenIds.Clear();
+                appBarAnimationTweenIds.Clear();
             }
 
-            showToolbar = isVisible;
-            didShowToolbar = isVisible;
-            toolbarCanvasGroup.interactable = isVisible;
-            toolbarCanvasGroup.blocksRaycasts = isVisible;
+            isMinimized = minimized;
+            wasMinimized = minimized;
 
-            float startHeight = appBarRectTransform.sizeDelta.y;
-            float targetHeight = isVisible ? upperBarHeight + toolbarHeight : 
-                upperBarHeight;
-            float startAlpha = toolbarCanvasGroup.alpha;
-            float targetAlpha = isVisible ? 1 : 0;
+            float startPos = barBackgroundRectTransform.anchoredPosition.y;
+            float targetPos = minimized ? minimizedBarBackgroundOffset : 0;
+            Color targetColor = isMinimized ? Color.black : Color.white;
 
-            
             if (animated) {
                 int t1 = TweenManager.TweenFloat(h => {
-                    Vector2 size = appBarRectTransform.sizeDelta;
-                    size.y = h;
-                    appBarRectTransform.sizeDelta = size;
-                }, startHeight, targetHeight, animationDuration);
-
-                int t2 = TweenManager.TweenFloat(
-                             a => toolbarCanvasGroup.alpha = a, startAlpha, 
-                             targetAlpha, animationDuration);
+                    Vector2 pos = barBackgroundRectTransform.anchoredPosition;
+                    pos.y = h;
+                    barBackgroundRectTransform.anchoredPosition = pos;
+                }, startPos, targetPos, animationDuration);
+                int t2 = TweenManager.TweenColor(c => closeButton.iconColor = c, 
+                    closeButton.iconColor, targetColor, animationDuration);
+                int t3 = TweenManager.TweenColor(
+                    c => navigationButton.iconColor = c, 
+                    navigationButton.iconColor, targetColor, animationDuration);
+                int t4 = TweenManager.TweenColor(c => moreButton.iconColor = c, 
+                    moreButton.iconColor, targetColor, animationDuration);
                 
-                toolbarAnimationTweenIds.Add(t1);
-                toolbarAnimationTweenIds.Add(t2);
+                appBarAnimationTweenIds.Add(t1);
+                appBarAnimationTweenIds.Add(t2);
+                appBarAnimationTweenIds.Add(t3);
+                appBarAnimationTweenIds.Add(t4);
             } else {
-                Vector2 size = appBarRectTransform.sizeDelta;
-                size.y = targetHeight;
-                appBarRectTransform.sizeDelta = size;
-                toolbarCanvasGroup.alpha = targetAlpha;
-            }
-        }
-
-        /// <summary>
-        /// Sets the shadow depth for the app bar. For drawing, the paper
-        /// material is at a higher elevation than graph grid view, so the
-        /// shadow should be shallower.
-        /// </summary>
-        /// <param name="isDeep">If set to <c>true</c> the shadow shows greater
-        /// depth.</param>
-        /// <param name="animated">If set to <c>true</c> animates this 
-        /// transition.</param>
-        public void SetShadowDepth(bool isDeep, bool animated) {
-            if (isDeep == wasDeepShadow)
-                return;
-
-            wasDeepShadow = isDeep;
-            deepShadow = isDeep;
-            
-            int shadowId = isDeep ? appBarMaterialShadow.shadowNormalSize
-                : appBarMaterialShadow.shadowActiveSize;
-            
-            if (animated) {
-                appBarMaterialShadow.SetShadows(shadowId);
-            } else {
-                appBarMaterialShadow.SetShadowsInstant(shadowId);
+                Vector2 pos = barBackgroundRectTransform.anchoredPosition;
+                pos.y = targetPos;
+                barBackgroundRectTransform.anchoredPosition = pos;
+                closeButton.iconColor = targetColor;
+                navigationButton.iconColor = targetColor;
+                moreButton.iconColor = targetColor;
             }
         }
 
@@ -200,7 +177,7 @@ namespace Antigear.Graph {
                         v => navigationButtonRectTransform.localScale = v, 
                         navigationButtonRectTransform.localScale, 
                         navigationButtonTargetScale, animationDuration);
-
+                
                 leftButtonAnimationTweenIds.Add(t1);
                 leftButtonAnimationTweenIds.Add(t2);
             } else {
