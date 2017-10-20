@@ -1,7 +1,8 @@
 ﻿using MaterialUI;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System;
 
 namespace Antigear.Graph {
     /// <summary>
@@ -17,6 +18,7 @@ namespace Antigear.Graph {
         public AppBarView appBarView;
         public ToolbarView toolbarView;
         public MaterialNavDrawer navigationSideBar;
+        public MaterialButton newGraphButton;
 
         // Put this to model later
         int editingGraphIndex;
@@ -39,34 +41,47 @@ namespace Antigear.Graph {
             }
         }
 
-        void OpenGraphAnimation(GraphTile clickedTile) {
+        void OpenGraphAnimation(GraphTile clickedTile, Action callback = null) {
             // Animating change.
             drawingView.gameObject.SetActive(true);
-            drawingView.SetExpansion(true, true, clickedTile);
+            drawingView.SetExpansion(true, true, clickedTile, callback);
             appBarView.SetLeftButton(AppBarView.LeftButtonType.CloseButton,
                 true);
             appBarView.SetMinimized(true, true);
             toolbarView.SetToolbarVisibility(true, true);
+            newGraphButton.Dismiss(true, 0.5f, 0.1f);
+        }
+
+        public void OnCreateGraphPress() {
+            List<int> index = new List<int> {graphStore.CreateGraph()};
+            OpenGraphAnimation(null, () => 
+                graphGridViewController.gridView.InsertItems(index, false));
+            editingGraphIndex = index[0];
         }
 
         #region IAppBarViewDelegate implementation
 
         public void OnCloseButtonClick(Button clickedButton) {
+            // TODO: Probably should also scroll to the tile.
             // Dismisses graph.
             GraphTile tile = (GraphTile)graphGridViewController
                 .gridView.CellForItem(editingGraphIndex);
-            tile.preventFromDequeue = true;
+            if (tile != null)
+                tile.preventFromDequeue = true;
             drawingView.SetExpansion(false, true, tile, 
                 () => {
                     drawingView.gameObject.SetActive(false);
-                    tile.SetOverlayVisibility(true, true);
-                    tile.preventFromDequeue = false;
+                    if (tile != null) {
+                        tile.SetOverlayVisibility(true, true);
+                        tile.preventFromDequeue = false;
+                    }
                 });
             appBarView.SetLeftButton(AppBarView.LeftButtonType.NavigationButton,
                 true);
             appBarView.SetMinimized(false, true);
             toolbarView.SetToolbarVisibility(false, true);
             editingGraphIndex = -1;
+            newGraphButton.Show(true, 0.5f, 0.1f);
             // Save graphs.
             graphStore.SaveAllToDisk();
         }
@@ -87,12 +102,7 @@ namespace Antigear.Graph {
         public void OpenGraph(int index) {
             GraphTile clickedTile = 
                 (GraphTile)graphGridViewController.gridView.CellForItem(index);
-            drawingView.gameObject.SetActive(true);
-            drawingView.SetExpansion(true, true, clickedTile);
-            appBarView.SetLeftButton(AppBarView.LeftButtonType.CloseButton,
-                true);
-            appBarView.SetMinimized(true, true);
-            toolbarView.SetToolbarVisibility(true, true);
+            OpenGraphAnimation(clickedTile);
             editingGraphIndex = index;
         }
 

@@ -24,11 +24,6 @@ namespace Antigear.Graph {
             gridView.ReloadData();
         }
 
-        public void OnCreateGraphPress() {
-            List<int> index = new List<int> {graphStore.CreateGraph()};
-            gridView.InsertItems(index, true);
-        }
-
         #region IGridViewDataSource implementation
         public int NumberOfItems(GridView gridView) {
             return graphStore.GetGraphs().Count;
