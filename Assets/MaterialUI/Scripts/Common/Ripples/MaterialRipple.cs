@@ -677,7 +677,7 @@ namespace MaterialUI
         private void CreateRipple(Vector2 position, bool oscillate = false)
         {
             if (!m_RipplesEnabled) return;
-
+            RefreshGraphicMatchColor();
             DestroyRipple();
             m_CurrentRipple = RippleManager.instance.GetRipple();
             m_CurrentRipple.Setup(rippleData, position, this, oscillate);
@@ -805,7 +805,7 @@ namespace MaterialUI
 
             Vector2 endPos = Input.mousePosition;
 
-            if (Vector2.Distance(startPos, endPos) < 2)
+            if (Vector2.Distance(startPos, endPos) < EventSystem.current.pixelDragThreshold)
             {
                 CreateRipple(startPos);
 
