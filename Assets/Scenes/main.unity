@@ -1660,6 +1660,7 @@ GameObject:
   - component: {fileID: 528970487}
   - component: {fileID: 528970490}
   - component: {fileID: 528970489}
+  - component: {fileID: 528970488}
   m_Layer: 5
   m_Name: Shadows
   m_TagString: Untagged
@@ -1688,6 +1689,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 56, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &528970488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 528970486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad5a8e39d75f57f408554e3b9483dfc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AnimatedShadows:
+  - {fileID: 574936889}
+  - {fileID: 913464576}
+  - {fileID: 1310963801}
+  m_ShadowNormalSize: 0
+  m_ShadowActiveSize: 3
+  m_ShadowsActiveWhen: 2
+  m_IsEnabled: 1
 --- !u!225 &528970489
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1941,7 +1961,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3563,7 +3583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3712,7 +3732,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MatchOrientationToScreen: 1
   m_ScaleFactor: 1
-  m_LastResolution: {x: 368, y: 655}
+  m_LastResolution: {x: 640, y: 480}
 --- !u!114 &969334223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4729,6 +4749,7 @@ GameObject:
   - component: {fileID: 1272704830}
   - component: {fileID: 1272704829}
   - component: {fileID: 1272704828}
+  - component: {fileID: 1272704831}
   m_Layer: 5
   m_Name: Paper
   m_TagString: Untagged
@@ -4805,6 +4826,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1272704826}
+--- !u!114 &1272704831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1272704826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e911f15b7210047dd9ddb2c45be1562f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1284010224
 GameObject:
   m_ObjectHideFlags: 0
@@ -4897,8 +4929,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1286965337}
   - component: {fileID: 1286965338}
-  - component: {fileID: 1286965339}
-  - component: {fileID: 1286965341}
   m_Layer: 5
   m_Name: Drawing View
   m_TagString: Untagged
@@ -4934,29 +4964,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1286965336}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad5a8e39d75f57f408554e3b9483dfc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AnimatedShadows:
-  - {fileID: 574936889}
-  - {fileID: 913464576}
-  - {fileID: 1310963801}
-  m_ShadowNormalSize: 0
-  m_ShadowActiveSize: 3
-  m_ShadowsActiveWhen: 2
-  m_IsEnabled: 1
---- !u!114 &1286965339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1286965336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1751ec8515204b389efa1d7311607a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawingViewMaterialShadow: {fileID: 1286965338}
+  drawingViewMaterialShadow: {fileID: 528970488}
   animationDuration: 0.4
   isExpanded: 0
   paperRectTransform: {fileID: 1272704827}
@@ -4964,12 +4975,6 @@ MonoBehaviour:
     name: Untitled
     localFileName: 
     isDirty: 0
---- !u!222 &1286965341
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1286965336}
 --- !u!1 &1303102625
 GameObject:
   m_ObjectHideFlags: 0
@@ -5126,7 +5131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -7045,7 +7050,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   graphGridViewController: {fileID: 1614436700}
   graphStore: {fileID: 2106039250}
-  drawingView: {fileID: 1286965339}
+  drawingView: {fileID: 1286965338}
   appBarView: {fileID: 817995401}
   toolbarView: {fileID: 1377907056}
   navigationSideBar: {fileID: 1836163210}
