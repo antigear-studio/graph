@@ -309,8 +309,13 @@ namespace Antigear.Graph {
             tailOffset += moddedHeadOffset;
 
             // Update and animate change in positions for all visible cells
-            // (followed by dequeue if result is offscreen).
-            foreach (int key in visibleCellForIndex.Keys) {
+            // (followed by dequeue if result is offscreen) with staged delay.
+            float delay = 0;
+
+            List<int> keys = new List<int>(visibleCellForIndex.Keys);
+            keys.Sort();
+
+            foreach (int key in keys) {
                 GridViewCell cell = visibleCellForIndex[key];
                 RectTransform r = cell.transform as RectTransform;
 
@@ -325,8 +330,9 @@ namespace Antigear.Graph {
                     cell.preventFromDequeue = true;
                     cell.translationAnimationId = TweenManager.TweenVector2(
                         v => r.anchoredPosition = v, r.anchoredPosition, target,
-                        animationDuration, 0, 
+                        animationDuration, delay, 
                         () => cell.preventFromDequeue = false);
+                    delay += 0.04f;
                 } else {
                     r.anchoredPosition = target;
                 }

@@ -19,6 +19,7 @@ namespace Antigear.Graph {
         public AppBarView appBarView;
         public MaterialNavDrawer navigationSideBar;
         public MaterialButton newGraphButton;
+        public BottomSheet moreBottomSheet;
 
         // Put this to model later
         int editingGraphIndex;
@@ -94,7 +95,7 @@ namespace Antigear.Graph {
         }
 
         public void OnMoreButtonClick(Button clickedButton) {
-            // TODO
+            moreBottomSheet.Show(true);
         }
 
         #endregion
