@@ -12,26 +12,17 @@ namespace Antigear.Graph {
     /// updating and sorting.
     /// </summary>
     public class GraphStore : MonoBehaviour {
-        public enum SortOrder {
-            NaturalAscending,
-            NaturalDescending,
-            CreationDateAscending,
-            CreationDateDescending,
-            ModificationDateAscending,
-            ModificationDateDescending
-        }
-
         class GraphComparer : IComparer<Graph> {
             #region IComparer implementation
-            SortOrder sortOrder;
+            GraphSortOrder sortOrder;
 
-            public GraphComparer(SortOrder s) {
+            public GraphComparer(GraphSortOrder s) {
                 sortOrder = s;
             }
 
             public int Compare(Graph g1, Graph g2) {
                 switch (sortOrder) {
-                    case SortOrder.NaturalAscending:
+                    case GraphSortOrder.NaturalAscending:
                         if (g1 == null && g2 == null) {
                             return 0;
                         } else if (g1 == null) {
@@ -41,7 +32,7 @@ namespace Antigear.Graph {
                         } else {
                             return g1.name.CompareTo(g2.name);
                         }
-                    case SortOrder.NaturalDescending:
+                    case GraphSortOrder.NaturalDescending:
                         if (g1 == null && g2 == null) {
                             return 0;
                         } else if (g1 == null) {
@@ -51,7 +42,7 @@ namespace Antigear.Graph {
                         } else {
                             return -g1.name.CompareTo(g2.name);
                         }
-                    case SortOrder.CreationDateAscending:
+                    case GraphSortOrder.CreationDateAscending:
                         if (g1 == null && g2 == null) {
                             return 0;
                         } else if (g1 == null) {
@@ -61,7 +52,7 @@ namespace Antigear.Graph {
                         } else {
                             return g1.timeCreated.CompareTo(g2.timeCreated);
                         }
-                    case SortOrder.CreationDateDescending:
+                    case GraphSortOrder.CreationDateDescending:
                         if (g1 == null && g2 == null) {
                             return 0;
                         } else if (g1 == null) {
@@ -71,7 +62,7 @@ namespace Antigear.Graph {
                         } else {
                             return -g1.timeCreated.CompareTo(g2.timeCreated);
                         }
-                    case SortOrder.ModificationDateAscending:
+                    case GraphSortOrder.ModificationDateAscending:
                         if (g1 == null && g2 == null) {
                             return 0;
                         } else if (g1 == null) {
@@ -81,7 +72,7 @@ namespace Antigear.Graph {
                         } else {
                             return g1.timeModified.CompareTo(g2.timeModified);
                         }
-                    case SortOrder.ModificationDateDescending:
+                    case GraphSortOrder.ModificationDateDescending:
                         if (g1 == null && g2 == null) {
                             return 0;
                         } else if (g1 == null) {
@@ -98,9 +89,10 @@ namespace Antigear.Graph {
             #endregion
         }
 
-        public SortOrder sortOrder = SortOrder.ModificationDateDescending;
+        public GraphSortOrder sortOrder = 
+            GraphSortOrder.ModificationDateDescending;
 
-        SortOrder lastSortOrder;
+        GraphSortOrder lastSortOrder;
 
         /// <summary>
         /// The current maintained list of graphs.
@@ -129,7 +121,6 @@ namespace Antigear.Graph {
         void Update() {
             if (lastSortOrder != sortOrder) {
                 Sort();
-                lastSortOrder = sortOrder;
             }
         }
 
@@ -246,7 +237,8 @@ namespace Antigear.Graph {
             return copy;
         }
 
-        void Sort() {
+        public void Sort() {
+            lastSortOrder = sortOrder;
             graphs.Sort(new GraphComparer(sortOrder));
         }
     }

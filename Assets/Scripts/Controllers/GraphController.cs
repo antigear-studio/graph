@@ -11,7 +11,7 @@ namespace Antigear.Graph {
     /// </summary>
     public class GraphController : MonoBehaviour, IAppBarViewDelegate, 
     IGridViewDelegate, IGraphGridViewControllerDelegate, 
-    IDrawingControllerDelegate {
+    IDrawingControllerDelegate, IGraphBottomSheetDelegate {
         public GraphGridViewController graphGridViewController;
         public DrawingController drawingController;
 
@@ -19,7 +19,7 @@ namespace Antigear.Graph {
         public AppBarView appBarView;
         public MaterialNavDrawer navigationSideBar;
         public MaterialButton newGraphButton;
-        public BottomSheet moreBottomSheet;
+        public GraphBottomSheet moreBottomSheet;
 
         // Put this to model later
         int editingGraphIndex;
@@ -34,6 +34,7 @@ namespace Antigear.Graph {
             graphGridViewController.controllerDelegate = this;
             appBarView.viewDelegate = this;
             drawingController.controllerDelegate = this;
+            moreBottomSheet.sheetDelegate = this;
 
             bool success = graphStore.LoadAllFromDisk();
 
@@ -95,6 +96,7 @@ namespace Antigear.Graph {
         }
 
         public void OnMoreButtonClick(Button clickedButton) {
+            moreBottomSheet.SetGraphSortOrder(graphStore.sortOrder);
             moreBottomSheet.Show(true);
         }
 
@@ -117,6 +119,31 @@ namespace Antigear.Graph {
 
         public void OnUIColorChange(DrawingController controller, Color color) {
             appBarView.drawingViewButtonColor = color;
+        }
+
+        #endregion
+
+        #region IGraphBottomSheetDelegate implementation
+
+        public void OnSortingOrderChange(GraphBottomSheet sheet, 
+            GraphSortOrder order) {
+            graphStore.sortOrder = order;
+            graphStore.Sort();
+
+            // TODO animate this
+            graphGridViewController.gridView.ReloadData();
+        }
+
+        public void OnSelectAll(GraphBottomSheet sheet) {
+            
+        }
+
+        public void OnSelect(GraphBottomSheet sheet) {
+            
+        }
+
+        public void OnSelectCancel(GraphBottomSheet sheet) {
+            
         }
 
         #endregion

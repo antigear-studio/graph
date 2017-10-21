@@ -1,4 +1,5 @@
 ﻿using MaterialUI;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -19,19 +20,20 @@ namespace Antigear.Graph {
         /// </summary>
         public Image backgroundImage;
         public RectTransform panelTransform;
-        public Image shadow;
+        public CanvasGroup sheetCanvasGroup;
         public float animationDuration = 0.4f;
 
         Vector2 dragStartPos;
         bool isDraggingSheet;
 
-        const float MAX_OVERDRAG = 96;
-        const float DECAY_COEFF = 0.2f;
-        const float MAX_MASK_STRENGTH = 0.25f;
+        protected const float MAX_OVERDRAG = 96;
+        protected const float DECAY_COEFF = 0.2f;
+        protected const float MAX_MASK_STRENGTH = 0.25f;
 
-        readonly List<int> bottomSheetAnimationIds = new List<int>();
+        protected readonly List<int> bottomSheetAnimationIds = new List<int>();
 
-        public void Show(bool animated) {
+        public virtual void Show(bool animated, Action onCompletion = null) {
+            sheetCanvasGroup.interactable = true;
             if (bottomSheetAnimationIds.Count > 0) {
                 foreach (int id in bottomSheetAnimationIds) {
                     TweenManager.EndTween(id);
@@ -52,7 +54,7 @@ namespace Antigear.Graph {
                     pos.y = v;
                     panelTransform.anchoredPosition = pos;
                 }, panelTransform.anchoredPosition.y, targetHeight, 
-                             animationDuration);
+                    animationDuration, 0, onCompletion);
                 int t2 = 
                     TweenManager.TweenColor(c => backgroundImage.color = c, 
                         backgroundImage.color, targetColor, animationDuration);
@@ -63,10 +65,20 @@ namespace Antigear.Graph {
                 pos.y = targetHeight;
                 panelTransform.anchoredPosition = pos;
                 backgroundImage.color = targetColor;
+
+                if (onCompletion != null)
+                    onCompletion();
             }
         }
 
-        public void Dismiss(bool animated) {
+        public void OnBackgroundPress() {
+            Dismiss(true, null, 0);
+        }
+
+        public virtual void Dismiss(bool animated, Action onCompletion = null, 
+            float delay = 0) {
+            sheetCanvasGroup.interactable = false;
+
             if (bottomSheetAnimationIds.Count > 0) {
                 foreach (int id in bottomSheetAnimationIds) {
                     TweenManager.EndTween(id);
@@ -84,13 +96,14 @@ namespace Antigear.Graph {
                     pos.y = v;
                     panelTransform.anchoredPosition = pos;
                 }, panelTransform.anchoredPosition.y, targetHeight, 
-                             animationDuration, 0, () => {
+                             animationDuration, delay, () => {
                     panelTransform.gameObject.SetActive(false);
                     backgroundImage.gameObject.SetActive(false);
                 });
                 int t2 = 
                     TweenManager.TweenColor(c => backgroundImage.color = c, 
-                        backgroundImage.color, targetColor, animationDuration);
+                        backgroundImage.color, targetColor, animationDuration,
+                        delay, onCompletion);
                 bottomSheetAnimationIds.Add(t1);
                 bottomSheetAnimationIds.Add(t2);
             } else {
@@ -100,6 +113,9 @@ namespace Antigear.Graph {
                 backgroundImage.color = targetColor;
                 panelTransform.gameObject.SetActive(false);
                 backgroundImage.gameObject.SetActive(false);
+
+                if (onCompletion != null)
+                    onCompletion();
             }
         }
 
