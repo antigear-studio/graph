@@ -18,8 +18,10 @@ namespace Antigear.Graph {
         public bool isExpanded;
         bool wasExpanded;
 
-        public RectTransform paperRectTransform;
-        public Graph editingGraph;
+        // Outlets.
+        public Paper paper;
+        public ToolbarView toolbarView;
+        public HistoryBarView historyBarView;
 
         void Update() {
             if (wasExpanded != isExpanded) {
@@ -39,7 +41,7 @@ namespace Antigear.Graph {
         /// by expanding from bottom of the screen.</param>
         /// <param name="handler">The completion handler.</param>
         public void SetExpansion(bool shouldExpand, bool animated, 
-            GraphTile tile = null, Action handler = null) {
+            RectTransform tile = null, Action handler = null) {
             // This animation consists an elevation from the grid view and a
             // new size and pos change.
             if (expansionAnimationTweenIds.Count > 0) {
@@ -60,21 +62,19 @@ namespace Antigear.Graph {
 
             Vector2 expandedOffsetMin = Vector2.zero;
             Vector2 expandedOffsetMax = Vector2.zero;
-            RectTransform rectTransform = paperRectTransform;
+            RectTransform rectTransform = paper.transform as RectTransform;
             RectTransform parentRectTransform = transform as RectTransform;
 
             if (animated) {
                 if (tile != null) {
                     // Expanding from tile, so we need to calculate tile's coord
                     // on the fly.
-                    RectTransform tileRectTransform = 
-                        tile.transform as RectTransform;
                     int t1, t2;
                     Func<Vector2> offsetMinToTile = () => {
                         Vector3[] parentCorners = new Vector3[4];
                         Vector3[] tileCorners = new Vector3[4];
                         parentRectTransform.GetWorldCorners(parentCorners);
-                        tileRectTransform.GetWorldCorners(tileCorners);
+                        tile.GetWorldCorners(tileCorners);
                         Vector3 offset = tileCorners[0] - parentCorners[0];
 
                         return rectTransform.InverseTransformVector(offset);
@@ -84,7 +84,7 @@ namespace Antigear.Graph {
                         Vector3[] parentCorners = new Vector3[4];
                         Vector3[] tileCorners = new Vector3[4];
                         parentRectTransform.GetWorldCorners(parentCorners);
-                        tileRectTransform.GetWorldCorners(tileCorners);
+                        tile.GetWorldCorners(tileCorners);
                         Vector3 offset = tileCorners[2] - parentCorners[2];
 
                         return rectTransform.InverseTransformVector(offset);

@@ -29,12 +29,13 @@ namespace Antigear.Graph {
 
 
         // Exposed properties.
-        public IAppBarViewDelegate appBarViewDelegate;
+        public IAppBarViewDelegate viewDelegate;
         public string titleName = "";
         public bool isMinimized;
         public LeftButtonType leftButton = LeftButtonType.NavigationButton;
         public float animationDuration = 0.5f;
         public float minimizedBarBackgroundOffset = 60;
+        public Color drawingViewButtonColor = Color.black;
 
         CanvasGroup closeButtonCanvasGroup;
         CanvasGroup navigationButtonCanvasGroup;
@@ -93,7 +94,8 @@ namespace Antigear.Graph {
 
             float startPos = barBackgroundRectTransform.anchoredPosition.y;
             float targetPos = minimized ? minimizedBarBackgroundOffset : 0;
-            Color targetColor = isMinimized ? Color.black : Color.white;
+            Color targetColor = 
+                isMinimized ? drawingViewButtonColor : Color.white;
 
             if (animated) {
                 int t1 = TweenManager.TweenFloat(h => {
@@ -188,23 +190,23 @@ namespace Antigear.Graph {
         }
 
         public void OnCloseButtonClick() {
-            if (appBarViewDelegate != null) {
-                appBarViewDelegate.OnCloseButtonClick(
+            if (viewDelegate != null) {
+                viewDelegate.OnCloseButtonClick(
                     closeButtonCanvasGroup.GetComponent<Button>());
             }
         }
 
         public void OnNavigationButtonClick() {
-            if (appBarViewDelegate != null) {
-                appBarViewDelegate.OnNavigationButtonClick(
+            if (viewDelegate != null) {
+                viewDelegate.OnNavigationButtonClick(
                     navigationButtonCanvasGroup.GetComponent<Button>());
             }
         }
 
         public void OnMoreButtonClick() {
             // TODO - attach button
-            if (appBarViewDelegate != null) {
-                appBarViewDelegate.OnMoreButtonClick(null);
+            if (viewDelegate != null) {
+                viewDelegate.OnMoreButtonClick(null);
             }
         }
     }

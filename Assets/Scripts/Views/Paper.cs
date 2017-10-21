@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using MaterialUI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Antigear.Graph {
     /// <summary>
@@ -10,6 +12,29 @@ namespace Antigear.Graph {
     /// </summary>
     public class Paper : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     IEndDragHandler, IPointerClickHandler {
+        public float animationDuration = 0.2f;
+
+        // Outlets.
+        public Image backgroundImage;
+
+        // Private.
+        int colorAnimationTweenId = -1;
+
+        public void SetBackgroundColor(Color color, bool animated) {
+            if (colorAnimationTweenId >= 0) {
+                TweenManager.EndTween(colorAnimationTweenId);
+                colorAnimationTweenId = -1;
+            }
+
+            if (animated) {
+                colorAnimationTweenId = TweenManager.TweenColor(
+                    c => backgroundImage.color = c, backgroundImage.color, 
+                    color, animationDuration);
+            } else {
+                backgroundImage.color = color;
+            }
+        }
+
         #region IBeginDragHandler implementation
 
         public void OnBeginDrag(PointerEventData eventData) {

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Antigear.Graph {
     /// <summary>
@@ -10,9 +11,11 @@ namespace Antigear.Graph {
     [Serializable]
     public class Graph {
         // graph metadata
-        public string name = "";
+        public string name;
         public DateTime timeCreated;
         public DateTime timeModified;
+        public Color backgroundColor = Color.white;
+
         [JsonIgnore]
         public string localFileName;
         [JsonIgnore]
