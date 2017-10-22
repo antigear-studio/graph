@@ -24,7 +24,12 @@ namespace Antigear.Graph {
 
         // Exposed stuff.
         public float animationDuration = 0.3f;
-        public float minimumCellWidth = 100;
+        public float minimumCellWidthPhone = 100;
+        public float minimumCellWidthTablet = 200;
+
+
+        float minimumCellWidth;
+
         public float cellWidthToHeightRatio = 1;
         public Vector2 spacing;
         public Vector4 padding;
@@ -309,8 +314,13 @@ namespace Antigear.Graph {
             tailOffset += moddedHeadOffset;
 
             // Update and animate change in positions for all visible cells
-            // (followed by dequeue if result is offscreen).
-            foreach (int key in visibleCellForIndex.Keys) {
+            // (followed by dequeue if result is offscreen) with staged delay.
+            float delay = 0;
+
+            List<int> keys = new List<int>(visibleCellForIndex.Keys);
+            keys.Sort();
+
+            foreach (int key in keys) {
                 GridViewCell cell = visibleCellForIndex[key];
                 RectTransform r = cell.transform as RectTransform;
 
@@ -325,8 +335,9 @@ namespace Antigear.Graph {
                     cell.preventFromDequeue = true;
                     cell.translationAnimationId = TweenManager.TweenVector2(
                         v => r.anchoredPosition = v, r.anchoredPosition, target,
-                        animationDuration, 0, 
+                        animationDuration, delay, 
                         () => cell.preventFromDequeue = false);
+                    delay += 0.04f;
                 } else {
                     r.anchoredPosition = target;
                 }
@@ -470,11 +481,12 @@ namespace Antigear.Graph {
 
         void OnRectTransformDimensionsChange() {
             if (dataSource != null)
-                // TODO: this should be animated according to a flag.
                 ReloadData();
         }
 
         void Start() {
+            minimumCellWidth = UIUtil.IsTablet() ? 
+                minimumCellWidthTablet : minimumCellWidthPhone;
         }
 
         void Update() {

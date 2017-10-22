@@ -10,18 +10,19 @@ namespace Antigear.Graph {
     /// settings.
     /// </summary>
     public class GraphController : MonoBehaviour, IAppBarViewDelegate, 
-    IGridViewDelegate, IGraphGridViewControllerDelegate {
+    IGridViewDelegate, IGraphGridViewControllerDelegate, 
+    IDrawingControllerDelegate, IGraphBottomSheetDelegate {
         public GraphGridViewController graphGridViewController;
+        public DrawingController drawingController;
 
         public GraphStore graphStore;
-        public DrawingView drawingView;
         public AppBarView appBarView;
-        public ToolbarView toolbarView;
-        public MaterialNavDrawer navigationSideBar;
+        public NavigationDrawer navigationSideBar;
         public MaterialButton newGraphButton;
+        public GraphBottomSheet moreBottomSheet;
 
         // Put this to model later
-        int editingGraphIndex;
+        int editingGraphIndex = -1;
 
         void Awake() {
             // Application specific settings go here.
@@ -31,8 +32,9 @@ namespace Antigear.Graph {
         void Start() {
             graphGridViewController.SetGraphStore(graphStore);
             graphGridViewController.controllerDelegate = this;
-            appBarView.appBarViewDelegate = this;
-            drawingView.gameObject.SetActive(false);
+            appBarView.viewDelegate = this;
+            drawingController.controllerDelegate = this;
+            moreBottomSheet.sheetDelegate = this;
 
             bool success = graphStore.LoadAllFromDisk();
 
@@ -41,21 +43,20 @@ namespace Antigear.Graph {
             }
         }
 
-        void OpenGraphAnimation(GraphTile clickedTile, Action callback = null) {
+        void OpenGraphAnimation() {
             // Animating change.
-            drawingView.gameObject.SetActive(true);
-            drawingView.SetExpansion(true, true, clickedTile, callback);
             appBarView.SetLeftButton(AppBarView.LeftButtonType.CloseButton,
                 true);
             appBarView.SetMinimized(true, true);
-            toolbarView.SetToolbarVisibility(true, true);
             newGraphButton.Dismiss(true, 0.4f, 0.15f);
         }
 
         public void OnCreateGraphPress() {
-            List<int> index = new List<int> {graphStore.CreateGraph()};
-            OpenGraphAnimation(null, () => 
+            List<int> index = new List<int> { graphStore.CreateGraph() };
+            Graph graph = graphStore.GetGraphs()[index[0]];
+            drawingController.OpenGraph(graph, true, null, () => 
                 graphGridViewController.gridView.InsertItems(index, false));
+            OpenGraphAnimation();
             editingGraphIndex = index[0];
         }
 
@@ -64,22 +65,25 @@ namespace Antigear.Graph {
         public void OnCloseButtonClick(Button clickedButton) {
             // TODO: Probably should also scroll to the tile.
             // Dismisses graph.
-            GraphTile tile = (GraphTile)graphGridViewController
-                .gridView.CellForItem(editingGraphIndex);
-            if (tile != null)
+            GraphTile tile = graphGridViewController
+                .gridView.CellForItem(editingGraphIndex) as GraphTile;
+            RectTransform tileTransform = null;
+
+            if (tile != null) {
                 tile.preventFromDequeue = true;
-            drawingView.SetExpansion(false, true, tile, 
-                () => {
-                    drawingView.gameObject.SetActive(false);
-                    if (tile != null) {
-                        tile.SetOverlayVisibility(true, true);
-                        tile.preventFromDequeue = false;
-                    }
-                });
+                tileTransform = tile.transform as RectTransform;
+            }
+            
+            drawingController.CloseGraph(true, tileTransform, () => {
+                if (tile != null) {
+                    tile.SetOverlayVisibility(true, true);
+                    tile.preventFromDequeue = false;
+                }
+            });
+
             appBarView.SetLeftButton(AppBarView.LeftButtonType.NavigationButton,
                 true);
             appBarView.SetMinimized(false, true);
-            toolbarView.SetToolbarVisibility(false, true);
             editingGraphIndex = -1;
             newGraphButton.Show(true, 0.4f, 0.1f);
             // Save graphs.
@@ -88,11 +92,17 @@ namespace Antigear.Graph {
 
         public void OnNavigationButtonClick(Button clickedButton) {
             // Opens the navigation side bar.
-            navigationSideBar.Open();
+            navigationSideBar.Show(true);
         }
 
         public void OnMoreButtonClick(Button clickedButton) {
-            // TODO
+            if (editingGraphIndex < 0) {
+                moreBottomSheet.SetGraphSortOrder(graphStore.sortOrder);
+                // TODO set selection state.
+                moreBottomSheet.Show(true);
+            } else {
+                drawingController.drawingView.drawingBottomSheet.Show(true);
+            }
         }
 
         #endregion
@@ -100,10 +110,45 @@ namespace Antigear.Graph {
         #region IGraphGridViewControllerDelegate implementation
 
         public void OpenGraph(int index) {
-            GraphTile clickedTile = 
-                (GraphTile)graphGridViewController.gridView.CellForItem(index);
-            OpenGraphAnimation(clickedTile);
+            Graph openedGraph = graphStore.GetGraphs()[index];
+            RectTransform clickedTile = graphGridViewController
+                .gridView.CellForItem(index).transform as RectTransform;
+            drawingController.OpenGraph(openedGraph, true, clickedTile);
+            OpenGraphAnimation();
             editingGraphIndex = index;
+        }
+
+        #endregion
+
+        #region IDrawingControllerDelegate implementation
+
+        public void OnUIColorChange(DrawingController controller, Color color) {
+            appBarView.drawingViewButtonColor = color;
+        }
+
+        #endregion
+
+        #region IGraphBottomSheetDelegate implementation
+
+        public void OnSortingOrderChange(GraphBottomSheet sheet, 
+            GraphSortOrder order) {
+            graphStore.sortOrder = order;
+            graphStore.Sort();
+
+            // TODO animate this
+            graphGridViewController.gridView.ReloadData();
+        }
+
+        public void OnSelectAll(GraphBottomSheet sheet) {
+            
+        }
+
+        public void OnSelect(GraphBottomSheet sheet) {
+            
+        }
+
+        public void OnSelectCancel(GraphBottomSheet sheet) {
+            
         }
 
         #endregion

@@ -21,7 +21,6 @@ namespace MaterialUI
             {
                 TextureImporter importer = assetImporter as TextureImporter;
                 importer.npotScale = TextureImporterNPOTScale.None;
-                importer.generateCubemap = TextureImporterGenerateCubemap.None;
                 importer.spriteImportMode = SpriteImportMode.Single;
                 importer.wrapMode = TextureWrapMode.Clamp;
                 if (ShadowGenerator.ShadowSpriteBorder != null)

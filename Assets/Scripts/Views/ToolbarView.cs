@@ -9,7 +9,8 @@ namespace Antigear.Graph {
         public bool showToolbar;
         public float toolbarHeight = 40;
         public float animationDuration = 0.5f;
-        public float indicatorAnimationDuration = 0.2f;
+        public float shortAnimationDuration = 0.2f;
+        public Color buttonColor = Color.black;
         public CanvasGroup toolGroup;
         public IToolbarViewDelegate viewDelegate;
 
@@ -20,21 +21,28 @@ namespace Antigear.Graph {
         public MaterialDropdown mediaDropdown;
         public MaterialDropdown selectionDropdown;
         public MaterialDropdown canvasControlDropdown;
-        public RectTransform indicatorRectTransform;
+        public MaterialButton shapesButton;
+        public MaterialButton layersButton;
+        public MaterialButton propertiesButton;
+        public VectorImage indicatorImage;
         public UnityEngine.UI.Text toolText;
+        public UnityEngine.UI.Text coordinateText;
 
         MaterialDropdown activeDropdown;
 
         Tool currentTool = Tool.Unknown;
 
         readonly List<int> toolbarAnimationTweenIds = new List<int>();
+        int buttonColorAnimationTweenId = -1;
         int indicatorAnimationTweenId = -1;
         bool didShowToolbar;
+        Color lastButtonColor;
 
         // Use this for initialization
         void Start() {
             didShowToolbar = showToolbar;
             activeDropdown = lineDropdown;
+            lastButtonColor = buttonColor;
             ChangeTool(Tool.StraightLine);
         }
 	
@@ -42,6 +50,46 @@ namespace Antigear.Graph {
         void Update() {
             if (didShowToolbar != showToolbar) {
                 SetToolbarVisibility(showToolbar, false);
+            }
+
+            if (lastButtonColor != buttonColor) {
+                SetButtonColor(buttonColor, false);
+            }
+        }
+
+        public void SetButtonColor(Color color, bool animated) {
+            if (buttonColorAnimationTweenId >= 0)
+                TweenManager.EndTween(buttonColorAnimationTweenId);
+            
+            buttonColor = color;
+            lastButtonColor = color;
+
+            if (animated) {
+                buttonColorAnimationTweenId = TweenManager.TweenColor(c => {
+                    shapesButton.iconColor = c;
+                    layersButton.iconColor = c;
+                    propertiesButton.iconColor = c;
+                    lineDropdown.buttonImageContent.color = c;
+                    brushDropdown.buttonImageContent.color = c;
+                    mediaDropdown.buttonImageContent.color = c;
+                    selectionDropdown.buttonImageContent.color = c;
+                    canvasControlDropdown.buttonImageContent.color = c;
+                    toolText.color = c;
+                    coordinateText.color = c;
+                    indicatorImage.color = c;
+                }, propertiesButton.iconColor, color, shortAnimationDuration);
+            } else {
+                shapesButton.iconColor = color;
+                layersButton.iconColor = color;
+                propertiesButton.iconColor = color;
+                lineDropdown.buttonImageContent.color = color;
+                brushDropdown.buttonImageContent.color = color;
+                mediaDropdown.buttonImageContent.color = color;
+                selectionDropdown.buttonImageContent.color = color;
+                canvasControlDropdown.buttonImageContent.color = color;
+                toolText.color = color;
+                coordinateText.color = color;
+                indicatorImage.color = color;
             }
         }
 
@@ -149,15 +197,15 @@ namespace Antigear.Graph {
 
             if (animated) {
                 indicatorAnimationTweenId = TweenManager.TweenFloat(v => {
-                    Vector3 pos = indicatorRectTransform.localPosition;
+                    Vector3 pos = indicatorImage.transform.localPosition;
                     pos.x = v;
-                    indicatorRectTransform.localPosition = pos;
-                }, indicatorRectTransform.localPosition.x, targetValue, 
-                    indicatorAnimationDuration);
+                    indicatorImage.transform.localPosition = pos;
+                }, indicatorImage.transform.localPosition.x, targetValue, 
+                    shortAnimationDuration);
             } else {
-                Vector3 pos = indicatorRectTransform.localPosition;
+                Vector3 pos = indicatorImage.transform.localPosition;
                 pos.x = targetValue;
-                indicatorRectTransform.localPosition = pos;
+                indicatorImage.transform.localPosition = pos;
             }
         }
     }
