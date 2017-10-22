@@ -206,13 +206,25 @@ namespace Antigear.Graph {
 
         public override void Dismiss(bool animated, Action onCompletion = null, 
             float delay = 0) {
-            base.Dismiss(animated, () => {
-                if (onCompletion != null)
-                    onCompletion();
-                
-                SetSortingOptionsVisibility(false, false);
-            }, delay);
+
+            TweenManager.TweenInt(v => {
+                if (sortGroupTweenAnimationIds.Count >= 0) {
+                    foreach (int id in sortGroupTweenAnimationIds) {
+                        TweenManager.EndTween(id);
+                    }
+
+                    sortGroupTweenAnimationIds.Clear();
+                }
+
+                base.Dismiss(animated, () => {
+                    if (onCompletion != null)
+                        onCompletion();
+
+                    SetSortingOptionsVisibility(false, false);
+                }, 0);
+            }, 0, 0, delay);
         }
+
     }
 
     public interface IGraphBottomSheetDelegate {

@@ -29,6 +29,7 @@ namespace Antigear.Graph {
         protected const float MAX_OVERDRAG = 96;
         protected const float DECAY_COEFF = 0.2f;
         protected const float MAX_MASK_STRENGTH = 0.25f;
+        protected bool isOpen;
 
         protected readonly List<int> bottomSheetAnimationIds = new List<int>();
 
@@ -52,6 +53,8 @@ namespace Antigear.Graph {
 
         public virtual void Show(bool animated, Action onCompletion = null) {
             sheetCanvasGroup.interactable = true;
+            isOpen = true;
+
             if (bottomSheetAnimationIds.Count > 0) {
                 foreach (int id in bottomSheetAnimationIds) {
                     TweenManager.EndTween(id);
@@ -96,6 +99,7 @@ namespace Antigear.Graph {
         public virtual void Dismiss(bool animated, Action onCompletion = null, 
             float delay = 0) {
             sheetCanvasGroup.interactable = false;
+            isOpen = false;
 
             if (bottomSheetAnimationIds.Count > 0) {
                 foreach (int id in bottomSheetAnimationIds) {

@@ -481,7 +481,6 @@ namespace Antigear.Graph {
 
         void OnRectTransformDimensionsChange() {
             if (dataSource != null)
-                // TODO: this should be animated according to a flag.
                 ReloadData();
         }
 
