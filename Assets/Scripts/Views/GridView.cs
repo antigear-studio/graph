@@ -24,7 +24,12 @@ namespace Antigear.Graph {
 
         // Exposed stuff.
         public float animationDuration = 0.3f;
-        public float minimumCellWidth = 100;
+        public float minimumCellWidthPhone = 100;
+        public float minimumCellWidthTablet = 200;
+
+
+        float minimumCellWidth;
+
         public float cellWidthToHeightRatio = 1;
         public Vector2 spacing;
         public Vector4 padding;
@@ -481,6 +486,8 @@ namespace Antigear.Graph {
         }
 
         void Start() {
+            minimumCellWidth = UIUtil.IsTablet() ? 
+                minimumCellWidthTablet : minimumCellWidthPhone;
         }
 
         void Update() {

@@ -553,8 +553,6 @@ namespace MaterialUI
                     }
                 }
             }
-
-            RefreshAutoHighlightColor();
         }
 
         /// <summary>
@@ -677,8 +675,8 @@ namespace MaterialUI
         private void CreateRipple(Vector2 position, bool oscillate = false)
         {
             if (!m_RipplesEnabled) return;
-            RefreshGraphicMatchColor();
             DestroyRipple();
+            RefreshGraphicMatchColor();
             m_CurrentRipple = RippleManager.instance.GetRipple();
             m_CurrentRipple.Setup(rippleData, position, this, oscillate);
             m_CurrentRipple.Expand();

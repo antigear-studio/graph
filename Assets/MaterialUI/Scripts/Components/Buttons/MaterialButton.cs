@@ -609,6 +609,7 @@ namespace MaterialUI
             if (m_MaterialRipple != null)
             {
                 m_MaterialRipple.RefreshGraphicMatchColor();
+                m_MaterialRipple.RefreshAutoHighlightColor();
             }
         }
 
