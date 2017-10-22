@@ -34,7 +34,6 @@ namespace Antigear.Graph {
         public bool isMinimized;
         public LeftButtonType leftButton = LeftButtonType.NavigationButton;
         public float animationDuration = 0.5f;
-        public float minimizedBarBackgroundOffset = 60;
         public Color drawingViewButtonColor = Color.black;
 
         CanvasGroup closeButtonCanvasGroup;
@@ -93,7 +92,7 @@ namespace Antigear.Graph {
             wasMinimized = minimized;
 
             float startPos = barBackgroundRectTransform.anchoredPosition.y;
-            float targetPos = minimized ? minimizedBarBackgroundOffset : 0;
+            float targetPos = minimized ? barBackgroundRectTransform.rect.height + 4.0f : 0;
             Color targetColor = 
                 isMinimized ? drawingViewButtonColor : Color.white;
 

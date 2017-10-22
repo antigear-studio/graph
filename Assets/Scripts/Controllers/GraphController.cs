@@ -22,7 +22,7 @@ namespace Antigear.Graph {
         public GraphBottomSheet moreBottomSheet;
 
         // Put this to model later
-        int editingGraphIndex;
+        int editingGraphIndex = -1;
 
         void Awake() {
             // Application specific settings go here.
@@ -96,8 +96,13 @@ namespace Antigear.Graph {
         }
 
         public void OnMoreButtonClick(Button clickedButton) {
-            moreBottomSheet.SetGraphSortOrder(graphStore.sortOrder);
-            moreBottomSheet.Show(true);
+            if (editingGraphIndex < 0) {
+                moreBottomSheet.SetGraphSortOrder(graphStore.sortOrder);
+                // TODO set selection state.
+                moreBottomSheet.Show(true);
+            } else {
+                drawingController.drawingView.drawingBottomSheet.Show(true);
+            }
         }
 
         #endregion

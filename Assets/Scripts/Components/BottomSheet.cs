@@ -32,6 +32,24 @@ namespace Antigear.Graph {
 
         protected readonly List<int> bottomSheetAnimationIds = new List<int>();
 
+        /// <summary>
+        /// The root MaterialUIScaler.
+        /// </summary>
+        MaterialUIScaler m_Scaler;
+        /// <summary>
+        /// The root MaterialUIScaler.
+        /// If null, gets the root scaler if one exists.
+        /// </summary>
+        public MaterialUIScaler scaler {
+            get {
+                if (m_Scaler == null) {
+                    m_Scaler = MaterialUIScaler.GetParentScaler(transform);
+                }
+
+                return m_Scaler;
+            }
+        }
+
         public virtual void Show(bool animated, Action onCompletion = null) {
             sheetCanvasGroup.interactable = true;
             if (bottomSheetAnimationIds.Count > 0) {
@@ -144,8 +162,9 @@ namespace Antigear.Graph {
                 float maxHeight = panelTransform.rect.height - MAX_OVERDRAG;
 
                 Vector2 pos = panelTransform.anchoredPosition;
+                float dy = data.delta.y / scaler.scaleFactor;
                 float overdrag = Mathf.Max(0, pos.y - maxHeight);
-                pos.y += data.delta.y * Mathf.Exp(-DECAY_COEFF * overdrag);
+                pos.y += dy * Mathf.Exp(-DECAY_COEFF * overdrag);
                 panelTransform.anchoredPosition = pos;
             }
         }

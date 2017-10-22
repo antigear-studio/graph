@@ -1157,7 +1157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundImage: {fileID: 114187165788367936}
   panelTransform: {fileID: 224766020019313416}
-  shadow: {fileID: 114311577606061482}
+  sheetCanvasGroup: {fileID: 0}
   animationDuration: 0.4
 --- !u!114 &114673296881085034
 MonoBehaviour:

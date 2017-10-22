@@ -22,6 +22,7 @@ namespace Antigear.Graph {
         public Paper paper;
         public ToolbarView toolbarView;
         public HistoryBarView historyBarView;
+        public DrawingBottomSheet drawingBottomSheet;
 
         void Update() {
             if (wasExpanded != isExpanded) {
