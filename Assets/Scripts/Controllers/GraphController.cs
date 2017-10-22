@@ -17,7 +17,7 @@ namespace Antigear.Graph {
 
         public GraphStore graphStore;
         public AppBarView appBarView;
-        public MaterialNavDrawer navigationSideBar;
+        public NavigationDrawer navigationSideBar;
         public MaterialButton newGraphButton;
         public GraphBottomSheet moreBottomSheet;
 
@@ -92,7 +92,7 @@ namespace Antigear.Graph {
 
         public void OnNavigationButtonClick(Button clickedButton) {
             // Opens the navigation side bar.
-            navigationSideBar.Open();
+            navigationSideBar.Show(true);
         }
 
         public void OnMoreButtonClick(Button clickedButton) {
