@@ -70,19 +70,17 @@ namespace Antigear.Graph {
         #region IPaperDelegate implementation
 
         public void OnPaperBeginDrag(Paper paper, Vector2 pos) {
-            Debug.Log(pos);
+            // Switch tool. Depending on which tool we initiate different
+            // actions.
         }
 
         public void OnPaperDrag(Paper paper, Vector2 pos) {
-            Debug.Log(pos);
         }
 
         public void OnPaperEndDrag(Paper paper, Vector2 pos) {
-            Debug.Log(pos);
         }
 
         public void OnPaperTap(Paper paper, Vector2 pos, int count) {
-            Debug.Log(pos);
         }
 
         #endregion
