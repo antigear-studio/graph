@@ -6,11 +6,12 @@ namespace Antigear.Graph {
     /// <summary>
     /// Manages drawing to a graph.
     /// </summary>
-    public class DrawingController : MonoBehaviour {
+    public class DrawingController : MonoBehaviour, IPaperDelegate {
         public IDrawingControllerDelegate controllerDelegate;
 
         // Outlets.
         public DrawingView drawingView;
+        public Paper paper;
 
         Graph editingGraph;
 
@@ -66,9 +67,30 @@ namespace Antigear.Graph {
 
             drawingView.paper.SetBackgroundColor(color, animated);
         }
+        #region IPaperDelegate implementation
+
+        public void OnPaperBeginDrag(Paper paper, Vector2 pos) {
+            Debug.Log(pos);
+        }
+
+        public void OnPaperDrag(Paper paper, Vector2 pos) {
+            Debug.Log(pos);
+        }
+
+        public void OnPaperEndDrag(Paper paper, Vector2 pos) {
+            Debug.Log(pos);
+        }
+
+        public void OnPaperTap(Paper paper, Vector2 pos, int count) {
+            Debug.Log(pos);
+        }
+
+        #endregion
+
 
         void Start() {
             drawingView.gameObject.SetActive(false);
+            paper.paperDelegate = this;
         }
     }
 

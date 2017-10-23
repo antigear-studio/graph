@@ -9538,7 +9538,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MatchOrientationToScreen: 1
   m_ScaleFactor: 1
-  m_LastResolution: {x: 640, y: 480}
+  m_LastResolution: {x: 314, y: 558}
 --- !u!114 &969334223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12445,6 +12445,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationDuration: 0.2
   backgroundImage: {fileID: 1272704829}
+  content: {fileID: 2114374293}
 --- !u!1 &1284010224
 GameObject:
   m_ObjectHideFlags: 0
@@ -19071,6 +19072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawingView: {fileID: 1286965338}
+  paper: {fileID: 1272704831}
 --- !u!1 &2010982386
 GameObject:
   m_ObjectHideFlags: 0
