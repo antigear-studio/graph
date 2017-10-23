@@ -20,6 +20,9 @@ namespace Antigear.Graph {
         public string localFileName;
         [JsonIgnore]
         public bool isDirty;
+        [JsonIgnore]
+        public Tool activeTool = Tool.StraightLine;
+
 
         // graph content
         public List<Drawable> content;

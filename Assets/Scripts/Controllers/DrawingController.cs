@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialUI;
+using System;
 using UnityEngine;
 
 
@@ -6,7 +7,8 @@ namespace Antigear.Graph {
     /// <summary>
     /// Manages drawing to a graph.
     /// </summary>
-    public class DrawingController : MonoBehaviour, IPaperDelegate {
+    public class DrawingController : MonoBehaviour, IPaperDelegate, 
+    IToolbarViewDelegate {
         public IDrawingControllerDelegate controllerDelegate;
 
         // Outlets.
@@ -14,6 +16,11 @@ namespace Antigear.Graph {
         public Paper paper;
 
         Graph editingGraph;
+
+        // Bookkeeping.
+        Vector2 dragStart;
+        bool isDragging;
+        Tool dragTool;
 
         /// <summary>
         /// Opens the given graph for editing. Providing a rect transform will
@@ -25,10 +32,11 @@ namespace Antigear.Graph {
         /// <param name="callback">Callback.</param>
         public void OpenGraph(Graph graph, bool animated, 
             RectTransform tile = null, Action callback = null) {
+            editingGraph = graph;
             drawingView.gameObject.SetActive(true);
             drawingView.toolbarView.SetToolbarVisibility(true, animated);
             drawingView.SetExpansion(true, true, tile, callback);
-            editingGraph = graph;
+            drawingView.toolbarView.ChangeTool(graph.activeTool, false);
             SetBackgroundColor(graph.backgroundColor, false);
         }
 
@@ -67,20 +75,143 @@ namespace Antigear.Graph {
 
             drawingView.paper.SetBackgroundColor(color, animated);
         }
+
+        #region Panning
+
+        Vector3 panBeginPaperPosition;
+
+        void OnPanBeginDrag(Vector2 pos) {
+            dragStart = pos;
+            panBeginPaperPosition = paper.content.position;
+        }
+
+        void OnPanDrag(Vector2 pos) {
+            Vector3 dl = (pos - dragStart) / paper.scaler.scaleFactor;
+
+            // Offset by that much.
+            paper.content.position = panBeginPaperPosition + 
+                paper.content.InverseTransformVector(dl);
+        }
+
+        #endregion
+
+
         #region IPaperDelegate implementation
 
-        public void OnPaperBeginDrag(Paper paper, Vector2 pos) {
+        public void OnPaperBeginDrag(Paper paper, Vector2 pos, 
+            Vector2 screenPos) {
             // Switch tool. Depending on which tool we initiate different
             // actions.
+            isDragging = true;
+            dragStart = pos;
+            dragTool = editingGraph.activeTool;
+
+            switch (editingGraph.activeTool) {
+                case Tool.StraightLine:
+                    break;
+                case Tool.BezierCurve:
+                    break;
+                case Tool.Arc:
+                    break;
+                case Tool.FreeformLine:
+                    break;
+                case Tool.Pencil:
+                    break;
+                case Tool.Eraser:
+                    break;
+                case Tool.Text:
+                    break;
+                case Tool.Image:
+                    break;
+                case Tool.RectangleSelection:
+                    break;
+                case Tool.LassoSelection:
+                    break;
+                case Tool.Zoom:
+                    break;
+                case Tool.Pan:
+                    OnPanBeginDrag(screenPos);
+                    break;
+            }
         }
 
-        public void OnPaperDrag(Paper paper, Vector2 pos) {
+        public void OnPaperDrag(Paper paper, Vector2 pos, 
+            Vector2 screenPos) {
+            switch (dragTool) {
+                case Tool.StraightLine:
+                    break;
+                case Tool.BezierCurve:
+                    break;
+                case Tool.Arc:
+                    break;
+                case Tool.FreeformLine:
+                    break;
+                case Tool.Pencil:
+                    break;
+                case Tool.Eraser:
+                    break;
+                case Tool.Text:
+                    break;
+                case Tool.Image:
+                    break;
+                case Tool.RectangleSelection:
+                    break;
+                case Tool.LassoSelection:
+                    break;
+                case Tool.Zoom:
+                    break;
+                case Tool.Pan:
+                    OnPanDrag(screenPos);
+                    break;
+            }
         }
 
-        public void OnPaperEndDrag(Paper paper, Vector2 pos) {
+        public void OnPaperEndDrag(Paper paper, Vector2 pos, 
+            Vector2 screenPos) {
+            switch (dragTool) {
+                case Tool.StraightLine:
+                    break;
+                case Tool.BezierCurve:
+                    break;
+                case Tool.Arc:
+                    break;
+                case Tool.FreeformLine:
+                    break;
+                case Tool.Pencil:
+                    break;
+                case Tool.Eraser:
+                    break;
+                case Tool.Text:
+                    break;
+                case Tool.Image:
+                    break;
+                case Tool.RectangleSelection:
+                    break;
+                case Tool.LassoSelection:
+                    break;
+                case Tool.Zoom:
+                    break;
+                case Tool.Pan:
+                    break;
+            }
+
+            isDragging = false;
+            dragTool = Tool.Unknown;
         }
 
-        public void OnPaperTap(Paper paper, Vector2 pos, int count) {
+        public void OnPaperTap(Paper paper, Vector2 pos, Vector2 screenPos, 
+            int count) {
+        }
+
+        #endregion
+
+        #region IToolbarViewDelegate implementation
+
+        public void OnToolChanged(Tool newTool) {
+            editingGraph.activeTool = newTool;
+            // TODO: need some cleaning up to do depending on the tool selected.
+            // E.g. if we are creating a new object, changing a tool results in
+            // object being discarded.
         }
 
         #endregion
@@ -89,6 +220,7 @@ namespace Antigear.Graph {
         void Start() {
             drawingView.gameObject.SetActive(false);
             paper.paperDelegate = this;
+            drawingView.toolbarView.viewDelegate = this;
         }
     }
 

@@ -2,6 +2,7 @@
 using MaterialUI;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Antigear.Graph {
     [ExecuteInEditMode]
@@ -43,7 +44,6 @@ namespace Antigear.Graph {
             didShowToolbar = showToolbar;
             activeDropdown = lineDropdown;
             lastButtonColor = buttonColor;
-            ChangeTool(Tool.StraightLine);
         }
 	
         // Update is called once per frame
@@ -131,8 +131,7 @@ namespace Antigear.Graph {
             if (dropdown != activeDropdown) {
                 activeDropdown = dropdown;
                 Tool t = LookupTool(dropdown, dropdown.currentlySelected);
-                ChangeTool(t);
-                MoveIndicator(dropdown, true);
+                ChangeTool(t, true);
             } else {
                 activeDropdown.Show();
             }
@@ -140,7 +139,7 @@ namespace Antigear.Graph {
 
         public void OnDropdownValueChange(MaterialDropdown dropdown) {
             Tool t = LookupTool(dropdown, dropdown.currentlySelected);
-            ChangeTool(t);
+            ChangeTool(t, true);
         }
 
         Tool LookupTool(MaterialDropdown dropdown, int index) {
@@ -178,10 +177,63 @@ namespace Antigear.Graph {
             return Tool.Unknown;
         }
 
-        void ChangeTool(Tool t) {
+        public void ChangeTool(Tool t, bool animated) {
             if (t != currentTool) {
                 currentTool = t;
                 toolText.text = t.LocalizedName().ToUpper();
+
+                // Update UI.
+                switch (t) {
+                    case Tool.Unknown:
+                    case Tool.StraightLine:
+                        lineDropdown.currentlySelected = 0;
+                        MoveIndicator(lineDropdown, animated);
+                        break;
+                    case Tool.BezierCurve:
+                        lineDropdown.currentlySelected = 1;
+                        MoveIndicator(lineDropdown, animated);
+                        break;
+                    case Tool.Arc:
+                        lineDropdown.currentlySelected = 2;
+                        MoveIndicator(lineDropdown, animated);
+                        break;
+                    case Tool.FreeformLine:
+                        lineDropdown.currentlySelected = 3;
+                        MoveIndicator(lineDropdown, animated);
+                        break;
+                    case Tool.Pencil:
+                        brushDropdown.currentlySelected = 0;
+                        MoveIndicator(brushDropdown, animated);
+                        break;
+                    case Tool.Eraser:
+                        brushDropdown.currentlySelected = 1;
+                        MoveIndicator(brushDropdown, animated);
+                        break;
+                    case Tool.Text:
+                        mediaDropdown.currentlySelected = 0;
+                        MoveIndicator(mediaDropdown, animated);
+                        break;
+                    case Tool.Image:
+                        mediaDropdown.currentlySelected = 1;
+                        MoveIndicator(mediaDropdown, animated);
+                        break;
+                    case Tool.RectangleSelection:
+                        selectionDropdown.currentlySelected = 0;
+                        MoveIndicator(selectionDropdown, animated);
+                        break;
+                    case Tool.LassoSelection:
+                        selectionDropdown.currentlySelected = 1;
+                        MoveIndicator(selectionDropdown, animated);
+                        break;
+                    case Tool.Zoom:
+                        canvasControlDropdown.currentlySelected = 0;
+                        MoveIndicator(canvasControlDropdown, animated);
+                        break;
+                    case Tool.Pan:
+                        canvasControlDropdown.currentlySelected = 1;
+                        MoveIndicator(canvasControlDropdown, animated);
+                        break;
+                }
 
                 if (viewDelegate != null)
                     viewDelegate.OnToolChanged(t);
@@ -193,19 +245,21 @@ namespace Antigear.Graph {
                 TweenManager.EndTween(indicatorAnimationTweenId);
             }
 
-            float targetValue = target.transform.localPosition.x;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(
+                transform as RectTransform);
+            float targetValue = target.transform.position.x;
 
             if (animated) {
                 indicatorAnimationTweenId = TweenManager.TweenFloat(v => {
-                    Vector3 pos = indicatorImage.transform.localPosition;
+                    Vector3 pos = indicatorImage.transform.position;
                     pos.x = v;
-                    indicatorImage.transform.localPosition = pos;
-                }, indicatorImage.transform.localPosition.x, targetValue, 
+                    indicatorImage.transform.position = pos;
+                }, indicatorImage.transform.position.x, targetValue, 
                     shortAnimationDuration);
             } else {
-                Vector3 pos = indicatorImage.transform.localPosition;
+                Vector3 pos = indicatorImage.transform.position;
                 pos.x = targetValue;
-                indicatorImage.transform.localPosition = pos;
+                indicatorImage.transform.position = pos;
             }
         }
     }
