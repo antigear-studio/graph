@@ -1,6 +1,7 @@
 ﻿using MaterialUI;
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 
 namespace Antigear.Graph {
@@ -18,9 +19,14 @@ namespace Antigear.Graph {
         Graph editingGraph;
 
         // Bookkeeping.
-        Vector2 dragStart;
         bool isDragging;
         Tool dragTool;
+
+        // Handlers for each tool.
+        readonly Dictionary<Tool, IToolHandler> handlers = 
+            new Dictionary<Tool, IToolHandler> {
+                { Tool.Pan, new PanHandler() }
+            };
 
         /// <summary>
         /// Opens the given graph for editing. Providing a rect transform will
@@ -76,26 +82,6 @@ namespace Antigear.Graph {
             drawingView.paper.SetBackgroundColor(color, animated);
         }
 
-        #region Panning
-
-        Vector3 panBeginPaperPosition;
-
-        void OnPanBeginDrag(Vector2 pos) {
-            dragStart = pos;
-            panBeginPaperPosition = paper.content.position;
-        }
-
-        void OnPanDrag(Vector2 pos) {
-            Vector3 dl = (pos - dragStart) / paper.scaler.scaleFactor;
-
-            // Offset by that much.
-            paper.content.position = panBeginPaperPosition + 
-                paper.content.InverseTransformVector(dl);
-        }
-
-        #endregion
-
-
         #region IPaperDelegate implementation
 
         public void OnPaperBeginDrag(Paper paper, Vector2 pos, 
@@ -103,96 +89,25 @@ namespace Antigear.Graph {
             // Switch tool. Depending on which tool we initiate different
             // actions.
             isDragging = true;
-            dragStart = pos;
             dragTool = editingGraph.activeTool;
 
-            switch (editingGraph.activeTool) {
-                case Tool.StraightLine:
-                    break;
-                case Tool.BezierCurve:
-                    break;
-                case Tool.Arc:
-                    break;
-                case Tool.FreeformLine:
-                    break;
-                case Tool.Pencil:
-                    break;
-                case Tool.Eraser:
-                    break;
-                case Tool.Text:
-                    break;
-                case Tool.Image:
-                    break;
-                case Tool.RectangleSelection:
-                    break;
-                case Tool.LassoSelection:
-                    break;
-                case Tool.Zoom:
-                    break;
-                case Tool.Pan:
-                    OnPanBeginDrag(screenPos);
-                    break;
+            if (handlers.ContainsKey(dragTool)) {
+                handlers[dragTool].OnPaperBeginDrag(pos, screenPos);
             }
         }
 
         public void OnPaperDrag(Paper paper, Vector2 pos, 
             Vector2 screenPos) {
-            switch (dragTool) {
-                case Tool.StraightLine:
-                    break;
-                case Tool.BezierCurve:
-                    break;
-                case Tool.Arc:
-                    break;
-                case Tool.FreeformLine:
-                    break;
-                case Tool.Pencil:
-                    break;
-                case Tool.Eraser:
-                    break;
-                case Tool.Text:
-                    break;
-                case Tool.Image:
-                    break;
-                case Tool.RectangleSelection:
-                    break;
-                case Tool.LassoSelection:
-                    break;
-                case Tool.Zoom:
-                    break;
-                case Tool.Pan:
-                    OnPanDrag(screenPos);
-                    break;
+
+            if (handlers.ContainsKey(dragTool)) {
+                handlers[dragTool].OnPaperDrag(pos, screenPos);
             }
         }
 
         public void OnPaperEndDrag(Paper paper, Vector2 pos, 
             Vector2 screenPos) {
-            switch (dragTool) {
-                case Tool.StraightLine:
-                    break;
-                case Tool.BezierCurve:
-                    break;
-                case Tool.Arc:
-                    break;
-                case Tool.FreeformLine:
-                    break;
-                case Tool.Pencil:
-                    break;
-                case Tool.Eraser:
-                    break;
-                case Tool.Text:
-                    break;
-                case Tool.Image:
-                    break;
-                case Tool.RectangleSelection:
-                    break;
-                case Tool.LassoSelection:
-                    break;
-                case Tool.Zoom:
-                    break;
-                case Tool.Pan:
-                    break;
+            if (handlers.ContainsKey(dragTool)) {
+                handlers[dragTool].OnPaperEndDrag(pos, screenPos);
             }
 
             isDragging = false;
@@ -201,6 +116,9 @@ namespace Antigear.Graph {
 
         public void OnPaperTap(Paper paper, Vector2 pos, Vector2 screenPos, 
             int count) {
+            if (handlers.ContainsKey(dragTool)) {
+                handlers[dragTool].OnPaperTap(pos, screenPos, count);
+            }
         }
 
         #endregion
@@ -221,6 +139,10 @@ namespace Antigear.Graph {
             drawingView.gameObject.SetActive(false);
             paper.paperDelegate = this;
             drawingView.toolbarView.viewDelegate = this;
+
+            foreach (IToolHandler handler in handlers.Values) {
+                handler.SetupToolHandler(editingGraph, drawingView);
+            }
         }
     }
 
@@ -231,5 +153,23 @@ namespace Antigear.Graph {
         /// <param name="controller">Controller.</param>
         /// <param name="color">Color.</param>
         void OnUIColorChange(DrawingController controller, Color color);
+    }
+
+    /// <summary>
+    /// Implementer handles tool-related work. This separates the logic of each
+    /// tool into different files.
+    /// </summary>
+    public interface IToolHandler {
+        void SetupToolHandler(Graph graph, DrawingView drawingView);
+
+        void OnPaperBeginDrag(Vector2 pos, Vector2 screenPos);
+
+        void OnPaperDrag(Vector2 pos, Vector2 screenPos);
+
+        void OnPaperEndDrag(Vector2 pos, Vector2 screenPos);
+
+        void OnPaperCancelDrag();
+
+        void OnPaperTap(Vector2 pos, Vector2 screenPos, int count);
     }
 }

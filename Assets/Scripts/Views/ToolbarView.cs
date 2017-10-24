@@ -186,50 +186,62 @@ namespace Antigear.Graph {
                 switch (t) {
                     case Tool.Unknown:
                     case Tool.StraightLine:
+                        activeDropdown = lineDropdown;
                         lineDropdown.currentlySelected = 0;
                         MoveIndicator(lineDropdown, animated);
                         break;
                     case Tool.BezierCurve:
+                        activeDropdown = lineDropdown;
                         lineDropdown.currentlySelected = 1;
                         MoveIndicator(lineDropdown, animated);
                         break;
                     case Tool.Arc:
+                        activeDropdown = lineDropdown;
                         lineDropdown.currentlySelected = 2;
                         MoveIndicator(lineDropdown, animated);
                         break;
                     case Tool.FreeformLine:
+                        activeDropdown = lineDropdown;
                         lineDropdown.currentlySelected = 3;
                         MoveIndicator(lineDropdown, animated);
                         break;
                     case Tool.Pencil:
+                        activeDropdown = brushDropdown;
                         brushDropdown.currentlySelected = 0;
                         MoveIndicator(brushDropdown, animated);
                         break;
                     case Tool.Eraser:
+                        activeDropdown = brushDropdown;
                         brushDropdown.currentlySelected = 1;
                         MoveIndicator(brushDropdown, animated);
                         break;
                     case Tool.Text:
+                        activeDropdown = mediaDropdown;
                         mediaDropdown.currentlySelected = 0;
                         MoveIndicator(mediaDropdown, animated);
                         break;
                     case Tool.Image:
+                        activeDropdown = mediaDropdown;
                         mediaDropdown.currentlySelected = 1;
                         MoveIndicator(mediaDropdown, animated);
                         break;
                     case Tool.RectangleSelection:
+                        activeDropdown = selectionDropdown;
                         selectionDropdown.currentlySelected = 0;
                         MoveIndicator(selectionDropdown, animated);
                         break;
                     case Tool.LassoSelection:
+                        activeDropdown = selectionDropdown;
                         selectionDropdown.currentlySelected = 1;
                         MoveIndicator(selectionDropdown, animated);
                         break;
                     case Tool.Zoom:
+                        activeDropdown = canvasControlDropdown;
                         canvasControlDropdown.currentlySelected = 0;
                         MoveIndicator(canvasControlDropdown, animated);
                         break;
                     case Tool.Pan:
+                        activeDropdown = canvasControlDropdown;
                         canvasControlDropdown.currentlySelected = 1;
                         MoveIndicator(canvasControlDropdown, animated);
                         break;
