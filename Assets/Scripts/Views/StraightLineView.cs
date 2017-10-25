@@ -5,12 +5,6 @@ namespace Antigear.Graph {
     /// <summary>
     /// Manages and displays a straight line.
     /// </summary>
-    public class StraightLineView : MonoBehaviour {
-        public VectorObject2D vectorLine;
-
-        public void UpdateView(StraightLine line) {
-            vectorLine.vectorLine.points2 = line.GetPoints();
-            vectorLine.vectorLine.Draw();
-        }
+    public class StraightLineView : LineView {
     }
 }

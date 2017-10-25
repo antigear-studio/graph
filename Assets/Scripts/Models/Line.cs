@@ -28,10 +28,10 @@ namespace Antigear.Graph {
             HandDrawn
         }
 
-        Color color;
-        float width;
-        DashStyle dashStyle;
-        BrushStyle brushStyle;
+        public Color color = Color.black;
+        public float width = 1;
+        public DashStyle dashStyle;
+        public BrushStyle brushStyle;
 
         /// <summary>
         /// Returns a list of points that should render this line.
