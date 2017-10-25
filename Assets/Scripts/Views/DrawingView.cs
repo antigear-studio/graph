@@ -151,5 +151,40 @@ namespace Antigear.Graph {
                 drawingViewMaterialShadow.SetShadowsInstant(shadowId);
             }
         }
+
+        /// <summary>
+        /// Loads the content of the graph onto the canvas.
+        /// </summary>
+        /// <param name="content">Content.</param>
+        public void LoadContent(List<Layer> content) {
+            // Clear off the current content.
+            Transform canvas = paper.transform.GetChild(0);
+
+            for (int i = 0; i < canvas.childCount; i++) {
+                Destroy(canvas.GetChild(i).gameObject);
+            }
+
+            foreach (Layer layer in content) {
+                LoadLayer(layer);
+            }
+        }
+
+        void LoadLayer(Layer layer) {
+            Transform canvas = paper.transform.GetChild(0);
+
+            GameObject layerViewObject = new GameObject(layer.name, 
+                typeof(RectTransform), typeof(LayerView), typeof(CanvasGroup));
+            layerViewObject.transform.SetParent(canvas, true);
+            LayerView layerView = layerViewObject.GetComponent<LayerView>();
+            CanvasGroup group = layerViewObject.GetComponent<CanvasGroup>();
+            layerView.layerGroup = group;
+            layerView.UpdateLayer(layer);
+
+            // TODO: actually load layer content here.
+        }
+
+        public Transform GetGraphLayerParentTransform(int layerIndex) {
+            return paper.transform.GetChild(0).GetChild(layerIndex);
+        }
     }
 }

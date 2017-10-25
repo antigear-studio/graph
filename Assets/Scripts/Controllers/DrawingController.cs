@@ -43,6 +43,7 @@ namespace Antigear.Graph {
             drawingView.toolbarView.SetToolbarVisibility(true, animated);
             drawingView.SetExpansion(true, true, tile, callback);
             drawingView.toolbarView.ChangeTool(graph.activeTool, false);
+            drawingView.LoadContent(graph.content);
             SetBackgroundColor(graph.backgroundColor, false);
         }
 

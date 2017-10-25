@@ -22,6 +22,7 @@ namespace Antigear.Graph {
             previewLine = new StraightLine();
 
             // Create a prefab and set the line as its model.
+            StraightLineView view = UnityEngine.Object.Instantiate(prefab);
 
             // Add the prefab to the scene.
         }

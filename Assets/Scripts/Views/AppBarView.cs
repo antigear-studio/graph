@@ -92,7 +92,8 @@ namespace Antigear.Graph {
             wasMinimized = minimized;
 
             float startPos = barBackgroundRectTransform.anchoredPosition.y;
-            float targetPos = minimized ? barBackgroundRectTransform.rect.height + 4.0f : 0;
+            float targetPos = minimized ? 
+                barBackgroundRectTransform.rect.height + 8.0f : 0;
             Color targetColor = 
                 isMinimized ? drawingViewButtonColor : Color.white;
 

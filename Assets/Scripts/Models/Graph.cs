@@ -25,7 +25,7 @@ namespace Antigear.Graph {
 
 
         // graph content
-        public List<Drawable> content;
+        public List<Layer> content = new List<Layer>();
 
         // graph-specific preferences
 
@@ -37,6 +37,7 @@ namespace Antigear.Graph {
             timeCreated = DateTime.UtcNow;
             timeModified = DateTime.UtcNow;
             name = "Untitled";
+            content.Add(new Layer());
         }
     }
 }
