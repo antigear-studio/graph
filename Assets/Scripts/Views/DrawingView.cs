@@ -175,6 +175,9 @@ namespace Antigear.Graph {
             GameObject layerViewObject = new GameObject(layer.name, 
                 typeof(RectTransform), typeof(LayerView), typeof(CanvasGroup));
             layerViewObject.transform.SetParent(canvas, true);
+            RectTransform r = layerViewObject.transform as RectTransform;
+            r.sizeDelta = Vector2.zero;
+            r.anchoredPosition3D = Vector3.zero;
             LayerView layerView = layerViewObject.GetComponent<LayerView>();
             CanvasGroup group = layerViewObject.GetComponent<CanvasGroup>();
             layerView.layerGroup = group;

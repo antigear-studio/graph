@@ -9,7 +9,8 @@ namespace Antigear.Graph {
         public VectorObject2D vectorLine;
 
         public void UpdateView(StraightLine line) {
+            vectorLine.vectorLine.points2 = line.GetPoints();
+            vectorLine.vectorLine.Draw();
         }
     }
-
 }

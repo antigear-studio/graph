@@ -222,8 +222,8 @@ namespace Antigear.Graph {
             if (i < 0) i = ~i;
             graphs.Insert(i, graph);
 
-            graph.backgroundColor = UnityEngine.Random.ColorHSV();
-            graph.backgroundColor.a = 1;
+            // graph.backgroundColor = UnityEngine.Random.ColorHSV();
+            // graph.backgroundColor.a = 1;
 
             return i;
         }

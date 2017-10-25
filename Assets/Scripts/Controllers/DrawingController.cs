@@ -25,6 +25,7 @@ namespace Antigear.Graph {
         // Handlers for each tool.
         readonly Dictionary<Tool, IToolHandler> handlers = 
             new Dictionary<Tool, IToolHandler> {
+                { Tool.StraightLine, new StraightLineHandler() },
                 { Tool.Pan, new PanHandler() }
             };
 
@@ -39,6 +40,11 @@ namespace Antigear.Graph {
         public void OpenGraph(Graph graph, bool animated, 
             RectTransform tile = null, Action callback = null) {
             editingGraph = graph;
+
+            foreach (IToolHandler handler in handlers.Values) {
+                handler.SetupToolHandler(graph, drawingView);
+            }
+
             drawingView.gameObject.SetActive(true);
             drawingView.toolbarView.SetToolbarVisibility(true, animated);
             drawingView.SetExpansion(true, true, tile, callback);
@@ -140,10 +146,6 @@ namespace Antigear.Graph {
             drawingView.gameObject.SetActive(false);
             paper.paperDelegate = this;
             drawingView.toolbarView.viewDelegate = this;
-
-            foreach (IToolHandler handler in handlers.Values) {
-                handler.SetupToolHandler(editingGraph, drawingView);
-            }
         }
     }
 

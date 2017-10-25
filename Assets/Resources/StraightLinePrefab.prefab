@@ -80,20 +80,20 @@ MonoBehaviour:
     - {x: 0, y: 0}
     m_lineColors:
     - serializedVersion: 2
-      rgba: 4278190335
+      rgba: 4278190080
     - serializedVersion: 2
-      rgba: 4278190335
+      rgba: 4278190080
     - serializedVersion: 2
-      rgba: 4278190335
+      rgba: 4278190080
     - serializedVersion: 2
-      rgba: 4278190335
+      rgba: 4278190080
     m_lineTriangles: 000000000100000003000000010000000200000003000000
     m_vertexCount: 4
     m_go: {fileID: 1944119908587196}
     m_rectTransform: {fileID: 224878358912622786}
     m_color:
       serializedVersion: 2
-      rgba: 4278190335
+      rgba: 4278190080
     m_canvasState: 1
     m_is2D: 1
     m_points2:

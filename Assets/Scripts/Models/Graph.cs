@@ -15,6 +15,7 @@ namespace Antigear.Graph {
         public DateTime timeCreated;
         public DateTime timeModified;
         public Color backgroundColor = Color.white;
+        public int activeLayer;
 
         [JsonIgnore]
         public string localFileName;

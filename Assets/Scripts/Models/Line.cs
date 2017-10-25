@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Antigear.Graph {
@@ -31,5 +32,13 @@ namespace Antigear.Graph {
         float width;
         DashStyle dashStyle;
         BrushStyle brushStyle;
+
+        /// <summary>
+        /// Returns a list of points that should render this line.
+        /// </summary>
+        /// <returns>The points.</returns>
+        public virtual List<Vector2> GetPoints() {
+            return new List<Vector2>();
+        }
     }
 }
