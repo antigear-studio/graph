@@ -29,7 +29,7 @@ namespace Antigear.Graph {
         }
 
         public Color color = Color.black;
-        public float width = 1;
+        public float width = 4;
         public DashStyle dashStyle;
         public BrushStyle brushStyle;
 

@@ -66,7 +66,8 @@ namespace Antigear.Graph {
                 Vector2 pt;
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(content, 
                     eventData.position, Camera.main, out pt);
-                paperDelegate.OnPaperBeginDrag(this, pt, eventData.position);
+                paperDelegate.OnPaperBeginDrag(this, pt * scaler.scaleFactor, 
+                    eventData.position);
             }
         }
 
@@ -79,7 +80,8 @@ namespace Antigear.Graph {
                 Vector2 pt;
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(content, 
                     eventData.position, Camera.main, out pt);
-                paperDelegate.OnPaperDrag(this, pt, eventData.position);
+                paperDelegate.OnPaperDrag(this, pt * scaler.scaleFactor,
+                    eventData.position);
             }
         }
 
@@ -92,7 +94,8 @@ namespace Antigear.Graph {
                 Vector2 pt;
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(content, 
                     eventData.position, Camera.main, out pt);
-                paperDelegate.OnPaperEndDrag(this, pt, eventData.position);
+                paperDelegate.OnPaperEndDrag(this, pt * scaler.scaleFactor,
+                    eventData.position);
             }
         }
 
@@ -105,8 +108,8 @@ namespace Antigear.Graph {
                 Vector2 pt;
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(content, 
                     eventData.position, Camera.main, out pt);
-                paperDelegate.OnPaperTap(this, pt, eventData.position, 
-                    eventData.clickCount);
+                paperDelegate.OnPaperTap(this, pt * scaler.scaleFactor,
+                    eventData.position, eventData.clickCount);
             }
         }
 

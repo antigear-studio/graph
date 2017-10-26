@@ -18,7 +18,7 @@ namespace Antigear.Graph {
 
         public override void OnPaperBeginDrag(Vector2 pos, Vector2 screenPos) {
             zoomBeginTransformPosition = contentTransform.anchoredPosition;
-            zoomBeginPosition = pos;
+            zoomBeginPosition = pos / drawingView.paper.scaler.scaleFactor;
             zoomBeginScreenPosition = screenPos;
             zoomBeginScale = contentTransform.localScale.x;
         }
