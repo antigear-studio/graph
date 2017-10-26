@@ -3,9 +3,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="48px" height="48px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="10.001" y1="38" x2="37.999" y2="10"/>
-<path fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="M6,37c2.761,0,5,2.24,5,5c0,2.763-2.239,5-5,5
-	c-2.762,0-5-2.237-5-5C1,39.24,3.238,37,6,37"/>
-<path fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="M42,1c2.762,0,5,2.24,5,5c0,2.763-2.238,5-5,5
-	s-5-2.237-5-5C37,3.24,39.238,1,42,1"/>
+<path fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="M9.575,38.425l28.85-28.85 M6,37
+	c-2.762,0-5,2.24-5,5c0,2.763,2.238,5,5,5c2.761,0,5-2.237,5-5C11,39.24,8.761,37,6,37 M42,1c-2.762,0-5,2.24-5,5
+	c0,2.763,2.238,5,5,5s5-2.237,5-5C47,3.24,44.762,1,42,1"/>
 </svg>
