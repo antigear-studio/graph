@@ -150,8 +150,8 @@ PlayerSettings:
   applicationIdentifier:
     iOS: com.flyingbanana.drawagraph
   buildNumber:
-    iOS: 1
-  AndroidBundleVersionCode: 1
+    iOS: 6
+  AndroidBundleVersionCode: 0
   AndroidMinSdkVersion: 18
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
