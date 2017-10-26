@@ -9,6 +9,7 @@ namespace Antigear.Graph {
         StraightLine,
         BezierCurve,
         Arc,
+        BSpline,
         FreeformLine,
         Pencil,
         Eraser,
@@ -29,6 +30,8 @@ namespace Antigear.Graph {
                     return I2.Loc.ScriptLocalization.Tool.Curve;
                 case Tool.Arc:
                     return I2.Loc.ScriptLocalization.Tool.Arc;
+                case Tool.BSpline:
+                    return I2.Loc.ScriptLocalization.Tool.BSpline;
                 case Tool.FreeformLine:
                     return I2.Loc.ScriptLocalization.Tool.FreeformLine;
                 case Tool.Pencil:

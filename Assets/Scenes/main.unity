@@ -4973,7 +4973,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 528970486}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.000000834465}
+  m_LocalPosition: {x: 0, y: 0, z: -0.0000009536743}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 574936887}
@@ -13054,15 +13054,6 @@ MonoBehaviour:
         m_VectorImageData:
           m_Glyph:
             m_Name: straight_line
-            m_Unicode: \uE901
-          m_Font: {fileID: 12800000, guid: 62142ea71d33f407caab3222c0aae8b3, type: 3}
-    - m_Text: 
-      m_ImageData:
-        m_ImageDataType: 1
-        m_Sprite: {fileID: 0}
-        m_VectorImageData:
-          m_Glyph:
-            m_Name: curve
             m_Unicode: \uE900
           m_Font: {fileID: 12800000, guid: 62142ea71d33f407caab3222c0aae8b3, type: 3}
     - m_Text: 
@@ -13071,18 +13062,36 @@ MonoBehaviour:
         m_Sprite: {fileID: 0}
         m_VectorImageData:
           m_Glyph:
-            m_Name: chart_donut
-            m_Unicode: \uf7ae
-          m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
+            m_Name: curve
+            m_Unicode: \uE901
+          m_Font: {fileID: 12800000, guid: 62142ea71d33f407caab3222c0aae8b3, type: 3}
     - m_Text: 
       m_ImageData:
         m_ImageDataType: 1
         m_Sprite: {fileID: 0}
         m_VectorImageData:
           m_Glyph:
-            m_Name: chart_line_variant
-            m_Unicode: \uf7b0
-          m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
+            m_Name: arc
+            m_Unicode: \uE902
+          m_Font: {fileID: 12800000, guid: 62142ea71d33f407caab3222c0aae8b3, type: 3}
+    - m_Text: 
+      m_ImageData:
+        m_ImageDataType: 1
+        m_Sprite: {fileID: 0}
+        m_VectorImageData:
+          m_Glyph:
+            m_Name: b_spline
+            m_Unicode: \uE903
+          m_Font: {fileID: 12800000, guid: 62142ea71d33f407caab3222c0aae8b3, type: 3}
+    - m_Text: 
+      m_ImageData:
+        m_ImageDataType: 1
+        m_Sprite: {fileID: 0}
+        m_VectorImageData:
+          m_Glyph:
+            m_Name: freeform_line
+            m_Unicode: \uE904
+          m_Font: {fileID: 12800000, guid: 62142ea71d33f407caab3222c0aae8b3, type: 3}
   m_OnItemSelected:
     m_PersistentCalls:
       m_Calls:
@@ -19195,7 +19204,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: \uE901
+  m_Text: \uE900
   m_Size: 24
   m_ScaledSize: 24
   m_SizeMode: 3
@@ -19203,7 +19212,7 @@ MonoBehaviour:
   m_VectorImageData:
     m_Glyph:
       m_Name: straight_line
-      m_Unicode: \uE901
+      m_Unicode: \uE900
     m_Font: {fileID: 12800000, guid: 62142ea71d33f407caab3222c0aae8b3, type: 3}
 --- !u!222 &2044742820
 CanvasRenderer:
