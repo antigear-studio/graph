@@ -6442,9 +6442,9 @@ MonoBehaviour:
         m_Sprite: {fileID: 0}
         m_VectorImageData:
           m_Glyph:
-            m_Name: lead_pencil
-            m_Unicode: \uf64f
-          m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
+            m_Name: pencil
+            m_Unicode: \uE905
+          m_Font: {fileID: 12800000, guid: 62142ea71d33f407caab3222c0aae8b3, type: 3}
     - m_Text: 
       m_ImageData:
         m_ImageDataType: 1
@@ -6452,8 +6452,8 @@ MonoBehaviour:
         m_VectorImageData:
           m_Glyph:
             m_Name: eraser
-            m_Unicode: \uf1fe
-          m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
+            m_Unicode: \uE906
+          m_Font: {fileID: 12800000, guid: 62142ea71d33f407caab3222c0aae8b3, type: 3}
   m_OnItemSelected:
     m_PersistentCalls:
       m_Calls:
@@ -12497,7 +12497,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
+    m_Font: {fileID: 12800000, guid: 62142ea71d33f407caab3222c0aae8b3, type: 3}
     m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
@@ -12509,16 +12509,16 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: \uf64f
+  m_Text: \uE905
   m_Size: 24
   m_ScaledSize: 24
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
     m_Glyph:
-      m_Name: lead_pencil
-      m_Unicode: \uf64f
-    m_Font: {fileID: 12800000, guid: cca01d499c98943df932fbd0e102ef02, type: 3}
+      m_Name: pencil
+      m_Unicode: \uE905
+    m_Font: {fileID: 12800000, guid: 62142ea71d33f407caab3222c0aae8b3, type: 3}
 --- !u!222 &1284010227
 CanvasRenderer:
   m_ObjectHideFlags: 0
