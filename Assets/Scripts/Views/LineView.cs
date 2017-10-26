@@ -19,15 +19,19 @@ namespace Antigear.Graph {
 
         public virtual void UpdateView(Line line) {
             vectorLine.vectorLine.points2 = line.GetPoints();
-            vectorLine.vectorLine.lineWidth = line.width + 1;  // 0.5 AA dp/side
-            vectorLine.vectorLine.SetColor(line.color);
+            vectorLine.vectorLine.lineWidth = line.width + 1;
+
             UpdateTexture();
+
+            vectorLine.vectorLine.SetColor(line.color);
             vectorLine.vectorLine.Draw();
         }
 
         protected void UpdateTexture() {
-            int width = (int)(vectorLine.vectorLine.lineWidth * 2 * lastScale);
+            int width = Mathf.Max(3, 
+                (int)(vectorLine.vectorLine.lineWidth * 2 * lastScale));
             var texture = new Texture2D(1, width, TextureFormat.ARGB32, false);
+            
 
             // set the pixel values
             texture.SetPixel(0, 0, Color.clear);

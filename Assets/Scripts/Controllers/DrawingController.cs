@@ -26,6 +26,7 @@ namespace Antigear.Graph {
         readonly Dictionary<Tool, IToolHandler> handlers = 
             new Dictionary<Tool, IToolHandler> {
                 { Tool.StraightLine, new StraightLineHandler() },
+                { Tool.Zoom, new ZoomHandler() },
                 { Tool.Pan, new PanHandler() }
             };
 
