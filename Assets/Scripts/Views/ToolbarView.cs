@@ -2,6 +2,7 @@
 using MaterialUI;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Antigear.Graph {
     [ExecuteInEditMode]
@@ -43,7 +44,6 @@ namespace Antigear.Graph {
             didShowToolbar = showToolbar;
             activeDropdown = lineDropdown;
             lastButtonColor = buttonColor;
-            ChangeTool(Tool.StraightLine);
         }
 	
         // Update is called once per frame
@@ -131,8 +131,7 @@ namespace Antigear.Graph {
             if (dropdown != activeDropdown) {
                 activeDropdown = dropdown;
                 Tool t = LookupTool(dropdown, dropdown.currentlySelected);
-                ChangeTool(t);
-                MoveIndicator(dropdown, true);
+                ChangeTool(t, true);
             } else {
                 activeDropdown.Show();
             }
@@ -140,7 +139,7 @@ namespace Antigear.Graph {
 
         public void OnDropdownValueChange(MaterialDropdown dropdown) {
             Tool t = LookupTool(dropdown, dropdown.currentlySelected);
-            ChangeTool(t);
+            ChangeTool(t, true);
         }
 
         Tool LookupTool(MaterialDropdown dropdown, int index) {
@@ -178,10 +177,75 @@ namespace Antigear.Graph {
             return Tool.Unknown;
         }
 
-        void ChangeTool(Tool t) {
+        public void ChangeTool(Tool t, bool animated) {
             if (t != currentTool) {
                 currentTool = t;
                 toolText.text = t.LocalizedName().ToUpper();
+
+                // Update UI.
+                switch (t) {
+                    case Tool.Unknown:
+                    case Tool.StraightLine:
+                        activeDropdown = lineDropdown;
+                        lineDropdown.currentlySelected = 0;
+                        MoveIndicator(lineDropdown, animated);
+                        break;
+                    case Tool.BezierCurve:
+                        activeDropdown = lineDropdown;
+                        lineDropdown.currentlySelected = 1;
+                        MoveIndicator(lineDropdown, animated);
+                        break;
+                    case Tool.Arc:
+                        activeDropdown = lineDropdown;
+                        lineDropdown.currentlySelected = 2;
+                        MoveIndicator(lineDropdown, animated);
+                        break;
+                    case Tool.FreeformLine:
+                        activeDropdown = lineDropdown;
+                        lineDropdown.currentlySelected = 3;
+                        MoveIndicator(lineDropdown, animated);
+                        break;
+                    case Tool.Pencil:
+                        activeDropdown = brushDropdown;
+                        brushDropdown.currentlySelected = 0;
+                        MoveIndicator(brushDropdown, animated);
+                        break;
+                    case Tool.Eraser:
+                        activeDropdown = brushDropdown;
+                        brushDropdown.currentlySelected = 1;
+                        MoveIndicator(brushDropdown, animated);
+                        break;
+                    case Tool.Text:
+                        activeDropdown = mediaDropdown;
+                        mediaDropdown.currentlySelected = 0;
+                        MoveIndicator(mediaDropdown, animated);
+                        break;
+                    case Tool.Image:
+                        activeDropdown = mediaDropdown;
+                        mediaDropdown.currentlySelected = 1;
+                        MoveIndicator(mediaDropdown, animated);
+                        break;
+                    case Tool.RectangleSelection:
+                        activeDropdown = selectionDropdown;
+                        selectionDropdown.currentlySelected = 0;
+                        MoveIndicator(selectionDropdown, animated);
+                        break;
+                    case Tool.LassoSelection:
+                        activeDropdown = selectionDropdown;
+                        selectionDropdown.currentlySelected = 1;
+                        MoveIndicator(selectionDropdown, animated);
+                        break;
+                    case Tool.Zoom:
+                        activeDropdown = canvasControlDropdown;
+                        canvasControlDropdown.currentlySelected = 0;
+                        MoveIndicator(canvasControlDropdown, animated);
+                        break;
+                    case Tool.Pan:
+                        activeDropdown = canvasControlDropdown;
+                        canvasControlDropdown.currentlySelected = 1;
+                        MoveIndicator(canvasControlDropdown, animated);
+                        break;
+                }
 
                 if (viewDelegate != null)
                     viewDelegate.OnToolChanged(t);
@@ -193,19 +257,21 @@ namespace Antigear.Graph {
                 TweenManager.EndTween(indicatorAnimationTweenId);
             }
 
-            float targetValue = target.transform.localPosition.x;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(
+                transform as RectTransform);
+            float targetValue = target.transform.position.x;
 
             if (animated) {
                 indicatorAnimationTweenId = TweenManager.TweenFloat(v => {
-                    Vector3 pos = indicatorImage.transform.localPosition;
+                    Vector3 pos = indicatorImage.transform.position;
                     pos.x = v;
-                    indicatorImage.transform.localPosition = pos;
-                }, indicatorImage.transform.localPosition.x, targetValue, 
+                    indicatorImage.transform.position = pos;
+                }, indicatorImage.transform.position.x, targetValue, 
                     shortAnimationDuration);
             } else {
-                Vector3 pos = indicatorImage.transform.localPosition;
+                Vector3 pos = indicatorImage.transform.position;
                 pos.x = targetValue;
-                indicatorImage.transform.localPosition = pos;
+                indicatorImage.transform.position = pos;
             }
         }
     }

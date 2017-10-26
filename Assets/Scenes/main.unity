@@ -152,17 +152,17 @@ Camera:
   m_GameObject: {fileID: 9290874}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.9411765, g: 0.9411765, b: 0.9411765, a: 1}
+  m_ClearFlags: 4
+  m_BackGroundColor: {r: 0.09803922, g: 0.4627451, b: 0.8235294, a: 1}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
+  near clip plane: 0.01
+  far clip plane: 10000
+  field of view: 28.750935
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -173,8 +173,8 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -186,7 +186,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 9290874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 469.5, y: 835, z: 0}
+  m_LocalPosition: {x: 157, y: 279, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4973,7 +4973,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 528970486}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.99999976}
+  m_LocalPosition: {x: 0, y: 0, z: -0.000000834465}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 574936887}
@@ -9538,7 +9538,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MatchOrientationToScreen: 1
   m_ScaleFactor: 1
-  m_LastResolution: {x: 640, y: 480}
+  m_LastResolution: {x: 314, y: 558}
 --- !u!114 &969334223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9585,14 +9585,14 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_Camera: {fileID: 9290877}
+  m_PlaneDistance: 1088.5686
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -12355,8 +12355,8 @@ GameObject:
   - component: {fileID: 1272704827}
   - component: {fileID: 1272704830}
   - component: {fileID: 1272704829}
-  - component: {fileID: 1272704828}
   - component: {fileID: 1272704831}
+  - component: {fileID: 1272704828}
   m_Layer: 5
   m_Name: Paper
   m_TagString: Untagged
@@ -12389,16 +12389,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1272704826}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9242969ab3c7f540abb7f880e43c080, type: 3}
+  m_Script: {fileID: -146154839, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TargetImage: {fileID: 1272704829}
-  m_RootScaler: {fileID: 969334222}
-  m_Sprite1X: {fileID: 21300000, guid: bdb3c2fa2edce14428c2588d923d9431, type: 3}
-  m_Sprite2X: {fileID: 21300000, guid: f8e0ae8fe4abe4e44bb4a9a89648eea4, type: 3}
-  m_Sprite4X: {fileID: 21300000, guid: ea5374f26645a6843a8727fbebe2cdb0, type: 3}
 --- !u!114 &1272704829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12418,7 +12413,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: bdb3c2fa2edce14428c2588d923d9431, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12445,6 +12440,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationDuration: 0.2
   backgroundImage: {fileID: 1272704829}
+  content: {fileID: 2114374293}
 --- !u!1 &1284010224
 GameObject:
   m_ObjectHideFlags: 0
@@ -12537,6 +12533,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1286965337}
   - component: {fileID: 1286965338}
+  - component: {fileID: 1286965340}
   m_Layer: 5
   m_Name: Drawing View
   m_TagString: Untagged
@@ -12585,6 +12582,12 @@ MonoBehaviour:
   toolbarView: {fileID: 1377907056}
   historyBarView: {fileID: 1614612019}
   drawingBottomSheet: {fileID: 524387214}
+--- !u!222 &1286965340
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1286965336}
 --- !u!1 &1297171950
 GameObject:
   m_ObjectHideFlags: 0
@@ -13288,7 +13291,7 @@ GameObject:
   - component: {fileID: 1360455908}
   - component: {fileID: 1360455913}
   m_Layer: 5
-  m_Name: Floating Action Button - Raised
+  m_Name: New Drawing Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19071,6 +19074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawingView: {fileID: 1286965338}
+  paper: {fileID: 1272704831}
 --- !u!1 &2010982386
 GameObject:
   m_ObjectHideFlags: 0

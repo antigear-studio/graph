@@ -1,18 +1,34 @@
-﻿using System;
+﻿using MaterialUI;
+using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 
 namespace Antigear.Graph {
     /// <summary>
     /// Manages drawing to a graph.
     /// </summary>
-    public class DrawingController : MonoBehaviour {
+    public class DrawingController : MonoBehaviour, IPaperDelegate, 
+    IToolbarViewDelegate {
         public IDrawingControllerDelegate controllerDelegate;
 
         // Outlets.
         public DrawingView drawingView;
+        public Paper paper;
 
         Graph editingGraph;
+
+        // Bookkeeping.
+        bool isDragging;
+        Tool dragTool;
+
+        // Handlers for each tool.
+        readonly Dictionary<Tool, IToolHandler> handlers = 
+            new Dictionary<Tool, IToolHandler> {
+                { Tool.StraightLine, new StraightLineHandler() },
+                { Tool.Zoom, new ZoomHandler() },
+                { Tool.Pan, new PanHandler() }
+            };
 
         /// <summary>
         /// Opens the given graph for editing. Providing a rect transform will
@@ -24,10 +40,17 @@ namespace Antigear.Graph {
         /// <param name="callback">Callback.</param>
         public void OpenGraph(Graph graph, bool animated, 
             RectTransform tile = null, Action callback = null) {
+            editingGraph = graph;
+
+            foreach (IToolHandler handler in handlers.Values) {
+                handler.SetupToolHandler(graph, drawingView);
+            }
+
             drawingView.gameObject.SetActive(true);
             drawingView.toolbarView.SetToolbarVisibility(true, animated);
             drawingView.SetExpansion(true, true, tile, callback);
-            editingGraph = graph;
+            drawingView.toolbarView.ChangeTool(graph.activeTool, false);
+            drawingView.LoadContent(graph.content);
             SetBackgroundColor(graph.backgroundColor, false);
         }
 
@@ -67,8 +90,63 @@ namespace Antigear.Graph {
             drawingView.paper.SetBackgroundColor(color, animated);
         }
 
+        #region IPaperDelegate implementation
+
+        public void OnPaperBeginDrag(Paper paper, Vector2 pos, 
+            Vector2 screenPos) {
+            // Switch tool. Depending on which tool we initiate different
+            // actions.
+            isDragging = true;
+            dragTool = editingGraph.activeTool;
+
+            if (handlers.ContainsKey(dragTool)) {
+                handlers[dragTool].OnPaperBeginDrag(pos, screenPos);
+            }
+        }
+
+        public void OnPaperDrag(Paper paper, Vector2 pos, 
+            Vector2 screenPos) {
+
+            if (handlers.ContainsKey(dragTool)) {
+                handlers[dragTool].OnPaperDrag(pos, screenPos);
+            }
+        }
+
+        public void OnPaperEndDrag(Paper paper, Vector2 pos, 
+            Vector2 screenPos) {
+            if (handlers.ContainsKey(dragTool)) {
+                handlers[dragTool].OnPaperEndDrag(pos, screenPos);
+            }
+
+            isDragging = false;
+            dragTool = Tool.Unknown;
+        }
+
+        public void OnPaperTap(Paper paper, Vector2 pos, Vector2 screenPos, 
+            int count) {
+            if (handlers.ContainsKey(dragTool)) {
+                handlers[dragTool].OnPaperTap(pos, screenPos, count);
+            }
+        }
+
+        #endregion
+
+        #region IToolbarViewDelegate implementation
+
+        public void OnToolChanged(Tool newTool) {
+            editingGraph.activeTool = newTool;
+            // TODO: need some cleaning up to do depending on the tool selected.
+            // E.g. if we are creating a new object, changing a tool results in
+            // object being discarded.
+        }
+
+        #endregion
+
+
         void Start() {
             drawingView.gameObject.SetActive(false);
+            paper.paperDelegate = this;
+            drawingView.toolbarView.viewDelegate = this;
         }
     }
 
@@ -79,5 +157,23 @@ namespace Antigear.Graph {
         /// <param name="controller">Controller.</param>
         /// <param name="color">Color.</param>
         void OnUIColorChange(DrawingController controller, Color color);
+    }
+
+    /// <summary>
+    /// Implementer handles tool-related work. This separates the logic of each
+    /// tool into different files.
+    /// </summary>
+    public interface IToolHandler {
+        void SetupToolHandler(Graph graph, DrawingView drawingView);
+
+        void OnPaperBeginDrag(Vector2 pos, Vector2 screenPos);
+
+        void OnPaperDrag(Vector2 pos, Vector2 screenPos);
+
+        void OnPaperEndDrag(Vector2 pos, Vector2 screenPos);
+
+        void OnPaperCancelDrag();
+
+        void OnPaperTap(Vector2 pos, Vector2 screenPos, int count);
     }
 }

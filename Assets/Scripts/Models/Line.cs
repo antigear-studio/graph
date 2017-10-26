@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Antigear.Graph {
@@ -27,9 +28,17 @@ namespace Antigear.Graph {
             HandDrawn
         }
 
-        Color color;
-        float width;
-        DashStyle dashStyle;
-        BrushStyle brushStyle;
+        public Color color = Color.black;
+        public float width = 1;
+        public DashStyle dashStyle;
+        public BrushStyle brushStyle;
+
+        /// <summary>
+        /// Returns a list of points that should render this line.
+        /// </summary>
+        /// <returns>The points.</returns>
+        public virtual List<Vector2> GetPoints() {
+            return new List<Vector2>();
+        }
     }
 }

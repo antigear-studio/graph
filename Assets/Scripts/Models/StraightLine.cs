@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Antigear.Graph {
     /// <summary>
@@ -7,7 +8,11 @@ namespace Antigear.Graph {
     /// </summary>
     [Serializable]
     public class StraightLine : Line {
-        Vector2 startPoint;
-        Vector2 endPoint;
+        public Vector2 startPoint;
+        public Vector2 endPoint;
+
+        public override List<Vector2> GetPoints() {
+            return new List<Vector2> { startPoint, endPoint };
+        }
     }
 }

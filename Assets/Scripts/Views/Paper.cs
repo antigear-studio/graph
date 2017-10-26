@@ -16,6 +16,26 @@ namespace Antigear.Graph {
 
         // Outlets.
         public Image backgroundImage;
+        public IPaperDelegate paperDelegate;
+        public Transform content;
+
+        /// <summary>
+        /// The root MaterialUIScaler.
+        /// </summary>
+        MaterialUIScaler m_Scaler;
+        /// <summary>
+        /// The root MaterialUIScaler.
+        /// If null, gets the root scaler if one exists.
+        /// </summary>
+        public MaterialUIScaler scaler {
+            get {
+                if (m_Scaler == null) {
+                    m_Scaler = MaterialUIScaler.GetParentScaler(transform);
+                }
+
+                return m_Scaler;
+            }
+        }
 
         // Private.
         int colorAnimationTweenId = -1;
@@ -38,7 +58,10 @@ namespace Antigear.Graph {
         #region IBeginDragHandler implementation
 
         public void OnBeginDrag(PointerEventData eventData) {
-            Debug.Log("Begin drag: " + eventData.position);
+            if (paperDelegate != null)
+                paperDelegate.OnPaperBeginDrag(this, 
+                    content.InverseTransformPoint(eventData.position),
+                    eventData.position);
         }
 
         #endregion
@@ -46,7 +69,10 @@ namespace Antigear.Graph {
         #region IDragHandler implementation
 
         public void OnDrag(PointerEventData eventData) {
-            Debug.Log("Drag: " + eventData.position);
+            if (paperDelegate != null)
+                paperDelegate.OnPaperDrag(this, 
+                    content.InverseTransformPoint(eventData.position), 
+                    eventData.position);
         }
 
         #endregion
@@ -54,7 +80,10 @@ namespace Antigear.Graph {
         #region IEndDragHandler implementation
 
         public void OnEndDrag(PointerEventData eventData) {
-            Debug.Log("End drag: " + eventData.position);
+            if (paperDelegate != null)
+                paperDelegate.OnPaperEndDrag(this, 
+                    content.InverseTransformPoint(eventData.position),
+                    eventData.position);
         }
 
         #endregion
@@ -62,7 +91,10 @@ namespace Antigear.Graph {
         #region IPointerClickHandler implementation
 
         public void OnPointerClick(PointerEventData eventData) {
-            Debug.Log("Tapped: " + eventData.position + " Count: " + eventData.clickCount);
+            if (paperDelegate != null)
+                paperDelegate.OnPaperTap(this, 
+                    content.InverseTransformPoint(eventData.position), 
+                    eventData.position, eventData.clickCount);
         }
 
         #endregion
@@ -73,29 +105,38 @@ namespace Antigear.Graph {
         /// Called when touch started dragging on the paper.
         /// </summary>
         /// <param name="paper">Paper.</param>
-        /// <param name="eventData">Event data.</param>
-        void OnPaperBeginDrag(Paper paper, PointerEventData eventData);
+        /// <param name="pos">Point of contact, in graph coordinates.</param>
+        /// <param name="screenPos">Point of contact, in screen coordinates.
+        /// </param>
+        void OnPaperBeginDrag(Paper paper, Vector2 pos, Vector2 screenPos);
 
         /// <summary>
         /// Called when touch is dragging on the paper.
         /// </summary>
         /// <param name="paper">Paper.</param>
-        /// <param name="eventData">Event data.</param>
-        void OnPaperDrag(Paper paper, PointerEventData eventData);
+        /// <param name="pos">Point of contact, in graph coordinates.</param>
+        /// <param name="screenPos">Point of contact, in screen coordinates.
+        /// </param>
+        void OnPaperDrag(Paper paper, Vector2 pos, Vector2 screenPos);
 
         /// <summary>
         /// Called when touch stopped dragging on the paper.
         /// </summary>
         /// <param name="paper">Paper.</param>
-        /// <param name="eventData">Event data.</param>
-        void OnPaperEndDrag(Paper paper, PointerEventData eventData);
+        /// <param name="pos">Point of contact, in graph coordinates.</param>
+        /// <param name="screenPos">Point of contact, in screen coordinates.
+        /// </param>
+        void OnPaperEndDrag(Paper paper, Vector2 pos, Vector2 screenPos);
 
         /// <summary>
-        /// Called when paper is tapped. Double taps are also handled in here.
+        /// Called when paper is tapped.
         /// </summary>
         /// <param name="paper">Paper.</param>
-        /// <param name="eventData">Event data.</param>
-        void OnPaperClick(Paper paper, PointerEventData eventData);
+        /// <param name="pos">Point of contact, in graph coordinates.</param>
+        /// <param name="screenPos">Point of contact, in screen coordinates.
+        /// </param>
+        /// <param name="count">Number of taps at the same pos in a row.</param>
+        void OnPaperTap(Paper paper, Vector2 pos, Vector2 screenPos, int count);
 
     }
 }

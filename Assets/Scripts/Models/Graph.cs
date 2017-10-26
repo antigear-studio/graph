@@ -15,14 +15,18 @@ namespace Antigear.Graph {
         public DateTime timeCreated;
         public DateTime timeModified;
         public Color backgroundColor = Color.white;
+        public int activeLayer;
 
         [JsonIgnore]
         public string localFileName;
         [JsonIgnore]
         public bool isDirty;
+        [JsonIgnore]
+        public Tool activeTool = Tool.StraightLine;
+
 
         // graph content
-        public List<Drawable> content;
+        public List<Layer> content = new List<Layer>();
 
         // graph-specific preferences
 
@@ -34,6 +38,7 @@ namespace Antigear.Graph {
             timeCreated = DateTime.UtcNow;
             timeModified = DateTime.UtcNow;
             name = "Untitled";
+            content.Add(new Layer());
         }
     }
 }
