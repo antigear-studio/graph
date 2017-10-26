@@ -17,7 +17,7 @@ namespace Antigear.Graph {
         public override void OnPaperBeginDrag(Vector2 pos, Vector2 screenPos) {
             // Create a line for preview.
             previewLine = new StraightLine();
-            previewLine.startPoint = pos * drawingView.paper.scaler.scaleFactor;
+            previewLine.startPoint = pos;
             previewLine.endPoint = pos;
 
             // Create a prefab and set the line as its model.
@@ -37,13 +37,13 @@ namespace Antigear.Graph {
 
         public override void OnPaperDrag(Vector2 pos, Vector2 screenPos) {
             // Update the model, thus the view as well.
-            previewLine.endPoint = pos * drawingView.paper.scaler.scaleFactor;
+            previewLine.endPoint = pos;
             previewLineView.UpdateView(previewLine);
         }
 
         public override void OnPaperEndDrag(Vector2 pos, Vector2 screenPos) {
             // Add the line to graph. Remove preview object.
-            previewLine.endPoint = pos * drawingView.paper.scaler.scaleFactor;
+            previewLine.endPoint = pos;
             previewLineView.UpdateView(previewLine);
 
             // TODO: add this to graph and clear instead of destroy.

@@ -3,21 +3,29 @@ using UnityEngine;
 
 namespace Antigear.Graph {
     public class PanHandler : ToolHandler {
-        Vector3 panBeginPaperPosition;
+        Vector2 panBeginPaperPosition;
         Vector2 panBeginScreenPosition;
+        RectTransform content;
 
         public override void OnPaperBeginDrag(Vector2 pos, Vector2 screenPos) {
-            panBeginPaperPosition = drawingView.paper.content.position;
+            content = drawingView.paper.content;
+            panBeginPaperPosition = content.anchoredPosition;
             panBeginScreenPosition = screenPos;
         }
 
         public override void OnPaperDrag(Vector2 pos, Vector2 screenPos) {
             float scaleFactor = drawingView.paper.scaler.scaleFactor;
-            Vector3 dl = (screenPos - panBeginScreenPosition) * scaleFactor;
+
+            Vector2 begin, end;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(content, 
+                screenPos, Camera.main, out end);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(content, 
+                panBeginScreenPosition, Camera.main, out begin);
+
+            Vector2 dl = (end - begin) * content.localScale.x;
 
             // Offset by that much.
-            drawingView.paper.content.position = panBeginPaperPosition +
-                drawingView.paper.content.InverseTransformVector(dl) * drawingView.paper.content.transform.lossyScale.x;
+            content.anchoredPosition = panBeginPaperPosition + dl;
         }
     }
 }

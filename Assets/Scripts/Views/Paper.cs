@@ -17,7 +17,7 @@ namespace Antigear.Graph {
         // Outlets.
         public Image backgroundImage;
         public IPaperDelegate paperDelegate;
-        public Transform content;
+        public RectTransform content;
 
         /// <summary>
         /// The root MaterialUIScaler.
@@ -55,13 +55,19 @@ namespace Antigear.Graph {
             }
         }
 
+        public RectTransform GetContentTransform() {
+            return transform.GetChild(0) as RectTransform;
+        }
+
         #region IBeginDragHandler implementation
 
         public void OnBeginDrag(PointerEventData eventData) {
-            if (paperDelegate != null)
-                paperDelegate.OnPaperBeginDrag(this, 
-                    content.InverseTransformPoint(eventData.position),
-                    eventData.position);
+            if (paperDelegate != null) {
+                Vector2 pt;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(content, 
+                    eventData.position, Camera.main, out pt);
+                paperDelegate.OnPaperBeginDrag(this, pt, eventData.position);
+            }
         }
 
         #endregion
@@ -69,10 +75,12 @@ namespace Antigear.Graph {
         #region IDragHandler implementation
 
         public void OnDrag(PointerEventData eventData) {
-            if (paperDelegate != null)
-                paperDelegate.OnPaperDrag(this, 
-                    content.InverseTransformPoint(eventData.position), 
-                    eventData.position);
+            if (paperDelegate != null) {
+                Vector2 pt;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(content, 
+                    eventData.position, Camera.main, out pt);
+                paperDelegate.OnPaperDrag(this, pt, eventData.position);
+            }
         }
 
         #endregion
@@ -80,10 +88,12 @@ namespace Antigear.Graph {
         #region IEndDragHandler implementation
 
         public void OnEndDrag(PointerEventData eventData) {
-            if (paperDelegate != null)
-                paperDelegate.OnPaperEndDrag(this, 
-                    content.InverseTransformPoint(eventData.position),
-                    eventData.position);
+            if (paperDelegate != null) {
+                Vector2 pt;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(content, 
+                    eventData.position, Camera.main, out pt);
+                paperDelegate.OnPaperEndDrag(this, pt, eventData.position);
+            }
         }
 
         #endregion
@@ -91,10 +101,13 @@ namespace Antigear.Graph {
         #region IPointerClickHandler implementation
 
         public void OnPointerClick(PointerEventData eventData) {
-            if (paperDelegate != null)
-                paperDelegate.OnPaperTap(this, 
-                    content.InverseTransformPoint(eventData.position), 
-                    eventData.position, eventData.clickCount);
+            if (paperDelegate != null) {
+                Vector2 pt;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(content, 
+                    eventData.position, Camera.main, out pt);
+                paperDelegate.OnPaperTap(this, pt, eventData.position, 
+                    eventData.clickCount);
+            }
         }
 
         #endregion
