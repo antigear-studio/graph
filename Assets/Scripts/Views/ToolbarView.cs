@@ -27,7 +27,7 @@ namespace Antigear.Graph {
         public MaterialButton propertiesButton;
         public VectorImage indicatorImage;
         public UnityEngine.UI.Text toolText;
-        public UnityEngine.UI.Text coordinateText;
+        public UnityEngine.UI.Text valueText;
 
         MaterialDropdown activeDropdown;
 
@@ -75,7 +75,7 @@ namespace Antigear.Graph {
                     selectionDropdown.buttonImageContent.color = c;
                     canvasControlDropdown.buttonImageContent.color = c;
                     toolText.color = c;
-                    coordinateText.color = c;
+                    valueText.color = c;
                     indicatorImage.color = c;
                 }, propertiesButton.iconColor, color, shortAnimationDuration);
             } else {
@@ -88,7 +88,7 @@ namespace Antigear.Graph {
                 selectionDropdown.buttonImageContent.color = color;
                 canvasControlDropdown.buttonImageContent.color = color;
                 toolText.color = color;
-                coordinateText.color = color;
+                valueText.color = color;
                 indicatorImage.color = color;
             }
         }

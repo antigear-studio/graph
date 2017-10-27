@@ -134,10 +134,13 @@ namespace Antigear.Graph {
         #region IToolbarViewDelegate implementation
 
         public void OnToolChanged(Tool newTool) {
+            if (handlers.ContainsKey(editingGraph.activeTool))
+                handlers[editingGraph.activeTool].OnToolDeselected();
+            
             editingGraph.activeTool = newTool;
-            // TODO: need some cleaning up to do depending on the tool selected.
-            // E.g. if we are creating a new object, changing a tool results in
-            // object being discarded.
+
+            if (handlers.ContainsKey(newTool))
+                handlers[newTool].OnToolSelected();
         }
 
         #endregion
@@ -165,6 +168,10 @@ namespace Antigear.Graph {
     /// </summary>
     public interface IToolHandler {
         void SetupToolHandler(Graph graph, DrawingView drawingView);
+
+        void OnToolSelected();
+
+        void OnToolDeselected();
 
         void OnPaperBeginDrag(Vector2 pos, Vector2 screenPos);
 
