@@ -123,9 +123,10 @@ GameObject:
   - component: {fileID: 9290877}
   - component: {fileID: 9290876}
   - component: {fileID: 9290875}
+  - component: {fileID: 9290879}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -163,8 +164,8 @@ Camera:
   near clip plane: 0.01
   far clip plane: 10000
   field of view: 28.750935
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 327
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -174,7 +175,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
-  m_AllowMSAA: 0
+  m_AllowMSAA: 1
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -186,12 +187,23 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 9290874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 157, y: 279, z: 0}
+  m_LocalPosition: {x: 184, y: 327.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9290879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 9290874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8399683b7e7d747b487a7f5a2aab5557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &55169953
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,7 +1032,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 48
+  m_ScaledSize: 47.92672
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -1114,7 +1126,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE909
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -1284,7 +1296,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \ue838
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 0
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -2135,7 +2147,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE907
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -2815,7 +2827,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 40
+  m_ScaledSize: 39.93893
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -2910,7 +2922,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 40
+  m_ScaledSize: 39.93893
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -3074,7 +3086,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 40
+  m_ScaledSize: 39.93893
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -3292,7 +3304,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \ue5db
   m_Size: 20
-  m_ScaledSize: 20
+  m_ScaledSize: 19.969465
   m_SizeMode: 0
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -3749,7 +3761,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE90f
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -3832,7 +3844,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE90E
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -4356,7 +4368,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uf2d1
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 0
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -4650,7 +4662,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 40
+  m_ScaledSize: 39.93893
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -4744,7 +4756,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \ue887
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 0
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -4973,7 +4985,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 528970486}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.0000009536743}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0000705719}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 574936887}
@@ -5649,7 +5661,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 48
+  m_ScaledSize: 47.92672
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -7773,7 +7785,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 40
+  m_ScaledSize: 39.93893
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -7946,7 +7958,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 40
+  m_ScaledSize: 39.93893
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -8428,7 +8440,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 40
+  m_ScaledSize: 39.93893
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -8586,7 +8598,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE90A
   m_Size: 56
-  m_ScaledSize: 56
+  m_ScaledSize: 55.914505
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -8868,7 +8880,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE90d
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -9362,7 +9374,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 56
+  m_ScaledSize: 55.914505
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -9537,7 +9549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MatchOrientationToScreen: 1
-  m_ScaleFactor: 1
+  m_ScaleFactor: 0.9984733
   m_LastResolution: {x: 368, y: 655}
 --- !u!114 &969334223
 MonoBehaviour:
@@ -9584,9 +9596,9 @@ Canvas:
   m_GameObject: {fileID: 969334221}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 9290877}
-  m_PlaneDistance: 1088.5686
+  m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -9603,8 +9615,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 969334221}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 184, y: 327.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 184, y: 327.5, z: 100}
+  m_LocalScale: {x: 0.9984733, y: 0.9984733, z: 0.9984733}
   m_Children:
   - {fileID: 1896887160}
   - {fileID: 1286965337}
@@ -9915,7 +9927,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \ue5db
   m_Size: 20
-  m_ScaledSize: 20
+  m_ScaledSize: 19.969465
   m_SizeMode: 0
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -10097,7 +10109,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 40
+  m_ScaledSize: 39.93893
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -10276,7 +10288,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE90b
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -11504,7 +11516,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \ue145
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -12122,7 +12134,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 40
+  m_ScaledSize: 39.93893
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -12511,7 +12523,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE905
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -12742,7 +12754,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \ue5cd
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -13276,7 +13288,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 40
+  m_ScaledSize: 39.93893
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -13329,7 +13341,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1360455906}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 140, y: -283.5, z: 6}
+  m_LocalPosition: {x: 140, y: -283.5, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 709050265}
@@ -15374,7 +15386,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uf4dc
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 0
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -15457,7 +15469,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \ue8b8
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 0
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -15691,7 +15703,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \ue5d2
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -16169,7 +16181,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \ue5db
   m_Size: 20
-  m_ScaledSize: 20
+  m_ScaledSize: 19.969465
   m_SizeMode: 0
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -17372,7 +17384,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1705668626}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 182, y: 0, z: 0}
+  m_LocalPosition: {x: 182, y: 0.00061035156, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 913158377}
@@ -17380,7 +17392,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.00061035156}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &1705668629
@@ -17459,7 +17471,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 40
+  m_ScaledSize: 39.93893
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -17820,7 +17832,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \ue5d3
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -18542,7 +18554,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE902
   m_Size: 56
-  m_ScaledSize: 48
+  m_ScaledSize: 47.92672
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -19222,7 +19234,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \uE900
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 3
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -19401,7 +19413,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \ue5ca
   m_Size: 24
-  m_ScaledSize: 24
+  m_ScaledSize: 23.96336
   m_SizeMode: 0
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:
@@ -19556,7 +19568,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: \ue5c7
   m_Size: 48
-  m_ScaledSize: 48
+  m_ScaledSize: 47.92672
   m_SizeMode: 0
   m_MaterialUiScaler: {fileID: 969334222}
   m_VectorImageData:

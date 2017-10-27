@@ -66,7 +66,7 @@ namespace Antigear.Graph {
                 Vector2 pt;
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(content, 
                     eventData.position, Camera.main, out pt);
-                paperDelegate.OnPaperBeginDrag(this, pt * scaler.scaleFactor, 
+                paperDelegate.OnPaperBeginDrag(this, pt * scaler.scaleFactor,
                     eventData.position);
             }
         }

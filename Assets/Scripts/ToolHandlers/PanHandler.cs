@@ -14,8 +14,6 @@ namespace Antigear.Graph {
         }
 
         public override void OnPaperDrag(Vector2 pos, Vector2 screenPos) {
-            float scaleFactor = drawingView.paper.scaler.scaleFactor;
-
             Vector2 begin, end;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(content, 
                 screenPos, Camera.main, out end);
@@ -29,4 +27,3 @@ namespace Antigear.Graph {
         }
     }
 }
-
