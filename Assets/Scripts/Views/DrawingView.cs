@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Antigear.Graph {
     /// <summary>
@@ -25,6 +26,7 @@ namespace Antigear.Graph {
         public HistoryBarView historyBarView;
         public DrawingBottomSheet drawingBottomSheet;
         public MaterialShadow drawingViewMaterialShadow;
+        public RectMask2D mask;
 
         void Update() {
             if (wasExpanded != isExpanded) {
@@ -96,11 +98,16 @@ namespace Antigear.Graph {
                     if (shouldExpand) {
                         t1 = TweenManager.TweenVector2(
                             v => rectTransform.offsetMin = v, offsetMinToTile, 
-                            expandedOffsetMin, animationDuration, 0, handler);
+                            expandedOffsetMin, animationDuration, 0, () => {
+                                if (handler != null)
+                                    handler();
+                                mask.enabled = false;
+                            });
                         t2 = TweenManager.TweenVector2(
                             v => rectTransform.offsetMax = v, offsetMaxToTile, 
                             expandedOffsetMax, animationDuration);
                     } else {
+                        mask.enabled = true;
                         t1 = TweenManager.TweenVector2(
                             v => rectTransform.offsetMin = v, 
                             () => rectTransform.offsetMin, offsetMinToTile, 
@@ -124,8 +131,14 @@ namespace Antigear.Graph {
                     if (shouldExpand) {
                         t = TweenManager.TweenVector2(
                             v => rectTransform.offsetMax = v, drawingViewHeight, 
-                            expandedOffsetMax, animationDuration, 0, handler);
+                            expandedOffsetMax, animationDuration, 0, () => {
+                                if (handler != null)
+                                    handler();
+                                mask.enabled = false;
+                            });
                     } else {
+                        mask.enabled = true;
+
                         t = TweenManager.TweenVector2(
                             v => rectTransform.offsetMax = v,
                             () => expandedOffsetMax, drawingViewHeight, 
@@ -146,6 +159,8 @@ namespace Antigear.Graph {
                     rectTransform.offsetMin = shrunkOffset;
                     rectTransform.offsetMax = -shrunkOffset;
                 }
+
+                mask.enabled = !shouldExpand;
 
                 if (handler != null)
                     handler();
@@ -193,7 +208,14 @@ namespace Antigear.Graph {
             layerView.layerGroup = group;
             layerView.UpdateLayer(layer);
 
-            // TODO: actually load layer content here.
+            foreach (Drawable drawable in layer) {
+                if (drawable.GetType().Equals(typeof(StraightLine))) {
+                    GameObject obj = InstantiateToolPrefab(Tool.StraightLine, 
+                        r.GetSiblingIndex());
+                    StraightLineView v = obj.GetComponent<StraightLineView>();
+                    v.UpdateView((StraightLine)drawable);
+                }
+            }
         }
 
         public Transform GetGraphLayerParentTransform(int layerIndex) {
