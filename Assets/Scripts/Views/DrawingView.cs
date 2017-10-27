@@ -10,12 +10,13 @@ namespace Antigear.Graph {
     /// </summary>
     [ExecuteInEditMode]
     public class DrawingView : MonoBehaviour {
-        public MaterialShadow drawingViewMaterialShadow;
-
+        // Public fields.
         public float animationDuration = 0.5f;
-
-        readonly List<int> expansionAnimationTweenIds = new List<int>();
         public bool isExpanded;
+        public List<GameObject> toolPrefabs = new List<GameObject>();
+
+        // Private fields.
+        readonly List<int> expansionAnimationTweenIds = new List<int>();
         bool wasExpanded;
 
         // Outlets.
@@ -23,6 +24,7 @@ namespace Antigear.Graph {
         public ToolbarView toolbarView;
         public HistoryBarView historyBarView;
         public DrawingBottomSheet drawingBottomSheet;
+        public MaterialShadow drawingViewMaterialShadow;
 
         void Update() {
             if (wasExpanded != isExpanded) {
@@ -167,6 +169,14 @@ namespace Antigear.Graph {
             foreach (Layer layer in content) {
                 LoadLayer(layer);
             }
+
+            // Create a special layer for preview object creation.
+            GameObject previewLayer = new GameObject("Preview Layer", 
+                typeof(RectTransform));
+            previewLayer.transform.SetParent(canvas);
+            RectTransform r = previewLayer.transform as RectTransform;
+            r.sizeDelta = Vector2.zero;
+            r.anchoredPosition3D = Vector3.zero;
         }
 
         void LoadLayer(Layer layer) {
@@ -188,6 +198,22 @@ namespace Antigear.Graph {
 
         public Transform GetGraphLayerParentTransform(int layerIndex) {
             return paper.transform.GetChild(0).GetChild(layerIndex);
+        }
+
+        public GameObject InstantiateToolPrefab(Tool tool, int layer) {
+            GameObject prefab = Instantiate(toolPrefabs[(int)tool]);
+
+            // Add the prefab to the scene.
+            prefab.transform.SetParent(GetGraphLayerParentTransform(layer));
+            prefab.transform.localPosition = Vector3.zero;
+            prefab.transform.localScale = Vector3.one;
+            prefab.transform.localEulerAngles = Vector3.zero;
+
+            return prefab;
+        }
+
+        public int GetPreviewLayerIndex() {
+            return paper.transform.GetChild(0).childCount - 1;
         }
     }
 }

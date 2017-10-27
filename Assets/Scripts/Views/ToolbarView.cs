@@ -152,7 +152,7 @@ namespace Antigear.Graph {
             }  else if (dropdown == selectionDropdown) {
                 return index + Tool.RectangleSelection;
             }  else if (dropdown == canvasControlDropdown) {
-                return index + Tool.Zoom;
+                return index + Tool.Pan;
             }
 
             return Tool.Unknown;
@@ -182,9 +182,9 @@ namespace Antigear.Graph {
                     selectionDropdown.currentlySelected = 
                         t - Tool.RectangleSelection;
                     MoveIndicator(selectionDropdown, animated);
-                } else if (t >= Tool.Zoom && t <= Tool.Pan) {
+                } else if (t >= Tool.Pan && t <= Tool.Zoom) {
                     activeDropdown = canvasControlDropdown;
-                    canvasControlDropdown.currentlySelected = t - Tool.Zoom;
+                    canvasControlDropdown.currentlySelected = t - Tool.Pan;
                     MoveIndicator(canvasControlDropdown, animated);
                 }
 

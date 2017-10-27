@@ -396,7 +396,7 @@ MonoBehaviour:
   NeverDestroy: 1
   UserAgreesToHaveItOnTheScene: 0
   UserAgreesToHaveItInsideThePluginsFolder: 0
-  OnMissingTranslation: 0
+  OnMissingTranslation: 1
   mTerm_AppName: 
   Spreadsheet_LocalFileName: 
   Spreadsheet_LocalCSVSeparator: ','

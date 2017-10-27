@@ -17,8 +17,8 @@ namespace Antigear.Graph {
         Image,
         RectangleSelection,
         LassoSelection,
+        Pan,
         Zoom,
-        Pan
     }
 
     static class ToolMethods {
