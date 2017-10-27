@@ -122,10 +122,35 @@ namespace Antigear.Graph {
             dragTool = Tool.Unknown;
         }
 
+        public void OnPaperCancelDrag(Paper paper) {
+            if (handlers.ContainsKey(dragTool)) {
+                handlers[dragTool].OnPaperCancelDrag();
+            }
+
+            isDragging = false;
+            dragTool = Tool.Unknown;
+        }
+
+        // Implement double drag for pan + zoom with these callbacks.
+        public void OnPaperBeginDoubleDrag(Paper paper, Vector2 pos1, 
+            Vector2 pos2, Vector2 screenPos1, Vector2 screenPos2) {
+        }
+
+        public void OnPaperDoubleDrag(Paper paper, Vector2 pos1, Vector2 pos2, 
+            Vector2 screenPos1, Vector2 screenPos2) {
+        }
+
+        public void OnPaperEndDoubleDrag(Paper paper, Vector2 pos1, 
+            Vector2 pos2, Vector2 screenPos1, Vector2 screenPos2) {
+        }
+
         public void OnPaperTap(Paper paper, Vector2 pos, Vector2 screenPos, 
             int count) {
-            if (handlers.ContainsKey(dragTool)) {
-                handlers[dragTool].OnPaperTap(pos, screenPos, count);
+            if (count == 1) {
+                // Handle selection in current layer.
+                
+            } else if (count == 2) {
+                // Handle double tap action.
             }
         }
 
@@ -180,7 +205,5 @@ namespace Antigear.Graph {
         void OnPaperEndDrag(Vector2 pos, Vector2 screenPos);
 
         void OnPaperCancelDrag();
-
-        void OnPaperTap(Vector2 pos, Vector2 screenPos, int count);
     }
 }

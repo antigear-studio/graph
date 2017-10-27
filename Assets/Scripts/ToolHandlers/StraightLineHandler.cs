@@ -32,8 +32,8 @@ namespace Antigear.Graph {
             // Add the line to graph. Remove preview object.
             previewLine.endPoint = pos;
             previewLineView.UpdateView(previewLine);
-            previewLineView.transform.parent = 
-                drawingView.GetGraphLayerParentTransform(graph.activeLayer);
+            previewLineView.transform.SetParent(
+                drawingView.GetGraphLayerParentTransform(graph.activeLayer));
             previewLineView = null;
             graph.content[graph.activeLayer].Add(previewLine);
             previewLine = null;
@@ -41,7 +41,9 @@ namespace Antigear.Graph {
 
         public override void OnPaperCancelDrag() {
             // Clean up preview object if any.
-            UnityEngine.Object.Destroy(previewLineView.gameObject);
+            if (previewLineView != null)
+                Object.Destroy(previewLineView.gameObject);
+            
             previewLineView = null;
         }
     }
