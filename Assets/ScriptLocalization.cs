@@ -22,6 +22,7 @@ namespace I2.Loc
 			public static string Text 		{ get{ return Get ("Tool/Text"); } }
 			public static string Unknown 		{ get{ return Get ("Tool/Unknown"); } }
 			public static string Zoom 		{ get{ return Get ("Tool/Zoom"); } }
+			public static string BSpline 		{ get{ return Get ("Tool/BSpline"); } }
 		}
 
 	}

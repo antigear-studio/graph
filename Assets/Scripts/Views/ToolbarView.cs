@@ -27,7 +27,7 @@ namespace Antigear.Graph {
         public MaterialButton propertiesButton;
         public VectorImage indicatorImage;
         public UnityEngine.UI.Text toolText;
-        public UnityEngine.UI.Text coordinateText;
+        public UnityEngine.UI.Text valueText;
 
         MaterialDropdown activeDropdown;
 
@@ -75,7 +75,7 @@ namespace Antigear.Graph {
                     selectionDropdown.buttonImageContent.color = c;
                     canvasControlDropdown.buttonImageContent.color = c;
                     toolText.color = c;
-                    coordinateText.color = c;
+                    valueText.color = c;
                     indicatorImage.color = c;
                 }, propertiesButton.iconColor, color, shortAnimationDuration);
             } else {
@@ -88,7 +88,7 @@ namespace Antigear.Graph {
                 selectionDropdown.buttonImageContent.color = color;
                 canvasControlDropdown.buttonImageContent.color = color;
                 toolText.color = color;
-                coordinateText.color = color;
+                valueText.color = color;
                 indicatorImage.color = color;
             }
         }
@@ -144,34 +144,15 @@ namespace Antigear.Graph {
 
         Tool LookupTool(MaterialDropdown dropdown, int index) {
             if (dropdown == lineDropdown) {
-                if (index == 0)
-                    return Tool.StraightLine;
-                if (index == 1)
-                    return Tool.BezierCurve;
-                if (index == 2)
-                    return Tool.Arc;
-                if (index == 3)
-                    return Tool.FreeformLine;
+                return index + Tool.StraightLine;
             } else if (dropdown == brushDropdown) {
-                if (index == 0)
-                    return Tool.Pencil;
-                if (index == 1)
-                    return Tool.Eraser;
+                return index + Tool.Pencil;
             }  else if (dropdown == mediaDropdown) {
-                if (index == 0)
-                    return Tool.Text;
-                if (index == 1)
-                    return Tool.Image;
+                return index + Tool.Text;
             }  else if (dropdown == selectionDropdown) {
-                if (index == 0)
-                    return Tool.RectangleSelection;
-                if (index == 1)
-                    return Tool.LassoSelection;
+                return index + Tool.RectangleSelection;
             }  else if (dropdown == canvasControlDropdown) {
-                if (index == 0)
-                    return Tool.Zoom;
-                if (index == 1)
-                    return Tool.Pan;
+                return index + Tool.Pan;
             }
 
             return Tool.Unknown;
@@ -183,68 +164,28 @@ namespace Antigear.Graph {
                 toolText.text = t.LocalizedName().ToUpper();
 
                 // Update UI.
-                switch (t) {
-                    case Tool.Unknown:
-                    case Tool.StraightLine:
-                        activeDropdown = lineDropdown;
-                        lineDropdown.currentlySelected = 0;
-                        MoveIndicator(lineDropdown, animated);
-                        break;
-                    case Tool.BezierCurve:
-                        activeDropdown = lineDropdown;
-                        lineDropdown.currentlySelected = 1;
-                        MoveIndicator(lineDropdown, animated);
-                        break;
-                    case Tool.Arc:
-                        activeDropdown = lineDropdown;
-                        lineDropdown.currentlySelected = 2;
-                        MoveIndicator(lineDropdown, animated);
-                        break;
-                    case Tool.FreeformLine:
-                        activeDropdown = lineDropdown;
-                        lineDropdown.currentlySelected = 3;
-                        MoveIndicator(lineDropdown, animated);
-                        break;
-                    case Tool.Pencil:
-                        activeDropdown = brushDropdown;
-                        brushDropdown.currentlySelected = 0;
-                        MoveIndicator(brushDropdown, animated);
-                        break;
-                    case Tool.Eraser:
-                        activeDropdown = brushDropdown;
-                        brushDropdown.currentlySelected = 1;
-                        MoveIndicator(brushDropdown, animated);
-                        break;
-                    case Tool.Text:
-                        activeDropdown = mediaDropdown;
-                        mediaDropdown.currentlySelected = 0;
-                        MoveIndicator(mediaDropdown, animated);
-                        break;
-                    case Tool.Image:
-                        activeDropdown = mediaDropdown;
-                        mediaDropdown.currentlySelected = 1;
-                        MoveIndicator(mediaDropdown, animated);
-                        break;
-                    case Tool.RectangleSelection:
-                        activeDropdown = selectionDropdown;
-                        selectionDropdown.currentlySelected = 0;
-                        MoveIndicator(selectionDropdown, animated);
-                        break;
-                    case Tool.LassoSelection:
-                        activeDropdown = selectionDropdown;
-                        selectionDropdown.currentlySelected = 1;
-                        MoveIndicator(selectionDropdown, animated);
-                        break;
-                    case Tool.Zoom:
-                        activeDropdown = canvasControlDropdown;
-                        canvasControlDropdown.currentlySelected = 0;
-                        MoveIndicator(canvasControlDropdown, animated);
-                        break;
-                    case Tool.Pan:
-                        activeDropdown = canvasControlDropdown;
-                        canvasControlDropdown.currentlySelected = 1;
-                        MoveIndicator(canvasControlDropdown, animated);
-                        break;
+                if (t >= Tool.StraightLine && t <= Tool.FreeformLine) {
+                    activeDropdown = lineDropdown;
+                    lineDropdown.currentlySelected = t - Tool.StraightLine;
+                    MoveIndicator(lineDropdown, animated);
+                } else if (t >= Tool.Pencil && t <= Tool.Eraser) {
+                    activeDropdown = brushDropdown;
+                    brushDropdown.currentlySelected = t - Tool.Pencil;
+                    MoveIndicator(brushDropdown, animated);
+                } else if (t >= Tool.Text && t <= Tool.Image) {
+                    activeDropdown = mediaDropdown;
+                    mediaDropdown.currentlySelected = t - Tool.Text;
+                    MoveIndicator(mediaDropdown, animated);
+                } else if (t >= Tool.RectangleSelection && 
+                    t <= Tool.LassoSelection) {
+                    activeDropdown = selectionDropdown;
+                    selectionDropdown.currentlySelected = 
+                        t - Tool.RectangleSelection;
+                    MoveIndicator(selectionDropdown, animated);
+                } else if (t >= Tool.Pan && t <= Tool.Zoom) {
+                    activeDropdown = canvasControlDropdown;
+                    canvasControlDropdown.currentlySelected = t - Tool.Pan;
+                    MoveIndicator(canvasControlDropdown, animated);
                 }
 
                 if (viewDelegate != null)

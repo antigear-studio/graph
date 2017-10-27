@@ -269,11 +269,11 @@ namespace MaterialUI
             switch (GetComponentInParent<Canvas>().renderMode)
             {
                 case RenderMode.ScreenSpaceOverlay:
+                case RenderMode.ScreenSpaceCamera:
                     rectTransform.position = new Vector3(positon.x, positon.y, m_RippleParent.position.z);
                     break;
-                case RenderMode.ScreenSpaceCamera:
-                    rectTransform.position = new Ray(camera.transform.position, camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, m_RippleParent.position.z))).GetPoint(Vector3.Distance(camera.transform.position, m_RippleParent.position));
-                    break;
+                    //rectTransform.position = new Ray(camera.transform.position, camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, m_RippleParent.position.z))).GetPoint(Vector3.Distance(camera.transform.position, m_RippleParent.position));
+                    //break;
                 case RenderMode.WorldSpace:
                     rectTransform.position = new Ray(camera.transform.position, camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, m_RippleParent.position.z))).GetPoint(Vector3.Distance(camera.transform.position, m_RippleParent.position));
                     break;
