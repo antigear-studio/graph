@@ -12452,6 +12452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationDuration: 0.2
+  doubleDragGracePeriod: 0.1
   backgroundImage: {fileID: 1272704829}
   content: {fileID: 2114374293}
 --- !u!1 &1284010224

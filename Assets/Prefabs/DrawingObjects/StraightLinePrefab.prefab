@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 222968840178100306}
   - component: {fileID: 114611209998556162}
   - component: {fileID: 114432745340801516}
+  - component: {fileID: 68589160240833770}
   m_Layer: 5
   m_Name: StraightLinePrefab
   m_TagString: Untagged
@@ -29,6 +30,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!68 &68589160240833770
+EdgeCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1944119908587196}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 5
+  m_Points:
+  - {x: -100, y: 1}
+  - {x: 100, y: 1}
+  - {x: 100, y: -1}
+  - {x: -100, y: -1}
+  - {x: -100, y: 1}
 --- !u!114 &114432745340801516
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -166,7 +187,7 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 0
-    m_collider: 0
+    m_collider: 1
     m_trigger: 0
     m_physicsMaterial: {fileID: 0}
     m_alignOddWidthToPixels: 0

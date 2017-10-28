@@ -173,7 +173,9 @@ namespace Antigear.Graph {
         /// Loads the content of the graph onto the canvas.
         /// </summary>
         /// <param name="content">Content.</param>
-        public void LoadContent(List<Layer> content) {
+        /// <param name = "preferences">Graph preferences.</param>
+        public void LoadContent(List<Layer> content, 
+            Graph.Preference preferences) {
             // Clear off the current content.
             Transform canvas = paper.transform.GetChild(0);
 
@@ -182,7 +184,7 @@ namespace Antigear.Graph {
             }
 
             foreach (Layer layer in content) {
-                LoadLayer(layer);
+                LoadLayer(layer, preferences);
             }
 
             // Create a special layer for preview object creation.
@@ -194,7 +196,7 @@ namespace Antigear.Graph {
             r.anchoredPosition3D = Vector3.zero;
         }
 
-        void LoadLayer(Layer layer) {
+        void LoadLayer(Layer layer, Graph.Preference preferences) {
             Transform canvas = paper.transform.GetChild(0);
 
             GameObject layerViewObject = new GameObject(layer.name, 
@@ -213,7 +215,7 @@ namespace Antigear.Graph {
                     GameObject obj = InstantiateToolPrefab(Tool.StraightLine, 
                         r.GetSiblingIndex());
                     StraightLineView v = obj.GetComponent<StraightLineView>();
-                    v.UpdateView((StraightLine)drawable);
+                    v.UpdateView((StraightLine)drawable, preferences);
                 }
             }
         }

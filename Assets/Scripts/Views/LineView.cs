@@ -2,24 +2,29 @@
 using Vectrosity;
 
 namespace Antigear.Graph {
-    public abstract class LineView : MonoBehaviour {
+    public abstract class LineView : DrawableView {
         public VectorObject2D vectorLine;
 
-        float lastScale = 1;
+        public override void UpdateView(Drawable drawable, 
+            Graph.Preference drawingPreferences) {
+            base.UpdateView(drawable, drawingPreferences);
 
-        void Update() {
-            float scale = transform.lossyScale.x;
-
-            if (Mathf.Abs(scale - lastScale) > 0.01f) {
-                lastScale = scale;
-                vectorLine.vectorLine.Draw();
+            if (!(drawable is Line)) {
+                Debug.LogError("Cannot update view with incompatible model!");
+                return;
             }
-        }
 
-        public virtual void UpdateView(Line line) {
+            Line line = drawable as Line;
             vectorLine.vectorLine.points2 = line.GetPoints();
             vectorLine.vectorLine.lineWidth = line.width + 1;
-            vectorLine.vectorLine.SetColor(line.color);
+
+            if (drawable.isSelected) {
+                vectorLine.vectorLine.SetColor(
+                    drawingPreferences.selectionHighlightColor);
+            } else {
+                vectorLine.vectorLine.SetColor(line.color);
+            }
+
             vectorLine.vectorLine.Draw();
         }
     }

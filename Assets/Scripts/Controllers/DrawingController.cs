@@ -19,8 +19,11 @@ namespace Antigear.Graph {
         Graph editingGraph;
 
         // Bookkeeping.
-        bool isDragging;
         Tool dragTool;
+        public Drawable selectedDrawable;
+        public DrawableView selectedDrawableView;
+        public Drawable editingDrawable;
+        public DrawableView editingDrawableView;
 
         // Handlers for each tool.
         readonly Dictionary<Tool, IToolHandler> handlers = 
@@ -50,8 +53,8 @@ namespace Antigear.Graph {
             drawingView.toolbarView.SetToolbarVisibility(true, animated);
             drawingView.SetExpansion(true, true, tile, callback);
             drawingView.toolbarView.ChangeTool(graph.activeTool, false);
-            drawingView.LoadContent(graph.content);
-            SetBackgroundColor(graph.backgroundColor, false);
+            drawingView.LoadContent(graph.content, graph.preferences);
+            SetBackgroundColor(graph.preferences.backgroundColor, false);
         }
 
         /// <summary>
@@ -90,13 +93,29 @@ namespace Antigear.Graph {
             drawingView.paper.SetBackgroundColor(color, animated);
         }
 
+        void SelectObject(Drawable drawable, DrawableView drawableView) {
+            if (selectedDrawable != null) {
+                selectedDrawable.isSelected = false;
+                selectedDrawableView.UpdateView(selectedDrawable, 
+                    editingGraph.preferences);
+            }
+
+            selectedDrawable = drawable;
+            selectedDrawableView = drawableView;
+
+            if (drawable != null && drawableView != null) {
+                drawable.isSelected = true;
+                drawable.timeLastSelected = Time.time;
+                drawableView.UpdateView(drawable, editingGraph.preferences);
+            }
+        }
+
         #region IPaperDelegate implementation
 
         public void OnPaperBeginDrag(Paper paper, Vector2 pos, 
             Vector2 screenPos) {
             // Switch tool. Depending on which tool we initiate different
             // actions.
-            isDragging = true;
             dragTool = editingGraph.activeTool;
 
             if (handlers.ContainsKey(dragTool)) {
@@ -118,7 +137,6 @@ namespace Antigear.Graph {
                 handlers[dragTool].OnPaperEndDrag(pos, screenPos);
             }
 
-            isDragging = false;
             dragTool = Tool.Unknown;
         }
 
@@ -127,7 +145,6 @@ namespace Antigear.Graph {
                 handlers[dragTool].OnPaperCancelDrag();
             }
 
-            isDragging = false;
             dragTool = Tool.Unknown;
         }
 
@@ -148,7 +165,29 @@ namespace Antigear.Graph {
             int count) {
             if (count == 1) {
                 // Handle selection in current layer.
-                
+                Ray r = RectTransformUtility.ScreenPointToRay(Camera.main, 
+                    screenPos);
+                RaycastHit2D[] hits = Physics2D.RaycastAll(r.origin, 
+                    r.direction, 100);
+                Transform activeLayer = drawingView
+                    .GetGraphLayerParentTransform(editingGraph.activeLayer);
+
+                foreach (var hit in hits) {
+                    DrawableView v = hit.transform.GetComponent<DrawableView>();
+
+                    if (v == null || hit.transform.parent != activeLayer)
+                        continue;
+                    
+                    Drawable drawable = editingGraph.content
+                        [activeLayer.GetSiblingIndex()]
+                        [hit.transform.GetSiblingIndex()];
+
+                    SelectObject(drawable, v);
+                    return;
+                }
+
+                // Deselect.
+                SelectObject(null, null);
             } else if (count == 2) {
                 // Handle double tap action.
             }
@@ -169,7 +208,6 @@ namespace Antigear.Graph {
         }
 
         #endregion
-
 
         void Start() {
             drawingView.gameObject.SetActive(false);

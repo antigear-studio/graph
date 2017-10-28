@@ -52,8 +52,8 @@ namespace Antigear.Graph {
 
         // Private.
         int colorAnimationTweenId = -1;
-        int pointer1Id = -1;
-        int pointer2Id = -1;
+        int pointer1Id = -2;
+        int pointer2Id = -2;
         float timeSinceFirstTouch = -1;
         Vector2 pointer1Pos;
         Vector2 pointer2Pos;
@@ -163,9 +163,9 @@ namespace Antigear.Graph {
             bool pointer2Ended = eventData.pointerId == pointer2Id;
            
             if (pointer1Ended) {
-                pointer1Id = -1;
+                pointer1Id = -2;
             } else if (pointer2Ended) {
-                pointer2Id = -1;
+                pointer2Id = -2;
             }
 
             if (pointer1Ended) {
@@ -198,6 +198,11 @@ namespace Antigear.Graph {
         #region IPointerClickHandler implementation
 
         public void OnPointerClick(PointerEventData eventData) {
+            // Filter out dragged points.
+            if (pointer1Id > -2 || pointer2Id > -2) {
+                return;
+            }
+
             if (paperDelegate != null) {
                 Vector2 pt;
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(content, 
