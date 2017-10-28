@@ -164,7 +164,7 @@ namespace Antigear.Graph {
 
         public void OnPaperTap(Paper paper, Vector2 pos, Vector2 screenPos, 
             int count) {
-            if (count == 1) {
+            if (count > 0) {
                 // Handle selection in current layer.
                 Ray r = RectTransformUtility.ScreenPointToRay(Camera.main, 
                     screenPos);
@@ -182,21 +182,27 @@ namespace Antigear.Graph {
 
                     if (v == null || hit.transform.parent != activeLayer)
                         continue;
+                    
+                    Drawable drawable = editingGraph.content
+                        [activeLayer.GetSiblingIndex()]
+                        [hit.transform.GetSiblingIndex()];
+
+                    if (!drawable.Selectible()) {
+                        continue;
+                    }
 
                     if (highestChildIndex < hit.transform.GetSiblingIndex()) {
                         highestChildIndex = hit.transform.GetSiblingIndex();
                         highestEligibleView = v;
+                        highestEligibleDrawable = drawable;
                     }
-                }
-
-                if (highestEligibleView != null) {
-                    highestEligibleDrawable = editingGraph.content
-                        [activeLayer.GetSiblingIndex()][highestChildIndex];
                 }
 
                 // Deselect.
                 SelectObject(highestEligibleDrawable, highestEligibleView);
-            } else if (count == 2) {
+            }
+
+            if (count == 2) {
                 // Handle double tap action.
             }
         }
