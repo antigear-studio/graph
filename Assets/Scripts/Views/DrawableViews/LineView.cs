@@ -8,8 +8,8 @@ namespace Antigear.Graph {
         public EdgeCollider2D edgeCollider;
 
         public override void UpdateView(Drawable drawable, 
-            Graph.Preference drawingPreferences) {
-            base.UpdateView(drawable, drawingPreferences);
+            Graph.Preference drawingPreferences, bool animated) {
+            base.UpdateView(drawable, drawingPreferences, animated);
 
             if (!(drawable is Line)) {
                 Debug.LogError("Cannot update view with incompatible model!");

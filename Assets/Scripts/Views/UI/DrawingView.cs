@@ -215,7 +215,7 @@ namespace Antigear.Graph {
                     GameObject obj = InstantiateToolPrefab(Tool.StraightLine, 
                         r.GetSiblingIndex());
                     StraightLineView v = obj.GetComponent<StraightLineView>();
-                    v.UpdateView((StraightLine)drawable, preferences);
+                    v.UpdateView((StraightLine)drawable, preferences, false);
                 }
             }
         }

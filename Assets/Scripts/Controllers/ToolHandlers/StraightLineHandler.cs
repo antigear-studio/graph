@@ -19,19 +19,19 @@ namespace Antigear.Graph {
                     .GetComponent<StraightLineView>();
             }
 
-            previewLineView.UpdateView(previewLine, graph.preferences);
+            previewLineView.UpdateView(previewLine, graph.preferences, true);
         }
 
         public override void OnPaperDrag(Vector2 pos, Vector2 screenPos) {
             // Update the model, thus the view as well.
             previewLine.endPoint = pos;
-            previewLineView.UpdateView(previewLine, graph.preferences);
+            previewLineView.UpdateView(previewLine, graph.preferences, true);
         }
 
         public override void OnPaperEndDrag(Vector2 pos, Vector2 screenPos) {
             // Add the line to graph. Remove preview object.
             previewLine.endPoint = pos;
-            previewLineView.UpdateView(previewLine, graph.preferences);
+            previewLineView.UpdateView(previewLine, graph.preferences, true);
             previewLineView.transform.SetParent(
                 drawingView.GetGraphLayerParentTransform(graph.activeLayer));
             previewLineView = null;

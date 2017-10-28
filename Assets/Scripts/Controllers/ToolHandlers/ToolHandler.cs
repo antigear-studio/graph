@@ -30,8 +30,6 @@ namespace Antigear.Graph {
         public virtual void OnPaperEndDrag(Vector2 pos, Vector2 screenPos) {}
 
         public virtual void OnPaperCancelDrag() {}
-
         #endregion
     }
 }
-

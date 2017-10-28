@@ -97,7 +97,7 @@ namespace Antigear.Graph {
             if (selectedDrawable != null) {
                 selectedDrawable.isSelected = false;
                 selectedDrawableView.UpdateView(selectedDrawable, 
-                    editingGraph.preferences);
+                    editingGraph.preferences, true);
             }
 
             selectedDrawable = drawable;
@@ -106,7 +106,8 @@ namespace Antigear.Graph {
             if (drawable != null && drawableView != null) {
                 drawable.isSelected = true;
                 drawable.timeLastSelected = Time.time;
-                drawableView.UpdateView(drawable, editingGraph.preferences);
+                drawableView.UpdateView(drawable, editingGraph.preferences, 
+                    true);
             }
         }
 
@@ -172,22 +173,29 @@ namespace Antigear.Graph {
                 Transform activeLayer = drawingView
                     .GetGraphLayerParentTransform(editingGraph.activeLayer);
 
+                DrawableView highestEligibleView = null;
+                Drawable highestEligibleDrawable = null;
+                int highestChildIndex = -1;
+
                 foreach (var hit in hits) {
                     DrawableView v = hit.transform.GetComponent<DrawableView>();
 
                     if (v == null || hit.transform.parent != activeLayer)
                         continue;
-                    
-                    Drawable drawable = editingGraph.content
-                        [activeLayer.GetSiblingIndex()]
-                        [hit.transform.GetSiblingIndex()];
 
-                    SelectObject(drawable, v);
-                    return;
+                    if (highestChildIndex < hit.transform.GetSiblingIndex()) {
+                        highestChildIndex = hit.transform.GetSiblingIndex();
+                        highestEligibleView = v;
+                    }
+                }
+
+                if (highestEligibleView != null) {
+                    highestEligibleDrawable = editingGraph.content
+                        [activeLayer.GetSiblingIndex()][highestChildIndex];
                 }
 
                 // Deselect.
-                SelectObject(null, null);
+                SelectObject(highestEligibleDrawable, highestEligibleView);
             } else if (count == 2) {
                 // Handle double tap action.
             }
@@ -230,18 +238,41 @@ namespace Antigear.Graph {
     /// tool into different files.
     /// </summary>
     public interface IToolHandler {
+        /// <summary>
+        /// Setups the tool handler with the given graph and view.
+        /// </summary>
+        /// <param name="graph">Graph.</param>
+        /// <param name="drawingView">Drawing view.</param>
         void SetupToolHandler(Graph graph, DrawingView drawingView);
 
+        /// <summary>
+        /// Raised when this tool is selected by user.
+        /// </summary>
         void OnToolSelected();
 
+        /// <summary>
+        /// Raised when this tool is deselected by user.
+        /// </summary>
         void OnToolDeselected();
 
+        /// <summary>
+        /// Raised when a drag is detected while this tool is selected by user.
+        /// </summary>
         void OnPaperBeginDrag(Vector2 pos, Vector2 screenPos);
 
+        /// <summary>
+        /// Raised when a drag moved while this tool is selected by user.
+        /// </summary>
         void OnPaperDrag(Vector2 pos, Vector2 screenPos);
 
+        /// <summary>
+        /// Raised when a drag is completed while this tool is selected by user.
+        /// </summary>
         void OnPaperEndDrag(Vector2 pos, Vector2 screenPos);
 
+        /// <summary>
+        /// Raised when a drag is cancelled while this tool is selected by user.
+        /// </summary>
         void OnPaperCancelDrag();
     }
 }
