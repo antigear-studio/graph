@@ -4,6 +4,8 @@ using Vectrosity;
 namespace Antigear.Graph {
     public abstract class LineView : DrawableView {
         public VectorObject2D vectorLine;
+        public PolygonCollider2D polygonCollider;
+        public EdgeCollider2D edgeCollider;
 
         public override void UpdateView(Drawable drawable, 
             Graph.Preference drawingPreferences) {
@@ -26,6 +28,9 @@ namespace Antigear.Graph {
             }
 
             vectorLine.vectorLine.Draw();
+
+            // Update polygon collider based on edge collider.
+            polygonCollider.SetPath(0, edgeCollider.points);
         }
     }
 }
