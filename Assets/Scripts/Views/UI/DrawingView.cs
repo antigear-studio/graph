@@ -27,10 +27,15 @@ namespace Antigear.Graph {
         public DrawingBottomSheet drawingBottomSheet;
         public MaterialShadow drawingViewMaterialShadow;
         public RectMask2D mask;
+        public MaterialDropdown selectionMenu;
 
         void Update() {
             if (wasExpanded != isExpanded) {
                 SetExpansion(isExpanded, false);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                selectionMenu.Show();
             }
         }
 

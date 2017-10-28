@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace Antigear.Graph {
-    public class StraightLineHandler : ToolHandler {
+    public class StraightLineToolHandler : ToolHandler {
         StraightLine previewLine;
         StraightLineView previewLineView;
 
