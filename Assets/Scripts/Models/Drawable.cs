@@ -34,9 +34,25 @@ namespace Antigear.Graph {
 
         public Vector2 rotationPivot;
 
-        public bool Selectible() {
+        public virtual bool Selectible() {
             return Time.time - timeLastSelected > 
                 PlayerPrefs.GetFloat(PlayerPrefKey.SelectionBlockTime);
         }
+
+        /// <summary>
+        /// Returns a copy of this object.
+        /// </summary>
+        public virtual Drawable Copy() {
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            string output = JsonConvert.SerializeObject(this, settings);
+            return (Drawable)JsonConvert.DeserializeObject(output, GetType());
+        }
+
+        /// <summary>
+        /// Offsets this drawable's position by the specified amount.
+        /// </summary>
+        /// <param name="amount">Amount.</param>
+        public virtual void Offset(Vector2 amount) {}
     }
 }

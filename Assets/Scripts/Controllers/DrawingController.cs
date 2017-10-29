@@ -240,6 +240,10 @@ namespace Antigear.Graph {
             SelectObject(null, null, Vector2.zero);
         }
 
+        public void OnSelectionShouldEdit(SelectionHandler handler) {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         void Start() {

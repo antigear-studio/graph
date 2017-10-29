@@ -7,8 +7,13 @@ namespace Antigear.Graph {
     /// selection of each object into different files.
     /// </summary>
     public abstract class SelectionHandler {
+        readonly static Vector2 OffsetAmount = new Vector2(10, -10);
+
         protected Graph graph;
         protected DrawingView drawingView;
+
+        Drawable selected;
+        DrawableView selectedView;
         protected ISelectionHandlerDelegate handlerDelegate;
 
         /// <summary>
@@ -33,6 +38,8 @@ namespace Antigear.Graph {
         /// </param>
         public virtual void OnDrawableSelected(Drawable selected, DrawableView
             selectedView, Vector2 screenPos) {
+            this.selected = selected;
+            this.selectedView = selectedView;
             selected.isSelected = true;
             selected.timeLastSelected = Time.time;
             selectedView.UpdateView(selected, graph.preferences, true);
@@ -89,8 +96,45 @@ namespace Antigear.Graph {
         }
 
         protected virtual void OnMenuSelect(int itemIndex) {
-            Debug.Log("Selected item option " + itemIndex);
             handlerDelegate.OnSelectionShouldClear(this);
+        }
+
+        protected virtual void OnEdit() {
+            handlerDelegate.OnSelectionShouldEdit(this);
+        }
+
+        protected virtual void OnCopy() {
+            int drawableIndex = selectedView.transform.GetSiblingIndex();
+            int layerIndex = selectedView.transform.parent.GetSiblingIndex();
+            Drawable copy = selected.Copy();
+            copy.Offset(OffsetAmount);
+            graph.content[layerIndex].Add(copy);
+            DrawableView copyView = Object.Instantiate(selectedView, 
+                selectedView.transform.parent);
+            copyView.UpdateView(copy, graph.preferences, false);
+        }
+
+        protected virtual void OnDelete() {
+            int drawableIndex = selectedView.transform.GetSiblingIndex();
+            int layerIndex = selectedView.transform.parent.GetSiblingIndex();
+            graph.content[layerIndex].RemoveAt(drawableIndex);
+            Object.Destroy(selectedView.gameObject);
+        }
+
+        protected virtual void OnBringToFront() {
+            int drawableIndex = selectedView.transform.GetSiblingIndex();
+            int layerIndex = selectedView.transform.parent.GetSiblingIndex();
+            graph.content[layerIndex].RemoveAt(drawableIndex);
+            graph.content[layerIndex].Add(selected);
+            selectedView.transform.SetAsLastSibling();
+        }
+
+        protected virtual void OnSendToBack() {
+            int drawableIndex = selectedView.transform.GetSiblingIndex();
+            int layerIndex = selectedView.transform.parent.GetSiblingIndex();
+            graph.content[layerIndex].RemoveAt(drawableIndex);
+            graph.content[layerIndex].Insert(0, selected);
+            selectedView.transform.SetAsFirstSibling();
         }
     }
 
@@ -101,5 +145,12 @@ namespace Antigear.Graph {
         /// </summary>
         /// <param name="handler">Handler sending this event.</param>
         void OnSelectionShouldClear(SelectionHandler handler);
+
+        /// <summary>
+        /// Raises the selection should edit event. This happens when the
+        /// selected object should be edited.
+        /// </summary>
+        /// <param name="handler">Handler.</param>
+        void OnSelectionShouldEdit(SelectionHandler handler);
     }
 }
