@@ -9,16 +9,19 @@ namespace Antigear.Graph {
     public abstract class SelectionHandler {
         protected Graph graph;
         protected DrawingView drawingView;
+        protected ISelectionHandlerDelegate handlerDelegate;
 
         /// <summary>
         /// Setups the selection handler with the given graph and view.
         /// </summary>
         /// <param name="graph">Graph.</param>
         /// <param name="drawingView">Drawing view.</param>
+        /// <param name="handler">Delegate for this handler.</param>
         public virtual void SetupSelectionHandler(Graph graph, 
-            DrawingView drawingView) {
+            DrawingView drawingView, ISelectionHandlerDelegate handler) {
             this.graph = graph;
             this.drawingView = drawingView;
+            this.handlerDelegate = handler;
         }
 
         /// <summary>
@@ -35,6 +38,8 @@ namespace Antigear.Graph {
             selectedView.UpdateView(selected, graph.preferences, true);
             UpdateMenu(GetMenuItems(), GetMenuPosition(screenPos));
             drawingView.selectionMenu.Show(false);
+            drawingView.selectionMenu.onItemSelected.RemoveAllListeners();
+            drawingView.selectionMenu.onItemSelected.AddListener(OnMenuSelect);
             drawingView.selectionMenuMask.SetActive(true);
         }
 
@@ -82,5 +87,19 @@ namespace Antigear.Graph {
         protected virtual Vector2 GetMenuPosition(Vector2 screenPos) {
             return Camera.main.ScreenToWorldPoint(screenPos);
         }
+
+        protected virtual void OnMenuSelect(int itemIndex) {
+            Debug.Log("Selected item option " + itemIndex);
+            handlerDelegate.OnSelectionShouldClear(this);
+        }
+    }
+
+    public interface ISelectionHandlerDelegate {
+        /// <summary>
+        /// Raises the selection should clear event. This happens when the
+        /// selected object should be deselected.
+        /// </summary>
+        /// <param name="handler">Handler sending this event.</param>
+        void OnSelectionShouldClear(SelectionHandler handler);
     }
 }

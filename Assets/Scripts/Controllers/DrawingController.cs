@@ -9,7 +9,7 @@ namespace Antigear.Graph {
     /// Manages drawing to a graph.
     /// </summary>
     public class DrawingController : MonoBehaviour, IPaperDelegate, 
-    IToolbarViewDelegate {
+    IToolbarViewDelegate, ISelectionHandlerDelegate {
         public IDrawingControllerDelegate controllerDelegate;
 
         // Outlets.
@@ -56,7 +56,7 @@ namespace Antigear.Graph {
             }
 
             foreach (SelectionHandler handler in selectionHandlers.Values) {
-                handler.SetupSelectionHandler(graph, drawingView);
+                handler.SetupSelectionHandler(graph, drawingView, this);
             }
 
             drawingView.gameObject.SetActive(true);
@@ -230,6 +230,14 @@ namespace Antigear.Graph {
 
             if (toolHandlers.ContainsKey(newTool))
                 toolHandlers[newTool].OnToolSelected();
+        }
+
+        #endregion
+
+        #region ISelectionHandlerDelegate implementation
+
+        public void OnSelectionShouldClear(SelectionHandler handler) {
+            SelectObject(null, null, Vector2.zero);
         }
 
         #endregion

@@ -7236,8 +7236,8 @@ MonoBehaviour:
   m_IgnoreInputAfterShowTimer: 0.3
   m_MaxHeight: 200
   m_CapitalizeButtonText: 1
-  m_HighlightCurrentlySelected: 1
-  m_UpdateHeader: 1
+  m_HighlightCurrentlySelected: 0
+  m_UpdateHeader: 0
   m_AnimationDuration: 0.15
   m_MinDistanceFromEdge: 16
   m_PanelColor: {r: 1, g: 1, b: 1, a: 1}

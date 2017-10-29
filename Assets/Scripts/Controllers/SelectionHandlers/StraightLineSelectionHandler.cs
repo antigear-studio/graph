@@ -12,7 +12,12 @@ namespace Antigear.Graph {
         protected override OptionData[] GetMenuItems() {
             OptionData[] data = {
                 new OptionData(ScriptLocalization.Get("Selection/Edit"), null),
-                new OptionData(ScriptLocalization.Get("Selection/Delete"), null)
+                new OptionData(ScriptLocalization.Get("Selection/Copy"), null),
+                new OptionData(ScriptLocalization.Get("Selection/Delete"), null),
+                new OptionData(ScriptLocalization.Get("Selection/BringToFront"), null),
+                new OptionData(ScriptLocalization.Get("Selection/SendToBack"), null),
+                new OptionData(ScriptLocalization.Get("Selection/SaveShape"), null),
+                new OptionData(ScriptLocalization.Get("Selection/MakeFreeform"), null),
             };
 
             return data;
