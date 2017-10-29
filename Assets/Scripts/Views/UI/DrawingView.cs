@@ -28,6 +28,7 @@ namespace Antigear.Graph {
         public MaterialShadow drawingViewMaterialShadow;
         public RectMask2D mask;
         public MaterialDropdown selectionMenu;
+        public GameObject selectionMenuMask;
 
         void Update() {
             if (wasExpanded != isExpanded) {

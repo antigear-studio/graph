@@ -435,7 +435,7 @@ RectTransform:
   - {fileID: 61861662}
   - {fileID: 1448408624}
   m_Father: {fileID: 969334226}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4853,7 +4853,7 @@ RectTransform:
   - {fileID: 1489993805}
   - {fileID: 524387210}
   m_Father: {fileID: 969334226}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -5296,6 +5296,93 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 535675648}
+--- !u!1 &541778142
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 541778143}
+  - component: {fileID: 541778144}
+  - component: {fileID: 541778146}
+  - component: {fileID: 541778145}
+  m_Layer: 5
+  m_Name: Selection Mask View
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &541778143
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 541778142}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 969334226}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &541778144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 541778142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5322a23d460cf4569a7b341532ccf278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1272704831}
+--- !u!114 &541778145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 541778142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 
+--- !u!222 &541778146
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 541778142}
 --- !u!1 &564643449
 GameObject:
   m_ObjectHideFlags: 0
@@ -7095,6 +7182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 696011002}
   - component: {fileID: 696011007}
+  - component: {fileID: 696011003}
   m_Layer: 5
   m_Name: Selection Menu
   m_TagString: Untagged
@@ -7118,8 +7206,19 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 10, y: 20}
+  m_Pivot: {x: -0.5, y: 0.5}
+--- !u!225 &696011003
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 696011001}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &696011007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7131,15 +7230,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd39871cd9193d5488a3f9287d711f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_VerticalPivotType: 2
+  m_VerticalPivotType: 0
   m_HorizontalPivotType: 0
-  m_ExpandStartType: 3
+  m_ExpandStartType: 0
   m_IgnoreInputAfterShowTimer: 0.3
   m_MaxHeight: 200
   m_CapitalizeButtonText: 1
   m_HighlightCurrentlySelected: 1
   m_UpdateHeader: 1
-  m_AnimationDuration: 0.3
+  m_AnimationDuration: 0.15
   m_MinDistanceFromEdge: 16
   m_PanelColor: {r: 1, g: 1, b: 1, a: 1}
   m_ItemRippleData:
@@ -8605,7 +8704,7 @@ RectTransform:
   - {fileID: 165995777}
   - {fileID: 1944038986}
   m_Father: {fileID: 969334226}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -9732,6 +9831,7 @@ RectTransform:
   - {fileID: 1286965337}
   - {fileID: 1360455907}
   - {fileID: 817995397}
+  - {fileID: 541778143}
   - {fileID: 524387209}
   - {fileID: 67521111}
   - {fileID: 848707956}
@@ -12723,6 +12823,7 @@ MonoBehaviour:
   drawingViewMaterialShadow: {fileID: 528970488}
   mask: {fileID: 1272704828}
   selectionMenu: {fileID: 696011007}
+  selectionMenuMask: {fileID: 541778142}
 --- !u!222 &1286965340
 CanvasRenderer:
   m_ObjectHideFlags: 0

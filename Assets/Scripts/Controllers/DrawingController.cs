@@ -36,8 +36,8 @@ namespace Antigear.Graph {
         // Handlers for each object type.
         readonly Dictionary<Type, SelectionHandler> selectionHandlers = 
             new Dictionary<Type, SelectionHandler> {
-            
-        };
+                { typeof(StraightLine), new StraightLineSelectionHandler() }
+            };
 
         /// <summary>
         /// Opens the given graph for editing. Providing a rect transform will
@@ -105,21 +105,21 @@ namespace Antigear.Graph {
 
         void SelectObject(Drawable drawable, DrawableView drawableView, 
             Vector2 pos) {
-            if (selectedDrawable != null && 
+            if (selectedDrawable != null &&
                 selectionHandlers.ContainsKey(selectedDrawable.GetType())) {
                 selectionHandlers[selectedDrawable.GetType()]
                     .OnDrawableDeselected(selectedDrawable, 
-                        selectedDrawableView);
+                    selectedDrawableView);
             }
 
             selectedDrawable = drawable;
             selectedDrawableView = drawableView;
 
-            if (drawable != null && drawableView != null && 
+            if (drawable != null && drawableView != null &&
                 selectionHandlers.ContainsKey(selectedDrawable.GetType())) {
                 selectionHandlers[selectedDrawable.GetType()]
                     .OnDrawableSelected(selectedDrawable, selectedDrawableView, 
-                        pos);
+                    pos);
             }
         }
 
@@ -179,9 +179,9 @@ namespace Antigear.Graph {
             if (count > 0) {
                 // Handle selection in current layer.
                 Ray r = RectTransformUtility.ScreenPointToRay(Camera.main, 
-                    screenPos);
+                            screenPos);
                 RaycastHit2D[] hits = Physics2D.RaycastAll(r.origin, 
-                    r.direction, 100);
+                                          r.direction, 100);
                 Transform activeLayer = drawingView
                     .GetGraphLayerParentTransform(editingGraph.activeLayer);
 
@@ -195,9 +195,7 @@ namespace Antigear.Graph {
                     if (v == null || hit.transform.parent != activeLayer)
                         continue;
                     
-                    Drawable drawable = editingGraph.content
-                        [activeLayer.GetSiblingIndex()]
-                        [hit.transform.GetSiblingIndex()];
+                    Drawable drawable = editingGraph.content[activeLayer.GetSiblingIndex()][hit.transform.GetSiblingIndex()];
 
                     if (!drawable.Selectible()) {
                         continue;

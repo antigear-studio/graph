@@ -388,6 +388,50 @@ MonoBehaviour:
     - Senza Titolo
     - Walang Pamagat
     Flags: 0000000000000000
+  - Term: Selection/Delete
+    TermType: 0
+    Description: 
+    Languages:
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    Languages_Touch:
+    - Delete
+    - "\u5220\u9664"
+    - "\u524A\u9664"
+    - Borrar
+    - Effacer
+    - "L\xF6schen"
+    - Elimina
+    - Alisin
+    Flags: 0000000000000000
+  - Term: Selection/Edit
+    TermType: 0
+    Description: 
+    Languages:
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    Languages_Touch:
+    - Edit
+    - "\u7F16\u8F91"
+    - "\u7DE8\u96C6"
+    - Editar
+    - Modifier
+    - Bearbeiten
+    - Modifica
+    - Edit
+    Flags: 0000000000000000
   mLanguages:
   - Name: English
     Code: en
