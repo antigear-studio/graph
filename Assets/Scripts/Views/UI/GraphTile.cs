@@ -2,7 +2,7 @@
 using System;
 using TimeAgo;
 using UnityEngine;
-using I2;
+using I2.Loc;
 
 namespace Antigear.Graph {
     /// <summary>
@@ -76,7 +76,7 @@ namespace Antigear.Graph {
         public void UpdateCellWithGraph(Graph graph) {
             string text = graph.preferences.name;
             if (string.IsNullOrEmpty(text)) {
-                text = I2.Loc.ScriptLocalization.Get("Graph/Untitled");
+                text = LocalizationManager.GetTranslation("Graph/Untitled");
             }
             titleText.text = text;
             subtitleText.text = graph.timeModified.ToLocalTime().TimeAgo();

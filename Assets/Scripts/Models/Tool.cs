@@ -1,4 +1,4 @@
-﻿using I2;
+﻿using I2.Loc;
 
 namespace Antigear.Graph {
     /// <summary>
@@ -25,33 +25,37 @@ namespace Antigear.Graph {
         public static string LocalizedName(this Tool tool) {
             switch (tool) {
                 case Tool.StraightLine:
-                    return I2.Loc.ScriptLocalization.Tool.StraightLine;
+                    return LocalizationManager.GetTranslation(
+                        "Tool/StraightLine");
                 case Tool.BezierCurve:
-                    return I2.Loc.ScriptLocalization.Tool.Curve;
+                    return LocalizationManager.GetTranslation("Tool/Curve");
                 case Tool.Arc:
-                    return I2.Loc.ScriptLocalization.Tool.Arc;
+                    return LocalizationManager.GetTranslation("Tool/Arc");
                 case Tool.BSpline:
-                    return I2.Loc.ScriptLocalization.Tool.BSpline;
+                    return LocalizationManager.GetTranslation("Tool/BSpline");
                 case Tool.FreeformLine:
-                    return I2.Loc.ScriptLocalization.Tool.FreeformLine;
+                    return LocalizationManager.GetTranslation(
+                        "Tool/FreeformLine");
                 case Tool.Pencil:
-                    return I2.Loc.ScriptLocalization.Tool.Pencil;
+                    return LocalizationManager.GetTranslation("Tool/Pencil");
                 case Tool.Eraser:
-                    return I2.Loc.ScriptLocalization.Tool.Eraser;
+                    return LocalizationManager.GetTranslation("Tool/Eraser");
                 case Tool.Text:
-                    return I2.Loc.ScriptLocalization.Tool.Text;
+                    return LocalizationManager.GetTranslation("Tool/Text");
                 case Tool.Image:
-                    return I2.Loc.ScriptLocalization.Tool.Image;
+                    return LocalizationManager.GetTranslation("Tool/Image");
                 case Tool.RectangleSelection:
-                    return I2.Loc.ScriptLocalization.Tool.RectangleSelection;
+                    return LocalizationManager.GetTranslation(
+                        "Tool/RectangleSelection");
                 case Tool.LassoSelection:
-                    return I2.Loc.ScriptLocalization.Tool.LassoSelection;
+                    return LocalizationManager.GetTranslation(
+                        "Tool/LassoSelection");
                 case Tool.Zoom:
-                    return I2.Loc.ScriptLocalization.Tool.Zoom;
+                    return LocalizationManager.GetTranslation("Tool/Zoom");
                 case Tool.Pan:
-                    return I2.Loc.ScriptLocalization.Tool.Pan;
+                    return LocalizationManager.GetTranslation("Tool/Pan");
                 default:
-                    return I2.Loc.ScriptLocalization.Tool.Unknown;
+                    return LocalizationManager.GetTranslation("Tool/Unknown");
             }
         }
     }
