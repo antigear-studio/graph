@@ -11,13 +11,20 @@ namespace Antigear.Graph {
     public class StraightLineSelectionHandler : LineSelectionHandler {
         protected override OptionData[] GetMenuItems() {
             OptionData[] data = {
-                new OptionData(ScriptLocalization.Get("Selection/Edit"), null),
-                new OptionData(ScriptLocalization.Get("Selection/Copy"), null),
-                new OptionData(ScriptLocalization.Get("Selection/Delete"), null),
-                new OptionData(ScriptLocalization.Get("Selection/BringToFront"), null),
-                new OptionData(ScriptLocalization.Get("Selection/SendToBack"), null),
-                new OptionData(ScriptLocalization.Get("Selection/SaveShape"), null),
-                new OptionData(ScriptLocalization.Get("Selection/MakeFreeform"), null),
+                new OptionData(LocalizationManager
+                    .GetTranslation("Selection/Edit"), null),
+                new OptionData(LocalizationManager
+                    .GetTranslation("Selection/Copy"), null),
+                new OptionData(LocalizationManager
+                    .GetTranslation("Selection/Delete"), null),
+                new OptionData(LocalizationManager
+                    .GetTranslation("Selection/BringToFront"), null),
+                new OptionData(LocalizationManager
+                    .GetTranslation("Selection/SendToBack"), null),
+                new OptionData(LocalizationManager
+                    .GetTranslation("Selection/SaveShape"), null),
+                new OptionData(LocalizationManager
+                    .GetTranslation("Selection/MakeFreeform"), null),
             };
 
             return data;

@@ -9,17 +9,17 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1237126695195234}
+  m_RootGameObject: {fileID: 1862220937963226}
   m_IsPrefabParent: 1
---- !u!1 &1237126695195234
+--- !u!1 &1862220937963226
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4394363653339554}
-  - component: {fileID: 114734941285954460}
+  - component: {fileID: 4640646496024262}
+  - component: {fileID: 114528102521445358}
   m_Layer: 0
   m_Name: I2Languages
   m_TagString: Untagged
@@ -27,12 +27,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4394363653339554
+--- !u!4 &4640646496024262
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1237126695195234}
+  m_GameObject: {fileID: 1862220937963226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,12 +40,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114734941285954460
+--- !u!114 &114528102521445358
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1237126695195234}
+  m_GameObject: {fileID: 1862220937963226}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 488051eaa73ba421e8fe4868f2e0f364, type: 3}
@@ -54,7 +54,7 @@ MonoBehaviour:
   Google_WebServiceURL: https://script.google.com/macros/s/AKfycby232OxK-Y41_MiVdclT6gX8RK8u5g-xFbwgPBkJCMBt0r9wrA/exec
   Google_SpreadsheetKey: 1b3zAxyeNjACWeyIRTyUJwisnZsphL9GP82Bo0bhwNi8
   Google_SpreadsheetName: I2Loc Draw A Graph! Localization
-  Google_LastUpdatedVersion: 
+  Google_LastUpdatedVersion: 1509257202093
   GoogleUpdateFrequency: 3
   GoogleUpdateDelay: 5
   mTerms:
@@ -62,486 +62,266 @@ MonoBehaviour:
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Curve
     - "\u66F2\u7EBF"
     - "\u66F2\u7DDA"
-    - Curva
-    - Courbe
-    - Kurve
-    - Curva
-    - Kurba
-    Flags: 0000000000000000
+    Languages_Touch:
+    - 
+    - 
+    - 
+    Flags: 000000
   - Term: Tool/Arc
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Arc
     - "\u5F27"
     - "\u30A2\u30FC\u30AF"
-    - Arco
-    - Arc
-    - Bogen
-    - Arco
-    - Arko
-    Flags: 0000000000000000
+    Languages_Touch:
+    - 
+    - 
+    - 
+    Flags: 000000
   - Term: Tool/StraightLine
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Straight Line
     - "\u76F4\u7EBF"
     - "\u76F4\u7DDA"
-    - "L\xEDnea Recta"
-    - Ligne Droite
-    - Gerade Linie
+    Languages_Touch:
     - 
     - 
-    Flags: 0000000000000000
+    - 
+    Flags: 000000
   - Term: Tool/FreeformLine
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Freeform Line
     - "\u4EFB\u610F\u66F2\u7EBF"
     - "\u81EA\u7531\u5F62\u5F0F\u306E\u30E9\u30A4\u30F3"
-    - "L\xEDnea A Mano Alzada"
-    - Ligne Freeform
-    - Freihandlinie
-    - Linea A Mano Libera
-    - Freeform Linya
-    Flags: 0000000000000000
+    Languages_Touch:
+    - 
+    - 
+    - 
+    Flags: 000000
   - Term: Tool/Pencil
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Pencil
     - "\u94C5\u7B14"
     - "\u925B\u7B46"
-    - "L\xE1piz"
-    - Crayon
-    - Bleistift
+    Languages_Touch:
     - 
     - 
-    Flags: 0000000000000000
+    - 
+    Flags: 000000
   - Term: Tool/Eraser
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Rubber
     - "\u6A61\u76AE"
     - "\u6D88\u3057\u30B4\u30E0"
-    - Borrador
-    - La Gomme
-    - Radiergummi
-    - Gomma Per Cancellare
-    - Pambura
-    Flags: 0000000000000000
+    Languages_Touch:
+    - 
+    - 
+    - 
+    Flags: 000000
   - Term: Tool/Text
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Text
     - "\u6587\u672C"
     - "\u30C6\u30AD\u30B9\u30C8"
-    - Texto
-    - Texte
-    - Text
+    Languages_Touch:
     - 
     - 
-    Flags: 0000000000000000
+    - 
+    Flags: 000000
   - Term: Tool/Image
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Image
     - "\u56FE\u7247"
     - "\u753B\u50CF"
-    - Imagen
-    - Image
-    - Bild
+    Languages_Touch:
     - 
     - 
-    Flags: 0000000000000000
+    - 
+    Flags: 000000
   - Term: Tool/RectangleSelection
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Rectangle Selection
     - 
     - 
+    Languages_Touch:
     - 
     - 
     - 
-    - 
-    - 
-    Flags: 0000000000000000
+    Flags: 000000
   - Term: Tool/LassoSelection
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Lasso Selection
     - "\u5957\u7D22\u9009\u62E9"
     - "\u6295\u3052\u7E04\u9078\u629E"
-    - "La Selecci\xF3n De Lazo"
-    - "S\xE9lection Lasso"
-    - Lasso Auswahl
+    Languages_Touch:
     - 
     - 
-    Flags: 0000000000000000
+    - 
+    Flags: 000000
   - Term: Tool/Zoom
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Zoom
     - "\u653E\u5927"
     - "\u30BA\u30FC\u30E0"
-    - Enfocar
-    - Zoom
-    - Zoom
+    Languages_Touch:
     - 
     - 
-    Flags: 0000000000000000
+    - 
+    Flags: 000000
   - Term: Tool/Pan
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Move
     - "\u79FB\u52A8"
     - "\u52D5\u304D"
-    - Movimiento
-    - Bouge Toi
-    - Bewegung
+    Languages_Touch:
     - 
     - 
-    Flags: 0000000000000000
+    - 
+    Flags: 000000
   - Term: Tool/Unknown
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Unknown
     - "\u672A\u77E5"
     - "\u672A\u77E5\u306E"
-    - Desconocido
-    - Inconnu
-    - Unbekannt
+    Languages_Touch:
     - 
     - 
-    Flags: 0000000000000000
+    - 
+    Flags: 000000
   - Term: Tool/BSpline
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - B-Spline
     - "B\u6837\u6761"
     - "B\u30B9\u30D7\u30E9\u30A4\u30F3"
-    - B-Spline
-    - B-Spline
-    - B-Spline
-    - B-Spline
-    - B-Pasak
-    Flags: 0000000000000000
+    Languages_Touch:
+    - 
+    - 
+    - 
+    Flags: 000000
   - Term: Graph/Untitled
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Untitled
     - "\u65E0\u6807\u9898"
     - "\u7121\u984C"
-    - Intitulado
-    - Sans Titre
-    - Ohne Titel
-    - Senza Titolo
-    - Walang Pamagat
-    Flags: 0000000000000000
+    Languages_Touch:
+    - 
+    - 
+    - 
+    Flags: 000000
   - Term: Selection/Delete
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Delete
     - "\u5220\u9664"
     - "\u524A\u9664"
-    - Borrar
-    - Effacer
-    - "L\xF6schen"
-    - Elimina
-    - Alisin
-    Flags: 0000000000000000
+    Languages_Touch:
+    - 
+    - 
+    - 
+    Flags: 000000
   - Term: Selection/Edit
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Edit
     - "\u7F16\u8F91"
     - "\u7DE8\u96C6"
-    - Editar
-    - Modifier
-    - Bearbeiten
-    - Modifica
-    - Edit
-    Flags: 0000000000000000
+    Languages_Touch:
+    - 
+    - 
+    - 
+    Flags: 000000
   - Term: Selection/BringToFront
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Bring to Front
     - "\u7F6E\u9876"
     - "\u524D\u306B\u6301\u3063\u3066\u304F\u308B"
-    - Traer al frente
-    - Mettre au premier plan
-    - Nach vorne bringen
-    - Portare in primo piano
-    - Dalhin sa Front
-    Flags: 0000000000000000
+    Languages_Touch:
+    - 
+    - 
+    - 
+    Flags: 000000
   - Term: Selection/SendToBack
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Send to Back
     - "\u7F6E\u5E95"
     - "\u80CC\u9762\u3078\u79FB\u52D5"
-    - Enviar al fondo
-    - Envoyer au fond
-    - In dem Hintergrund
-    - Mandare indietro
-    - Sa Likuran
-    Flags: 0000000000000000
+    Languages_Touch:
+    - 
+    - 
+    - 
+    Flags: 000000
   - Term: Selection/Copy
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Copy
     - "\u590D\u5236"
     - "\u30B3\u30D4\u30FC"
-    - Dupdo
-    - Copie
-    - Kopieren
-    - Copia
-    - Kopya
-    Flags: 0000000000000000
+    Languages_Touch:
+    - 
+    - 
+    - 
+    Flags: 000000
   - Term: Selection/SaveShape
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Save Shape
     - "\u4FDD\u5B58\u5F62\u72B6"
     - "\u5F62\u72B6\u3092\u4FDD\u5B58"
-    - Guardar La Forma
-    - Sauver Forme
-    - Speichern Form
-    - Salvare La Forma
-    - I-save Ang Hugis
-    Flags: 0000000000000000
+    Languages_Touch:
+    - 
+    - 
+    - 
+    Flags: 000000
   - Term: Selection/MakeFreeform
     TermType: 0
     Description: 
     Languages:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
-    Languages_Touch:
     - Make Freeform
     - "\u8F6C\u6362\u4E3A\u81EA\u7531\u7EBF"
     - "\u81EA\u7531\u7DDA\u3092\u4F5C\u308B"
-    - Hacer De Forma Libre
-    - Faire Freeform
-    - Machen Freiform
-    - Rendere A Mano Libera
-    - Gumawa Ng Freeform
-    Flags: 0000000000000000
+    Languages_Touch:
+    - 
+    - 
+    - 
+    Flags: 000000
   mLanguages:
   - Name: English
     Code: en
@@ -552,21 +332,6 @@ MonoBehaviour:
   - Name: Japanese
     Code: ja
     Flags: 0
-  - Name: Spanish
-    Code: es
-    Flags: 0
-  - Name: French
-    Code: fr
-    Flags: 0
-  - Name: German
-    Code: de
-    Flags: 0
-  - Name: Italian
-    Code: it
-    Flags: 0
-  - Name: Filipino
-    Code: tl
-    Flags: 0
   CaseInsensitiveTerms: 0
   Assets: []
   NeverDestroy: 1
@@ -574,6 +339,6 @@ MonoBehaviour:
   UserAgreesToHaveItInsideThePluginsFolder: 0
   OnMissingTranslation: 1
   mTerm_AppName: 
-  Spreadsheet_LocalFileName: 
+  Spreadsheet_LocalFileName: https://script.google.com/macros/s/AKfycby232OxK-Y41_MiVdclT6gX8RK8u5g-xFbwgPBkJCMBt0r9wrA/exec
   Spreadsheet_LocalCSVSeparator: ','
   Spreadsheet_LocalCSVEncoding: utf-8
