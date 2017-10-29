@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using UnityEngine;
 
 namespace Antigear.Graph {
@@ -10,8 +11,48 @@ namespace Antigear.Graph {
     public abstract class Drawable {
         public string name;
 
-        public DateTime timeLastSelected;
+        /// <summary>
+        /// The time this object was last selected in seconds since app is
+        /// running.
+        /// </summary>
+        [JsonIgnore]
+        public float timeLastSelected;
+
+        /// <summary>
+        /// Flag used at runtime to render view in a different manner when being
+        /// selected.
+        /// </summary>
+        [JsonIgnore]
+        public bool isSelected;
+
+        /// <summary>
+        /// Flag used at runtime to render view in a different manner when in
+        /// editing mode.
+        /// </summary>
+        [JsonIgnore]
+        public bool isEditing;
 
         public Vector2 rotationPivot;
+
+        public virtual bool Selectible() {
+            return Time.time - timeLastSelected > 
+                PlayerPrefs.GetFloat(PlayerPrefKey.SelectionBlockTime);
+        }
+
+        /// <summary>
+        /// Returns a copy of this object.
+        /// </summary>
+        public virtual Drawable Copy() {
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            string output = JsonConvert.SerializeObject(this, settings);
+            return (Drawable)JsonConvert.DeserializeObject(output, GetType());
+        }
+
+        /// <summary>
+        /// Offsets this drawable's position by the specified amount.
+        /// </summary>
+        /// <param name="amount">Amount.</param>
+        public virtual void Offset(Vector2 amount) {}
     }
 }

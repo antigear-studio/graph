@@ -9,7 +9,7 @@ namespace Antigear.Graph {
     /// Manages drawing to a graph.
     /// </summary>
     public class DrawingController : MonoBehaviour, IPaperDelegate, 
-    IToolbarViewDelegate {
+    IToolbarViewDelegate, ISelectionHandlerDelegate {
         public IDrawingControllerDelegate controllerDelegate;
 
         // Outlets.
@@ -19,15 +19,24 @@ namespace Antigear.Graph {
         Graph editingGraph;
 
         // Bookkeeping.
-        bool isDragging;
         Tool dragTool;
+        public Drawable selectedDrawable;
+        public DrawableView selectedDrawableView;
+        public Drawable editingDrawable;
+        public DrawableView editingDrawableView;
 
         // Handlers for each tool.
-        readonly Dictionary<Tool, IToolHandler> handlers = 
-            new Dictionary<Tool, IToolHandler> {
-                { Tool.StraightLine, new StraightLineHandler() },
-                { Tool.Zoom, new ZoomHandler() },
-                { Tool.Pan, new PanHandler() }
+        readonly Dictionary<Tool, ToolHandler> toolHandlers = 
+            new Dictionary<Tool, ToolHandler> {
+                { Tool.StraightLine, new StraightLineToolHandler() },
+                { Tool.Zoom, new ZoomToolHandler() },
+                { Tool.Pan, new PanToolHandler() }
+            };
+
+        // Handlers for each object type.
+        readonly Dictionary<Type, SelectionHandler> selectionHandlers = 
+            new Dictionary<Type, SelectionHandler> {
+                { typeof(StraightLine), new StraightLineSelectionHandler() }
             };
 
         /// <summary>
@@ -42,16 +51,20 @@ namespace Antigear.Graph {
             RectTransform tile = null, Action callback = null) {
             editingGraph = graph;
 
-            foreach (IToolHandler handler in handlers.Values) {
+            foreach (ToolHandler handler in toolHandlers.Values) {
                 handler.SetupToolHandler(graph, drawingView);
+            }
+
+            foreach (SelectionHandler handler in selectionHandlers.Values) {
+                handler.SetupSelectionHandler(graph, drawingView, this);
             }
 
             drawingView.gameObject.SetActive(true);
             drawingView.toolbarView.SetToolbarVisibility(true, animated);
             drawingView.SetExpansion(true, true, tile, callback);
             drawingView.toolbarView.ChangeTool(graph.activeTool, false);
-            drawingView.LoadContent(graph.content);
-            SetBackgroundColor(graph.backgroundColor, false);
+            drawingView.LoadContent(graph.content, graph.preferences);
+            SetBackgroundColor(graph.preferences.backgroundColor, false);
         }
 
         /// <summary>
@@ -90,42 +103,118 @@ namespace Antigear.Graph {
             drawingView.paper.SetBackgroundColor(color, animated);
         }
 
+        void SelectObject(Drawable drawable, DrawableView drawableView, 
+            Vector2 pos) {
+            if (selectedDrawable != null &&
+                selectionHandlers.ContainsKey(selectedDrawable.GetType())) {
+                selectionHandlers[selectedDrawable.GetType()]
+                    .OnDrawableDeselected(selectedDrawable, 
+                    selectedDrawableView);
+            }
+
+            selectedDrawable = drawable;
+            selectedDrawableView = drawableView;
+
+            if (drawable != null && drawableView != null &&
+                selectionHandlers.ContainsKey(selectedDrawable.GetType())) {
+                selectionHandlers[selectedDrawable.GetType()]
+                    .OnDrawableSelected(selectedDrawable, selectedDrawableView, 
+                    pos);
+            }
+        }
+
         #region IPaperDelegate implementation
 
         public void OnPaperBeginDrag(Paper paper, Vector2 pos, 
             Vector2 screenPos) {
             // Switch tool. Depending on which tool we initiate different
             // actions.
-            isDragging = true;
             dragTool = editingGraph.activeTool;
 
-            if (handlers.ContainsKey(dragTool)) {
-                handlers[dragTool].OnPaperBeginDrag(pos, screenPos);
+            if (toolHandlers.ContainsKey(dragTool)) {
+                toolHandlers[dragTool].OnPaperBeginDrag(pos, screenPos);
             }
         }
 
         public void OnPaperDrag(Paper paper, Vector2 pos, 
             Vector2 screenPos) {
 
-            if (handlers.ContainsKey(dragTool)) {
-                handlers[dragTool].OnPaperDrag(pos, screenPos);
+            if (toolHandlers.ContainsKey(dragTool)) {
+                toolHandlers[dragTool].OnPaperDrag(pos, screenPos);
             }
         }
 
         public void OnPaperEndDrag(Paper paper, Vector2 pos, 
             Vector2 screenPos) {
-            if (handlers.ContainsKey(dragTool)) {
-                handlers[dragTool].OnPaperEndDrag(pos, screenPos);
+            if (toolHandlers.ContainsKey(dragTool)) {
+                toolHandlers[dragTool].OnPaperEndDrag(pos, screenPos);
             }
 
-            isDragging = false;
             dragTool = Tool.Unknown;
+        }
+
+        public void OnPaperCancelDrag(Paper paper) {
+            if (toolHandlers.ContainsKey(dragTool)) {
+                toolHandlers[dragTool].OnPaperCancelDrag();
+            }
+
+            dragTool = Tool.Unknown;
+        }
+
+        // Implement double drag for pan + zoom with these callbacks.
+        public void OnPaperBeginDoubleDrag(Paper paper, Vector2 pos1, 
+            Vector2 pos2, Vector2 screenPos1, Vector2 screenPos2) {
+        }
+
+        public void OnPaperDoubleDrag(Paper paper, Vector2 pos1, Vector2 pos2, 
+            Vector2 screenPos1, Vector2 screenPos2) {
+        }
+
+        public void OnPaperEndDoubleDrag(Paper paper, Vector2 pos1, 
+            Vector2 pos2, Vector2 screenPos1, Vector2 screenPos2) {
         }
 
         public void OnPaperTap(Paper paper, Vector2 pos, Vector2 screenPos, 
             int count) {
-            if (handlers.ContainsKey(dragTool)) {
-                handlers[dragTool].OnPaperTap(pos, screenPos, count);
+            if (count > 0) {
+                // Handle selection in current layer.
+                Ray r = RectTransformUtility.ScreenPointToRay(Camera.main, 
+                            screenPos);
+                RaycastHit2D[] hits = Physics2D.RaycastAll(r.origin, 
+                                          r.direction, 100);
+                Transform activeLayer = drawingView
+                    .GetGraphLayerParentTransform(editingGraph.activeLayer);
+
+                DrawableView highestEligibleView = null;
+                Drawable highestEligibleDrawable = null;
+                int highestChildIndex = -1;
+
+                foreach (var hit in hits) {
+                    DrawableView v = hit.transform.GetComponent<DrawableView>();
+
+                    if (v == null || hit.transform.parent != activeLayer)
+                        continue;
+                    
+                    Drawable drawable = editingGraph.content[activeLayer.GetSiblingIndex()][hit.transform.GetSiblingIndex()];
+
+                    if (!drawable.Selectible()) {
+                        continue;
+                    }
+
+                    if (highestChildIndex < hit.transform.GetSiblingIndex()) {
+                        highestChildIndex = hit.transform.GetSiblingIndex();
+                        highestEligibleView = v;
+                        highestEligibleDrawable = drawable;
+                    }
+                }
+
+                // Deselect.
+                SelectObject(highestEligibleDrawable, highestEligibleView, 
+                    screenPos);
+            }
+
+            if (count == 2) {
+                // Handle double tap action.
             }
         }
 
@@ -134,17 +223,28 @@ namespace Antigear.Graph {
         #region IToolbarViewDelegate implementation
 
         public void OnToolChanged(Tool newTool) {
-            if (handlers.ContainsKey(editingGraph.activeTool))
-                handlers[editingGraph.activeTool].OnToolDeselected();
+            if (toolHandlers.ContainsKey(editingGraph.activeTool))
+                toolHandlers[editingGraph.activeTool].OnToolDeselected();
             
             editingGraph.activeTool = newTool;
 
-            if (handlers.ContainsKey(newTool))
-                handlers[newTool].OnToolSelected();
+            if (toolHandlers.ContainsKey(newTool))
+                toolHandlers[newTool].OnToolSelected();
         }
 
         #endregion
 
+        #region ISelectionHandlerDelegate implementation
+
+        public void OnSelectionShouldClear(SelectionHandler handler) {
+            SelectObject(null, null, Vector2.zero);
+        }
+
+        public void OnSelectionShouldEdit(SelectionHandler handler) {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         void Start() {
             drawingView.gameObject.SetActive(false);
@@ -160,27 +260,5 @@ namespace Antigear.Graph {
         /// <param name="controller">Controller.</param>
         /// <param name="color">Color.</param>
         void OnUIColorChange(DrawingController controller, Color color);
-    }
-
-    /// <summary>
-    /// Implementer handles tool-related work. This separates the logic of each
-    /// tool into different files.
-    /// </summary>
-    public interface IToolHandler {
-        void SetupToolHandler(Graph graph, DrawingView drawingView);
-
-        void OnToolSelected();
-
-        void OnToolDeselected();
-
-        void OnPaperBeginDrag(Vector2 pos, Vector2 screenPos);
-
-        void OnPaperDrag(Vector2 pos, Vector2 screenPos);
-
-        void OnPaperEndDrag(Vector2 pos, Vector2 screenPos);
-
-        void OnPaperCancelDrag();
-
-        void OnPaperTap(Vector2 pos, Vector2 screenPos, int count);
     }
 }

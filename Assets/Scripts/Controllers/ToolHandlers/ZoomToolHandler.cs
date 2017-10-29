@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace Antigear.Graph {
-    public class ZoomHandler : ToolHandler {
+    public class ZoomToolHandler : ToolHandler {
         const float MAX_ZOOM = 1000;
         const float MIN_ZOOM = 0.001f;
 

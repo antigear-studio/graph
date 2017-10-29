@@ -30,6 +30,7 @@ namespace Antigear.Graph {
         }
 
         void Start() {
+            PlayerPrefsInit();
             graphGridViewController.SetGraphStore(graphStore);
             graphGridViewController.controllerDelegate = this;
             appBarView.viewDelegate = this;
@@ -41,6 +42,11 @@ namespace Antigear.Graph {
             if (!success) {
                 Debug.LogError("Unable to load graphs from disk!");
             }
+        }
+
+        void PlayerPrefsInit() {
+            if (!PlayerPrefs.HasKey(PlayerPrefKey.SelectionBlockTime))
+                PlayerPrefs.SetFloat(PlayerPrefKey.SelectionBlockTime, 0.25f);
         }
 
         void OpenGraphAnimation() {

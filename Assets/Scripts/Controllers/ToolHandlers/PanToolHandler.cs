@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace Antigear.Graph {
-    public class PanHandler : ToolHandler {
+    public class PanToolHandler : ToolHandler {
         Vector2 panBeginPaperPosition;
         Vector2 panBeginScreenPosition;
         RectTransform contentTransform;

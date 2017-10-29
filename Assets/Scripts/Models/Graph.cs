@@ -10,12 +10,21 @@ namespace Antigear.Graph {
     /// </summary>
     [Serializable]
     public class Graph {
+        /// <summary>
+        /// Encapsulates user preferences for a specific graph.
+        /// </summary>
+        [Serializable]
+        public class Preference {
+            public string name = "";
+            public Color backgroundColor = Color.white;
+            public Color selectionHighlightColor = Color.green;
+        }
+
         // graph metadata
-        public string name;
         public DateTime timeCreated;
         public DateTime timeModified;
-        public Color backgroundColor = Color.white;
         public int activeLayer;
+        public Preference preferences = new Preference();
 
         [JsonIgnore]
         public string localFileName;
@@ -23,7 +32,6 @@ namespace Antigear.Graph {
         public bool isDirty;
         [JsonIgnore]
         public Tool activeTool = Tool.StraightLine;
-
 
         // graph content
         public List<Layer> content = new List<Layer>();
@@ -37,7 +45,6 @@ namespace Antigear.Graph {
         public Graph() {
             timeCreated = DateTime.UtcNow;
             timeModified = DateTime.UtcNow;
-            name = "Untitled";
             content.Add(new Layer());
         }
     }

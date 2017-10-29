@@ -14,5 +14,12 @@ namespace Antigear.Graph {
         public override List<Vector2> GetPoints() {
             return new List<Vector2> { startPoint, endPoint };
         }
+
+        public override void Offset(Vector2 amount) {
+            base.Offset(amount);
+
+            startPoint += amount;
+            endPoint += amount;
+        }
     }
 }

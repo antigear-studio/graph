@@ -672,7 +672,7 @@ namespace MaterialUI
         /// <summary>
         /// Instantiates the dropdown object and expands it.
         /// </summary>
-        public void Show()
+        public void Show(bool withCancelPanel = true)
         {
             Canvas rootCanvas = m_BaseTransform.GetRootCanvas();
             rootCanvas.CopySettingsToOtherCanvas(m_DropdownCanvas);
@@ -687,7 +687,7 @@ namespace MaterialUI
             m_DropdownPanel.GetRootCanvas().scaleFactor = rootCanvas.scaleFactor;
 
             m_CancelPanel = m_DropdownPanel.GetChildByName<RectTransform>("Cancel Panel");
-            m_CancelPanel.sizeDelta = scaler.targetCanvas.pixelRect.size * 2;
+            m_CancelPanel.sizeDelta = withCancelPanel ? scaler.targetCanvas.pixelRect.size * 2 : Vector2.zero;
             DropdownTrigger trigger = m_DropdownPanel.gameObject.GetChildByName<DropdownTrigger>("Cancel Panel");
             trigger.index = -1;
             trigger.dropdown = this;
@@ -857,11 +857,8 @@ namespace MaterialUI
         /// <summary>
         /// Hides and destroys the dropdown object.
         /// </summary>
-        public void Hide()
+        public void Hide(bool animated = true)
         {
-            float cached = m_AnimationDuration;
-            m_AnimationDuration = 0;
-
             for (int i = 0; i < m_ListItemAutoTweeners.Count; i++)
             {
                 TweenManager.EndTween(m_ListItemAutoTweeners[i]);
@@ -874,26 +871,30 @@ namespace MaterialUI
                 m_BaseSelectable.interactable = true;
             }
 
-            for (int i = 0; i < m_ListItems.Count; i++)
-            {
-                int i1 = i;
-                CanvasGroup canvasGroup = m_ListItems[i].canvasGroup;
-                TweenManager.TweenFloat(f => canvasGroup.alpha = f, canvasGroup.alpha, 0f, m_AnimationDuration * 0.66f, (m_ListItems.Count - i1) * (m_AnimationDuration / 6), null, false, Tween.TweenType.Linear);
-            }
-
-            m_AutoTweeners.Add(TweenManager.TweenFloat(f => m_DropdownCanvasGroup.alpha = f, m_DropdownCanvasGroup.alpha, 0f, m_AnimationDuration * 0.66f, m_AnimationDuration, null, false, Tween.TweenType.Linear));
-
-            TweenManager.TweenFloat(f => m_ShadowCanvasGroup.alpha = f, m_ShadowCanvasGroup.alpha, 0f, m_AnimationDuration * 0.66f, m_AnimationDuration, () =>
-            {
-                for (int i = 0; i < m_AutoTweeners.Count; i++)
+            if (animated) {
+                for (int i = 0; i < m_ListItems.Count; i++)
                 {
-                    TweenManager.EndTween(m_AutoTweeners[i]);
+                    int i1 = i;
+                    CanvasGroup canvasGroup = m_ListItems[i].canvasGroup;
+
+                    TweenManager.TweenFloat(f => canvasGroup.alpha = f, canvasGroup.alpha, 0f, m_AnimationDuration * 0.6f, (m_ListItems.Count - i1) * (m_AnimationDuration / 6), null, false, Tween.TweenType.Linear);
                 }
 
-                Destroy(m_DropdownPanel.gameObject);
-            }, false, Tween.TweenType.Linear);
+                m_AutoTweeners.Add(TweenManager.TweenFloat(f => m_DropdownCanvasGroup.alpha = f, m_DropdownCanvasGroup.alpha, 0f, m_AnimationDuration * 0.66f, m_AnimationDuration, null, false, Tween.TweenType.Linear));
 
-            m_AnimationDuration = cached;
+                TweenManager.TweenFloat(f => m_ShadowCanvasGroup.alpha = f, m_ShadowCanvasGroup.alpha, 0f, m_AnimationDuration * 0.66f, m_AnimationDuration, () =>
+                    {
+                        for (int i = 0; i < m_AutoTweeners.Count; i++)
+                        {
+                            TweenManager.EndTween(m_AutoTweeners[i]);
+                        }
+
+                        Destroy(m_DropdownPanel.gameObject);
+                    }, false, Tween.TweenType.Linear);
+            } else {
+                if (m_DropdownPanel != null)
+                    Destroy(m_DropdownPanel.gameObject);
+            }
         }
 
         /// <summary>

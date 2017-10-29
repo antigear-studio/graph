@@ -30,7 +30,8 @@ namespace Antigear.Graph {
                         } else if (g2 == null) {
                             return -1;
                         } else {
-                            return g1.name.CompareTo(g2.name);
+                            return g1.preferences.name.CompareTo(
+                                g2.preferences.name);
                         }
                     case GraphSortOrder.NaturalDescending:
                         if (g1 == null && g2 == null) {
@@ -40,7 +41,8 @@ namespace Antigear.Graph {
                         } else if (g2 == null) {
                             return 1;
                         } else {
-                            return -g1.name.CompareTo(g2.name);
+                            return -g1.preferences.name.CompareTo(
+                                g2.preferences.name);
                         }
                     case GraphSortOrder.CreationDateAscending:
                         if (g1 == null && g2 == null) {
