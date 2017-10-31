@@ -45,8 +45,10 @@ namespace Antigear.Graph {
         public virtual Drawable Copy() {
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            settings.TypeNameHandling = TypeNameHandling.All;
             string output = JsonConvert.SerializeObject(this, settings);
-            return (Drawable)JsonConvert.DeserializeObject(output, GetType());
+
+            return (Drawable)JsonConvert.DeserializeObject(output, settings);
         }
 
         /// <summary>

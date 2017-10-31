@@ -14,4 +14,3 @@ namespace Antigear.Graph {
         public string name = "Layer";
     }
 }
-

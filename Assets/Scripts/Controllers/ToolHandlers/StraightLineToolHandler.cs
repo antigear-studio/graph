@@ -15,7 +15,7 @@ namespace Antigear.Graph {
             if (previewLineView == null) {
                 int layer = drawingView.GetPreviewLayerIndex();
                 previewLineView = drawingView
-                    .InstantiateToolPrefab(Tool.StraightLine, layer)
+                    .InstantiatePrefab(previewLine, layer)
                     .GetComponent<StraightLineView>();
             }
 

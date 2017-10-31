@@ -14,7 +14,8 @@ namespace Antigear.Graph {
         // Public fields.
         public float animationDuration = 0.5f;
         public bool isExpanded;
-        public List<GameObject> toolPrefabs = new List<GameObject>();
+
+        public DrawableView straightLinePrefab;
 
         // Private fields.
         readonly List<int> expansionAnimationTweenIds = new List<int>();
@@ -189,8 +190,9 @@ namespace Antigear.Graph {
                 Destroy(canvas.GetChild(i).gameObject);
             }
 
-            foreach (Layer layer in content) {
-                LoadLayer(layer, preferences);
+            for (int i = 0; i < content.Count; i++) {
+                Layer layer = content[i];
+                LoadLayer(layer, i, preferences);
             }
 
             // Create a special layer for preview object creation.
@@ -202,27 +204,38 @@ namespace Antigear.Graph {
             r.anchoredPosition3D = Vector3.zero;
         }
 
-        void LoadLayer(Layer layer, Graph.Preference preferences) {
-            Transform canvas = paper.transform.GetChild(0);
+        public void LoadLayer(Layer layer, int index, 
+            Graph.Preference preferences) {
+            LayerView layerView;
 
-            GameObject layerViewObject = new GameObject(layer.name, 
-                typeof(RectTransform), typeof(LayerView), typeof(CanvasGroup));
-            layerViewObject.transform.SetParent(canvas, true);
-            RectTransform r = layerViewObject.transform as RectTransform;
-            r.sizeDelta = Vector2.zero;
-            r.anchoredPosition3D = Vector3.zero;
-            LayerView layerView = layerViewObject.GetComponent<LayerView>();
-            CanvasGroup group = layerViewObject.GetComponent<CanvasGroup>();
-            layerView.layerGroup = group;
+            LayerView[] layerViews = paper.content
+                .GetComponentsInChildren<LayerView>(true);
+
+            if (index < layerViews.Length) {
+                layerView = layerViews[index];
+            } else {
+                GameObject layerViewObject = new GameObject(layer.name, 
+                    typeof(RectTransform), typeof(LayerView), 
+                    typeof(CanvasGroup));
+                RectTransform r = layerViewObject.transform as RectTransform;
+                r.SetParent(paper.content, true);
+                r.SetSiblingIndex(index);
+                r.sizeDelta = Vector2.zero;
+                r.anchoredPosition3D = Vector3.zero;
+                layerView = layerViewObject.GetComponent<LayerView>();
+                CanvasGroup group = layerViewObject.GetComponent<CanvasGroup>();
+                layerView.layerGroup = group;
+            }
+
             layerView.UpdateLayer(layer);
 
+            for (int i = 0; i < layerView.transform.childCount; i++) {
+                Destroy(layerView.transform.GetChild(i).gameObject);
+            }
+
             foreach (Drawable drawable in layer) {
-                if (drawable.GetType().Equals(typeof(StraightLine))) {
-                    GameObject obj = InstantiateToolPrefab(Tool.StraightLine, 
-                        r.GetSiblingIndex());
-                    StraightLineView v = obj.GetComponent<StraightLineView>();
-                    v.UpdateView((StraightLine)drawable, preferences, false);
-                }
+                DrawableView drawableView = InstantiatePrefab(drawable, index);
+                drawableView.UpdateView(drawable, preferences, false);
             }
         }
 
@@ -230,8 +243,12 @@ namespace Antigear.Graph {
             return paper.transform.GetChild(0).GetChild(layerIndex);
         }
 
-        public GameObject InstantiateToolPrefab(Tool tool, int layer) {
-            GameObject prefab = Instantiate(toolPrefabs[(int)tool]);
+        public DrawableView InstantiatePrefab(Drawable type, int layer) {
+            DrawableView prefab = null;
+
+            if (typeof(StraightLine).Equals(type.GetType())) {
+                prefab = Instantiate(straightLinePrefab);
+            }
 
             // Add the prefab to the scene.
             prefab.transform.SetParent(GetGraphLayerParentTransform(layer));
