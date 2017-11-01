@@ -112,29 +112,68 @@ namespace Antigear.Graph {
             DrawableView copyView = Object.Instantiate(selectedView, 
                 selectedView.transform.parent);
             copyView.UpdateView(copy, graph.preferences, false);
+
+            if (handlerDelegate != null) {
+                Command cmd = new Command();
+                cmd.type = Command.Type.CreateDrawable;
+                cmd.drawableIndex = graph.content[layerIndex].Count - 1;
+                cmd.layerIndex = layerIndex;
+                cmd.currentDrawable = copy;
+                handlerDelegate.OnChange(this, cmd);
+            }
         }
 
         protected virtual void OnDelete() {
             int drawableIndex = selectedView.transform.GetSiblingIndex();
             int layerIndex = selectedView.transform.parent.GetSiblingIndex();
+            Drawable toDelete = graph.content[layerIndex][drawableIndex];
             graph.content[layerIndex].RemoveAt(drawableIndex);
             Object.Destroy(selectedView.gameObject);
+
+            if (handlerDelegate != null) {
+                Command cmd = new Command();
+                cmd.type = Command.Type.DeleteDrawable;
+                cmd.drawableIndex = drawableIndex;
+                cmd.layerIndex = layerIndex;
+                cmd.previousDrawable = toDelete;
+                handlerDelegate.OnChange(this, cmd);
+            }
         }
 
         protected virtual void OnBringToFront() {
             int drawableIndex = selectedView.transform.GetSiblingIndex();
             int layerIndex = selectedView.transform.parent.GetSiblingIndex();
+            Layer copy = graph.content[layerIndex].Copy();
             graph.content[layerIndex].RemoveAt(drawableIndex);
             graph.content[layerIndex].Add(selected);
             selectedView.transform.SetAsLastSibling();
+
+            if (handlerDelegate != null) {
+                Command cmd = new Command();
+                cmd.type = Command.Type.UpdateLayer;
+                cmd.layerIndex = layerIndex;
+                cmd.previousLayer = copy;
+                cmd.currentLayer = graph.content[layerIndex];
+                handlerDelegate.OnChange(this, cmd);
+            }
         }
 
         protected virtual void OnSendToBack() {
             int drawableIndex = selectedView.transform.GetSiblingIndex();
             int layerIndex = selectedView.transform.parent.GetSiblingIndex();
+            Layer copy = graph.content[layerIndex].Copy();
             graph.content[layerIndex].RemoveAt(drawableIndex);
             graph.content[layerIndex].Insert(0, selected);
             selectedView.transform.SetAsFirstSibling();
+
+            if (handlerDelegate != null) {
+                Command cmd = new Command();
+                cmd.type = Command.Type.UpdateLayer;
+                cmd.layerIndex = layerIndex;
+                cmd.previousLayer = copy;
+                cmd.currentLayer = graph.content[layerIndex];
+                handlerDelegate.OnChange(this, cmd);
+            }
         }
     }
 
@@ -152,5 +191,13 @@ namespace Antigear.Graph {
         /// </summary>
         /// <param name="handler">Handler.</param>
         void OnSelectionShouldEdit(SelectionHandler handler);
+
+        /// <summary>
+        /// Raises when the graph object changes in a way supported by History
+        /// Controller for undo/redo.
+        /// </summary>
+        /// <param name="handler">Handler.</param>
+        /// <param name="cmd">Command that records this change.</param>
+        void OnChange(SelectionHandler handler, Command cmd);
     }
 }

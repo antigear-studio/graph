@@ -38,7 +38,6 @@ namespace Antigear.Graph {
 
         CanvasGroup closeButtonCanvasGroup;
         CanvasGroup navigationButtonCanvasGroup;
-        CanvasGroup moreButtonCanvasGroup;
 
         bool wasMinimized;
         LeftButtonType lastLeftButton;
@@ -51,7 +50,6 @@ namespace Antigear.Graph {
             closeButtonCanvasGroup = closeButton.GetComponent<CanvasGroup>();
             navigationButtonCanvasGroup = 
                 navigationButton.GetComponent<CanvasGroup>();
-            moreButtonCanvasGroup = moreButton.GetComponent<CanvasGroup>();
         }
 
         void Update() {

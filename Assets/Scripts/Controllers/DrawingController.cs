@@ -9,10 +9,12 @@ namespace Antigear.Graph {
     /// Manages drawing to a graph.
     /// </summary>
     public class DrawingController : MonoBehaviour, IPaperDelegate, 
-    IToolbarViewDelegate, ISelectionHandlerDelegate {
+    IToolbarViewDelegate, ISelectionHandlerDelegate, IToolHandlerDelegate, 
+    ISideBarViewDelegate, IHistoryControllerDelegate {
         public IDrawingControllerDelegate controllerDelegate;
 
         // Outlets.
+        public HistoryController historyController;
         public DrawingView drawingView;
         public Paper paper;
 
@@ -52,17 +54,25 @@ namespace Antigear.Graph {
             editingGraph = graph;
 
             foreach (ToolHandler handler in toolHandlers.Values) {
-                handler.SetupToolHandler(graph, drawingView);
+                handler.SetupToolHandler(graph, drawingView, this);
             }
 
             foreach (SelectionHandler handler in selectionHandlers.Values) {
                 handler.SetupSelectionHandler(graph, drawingView, this);
             }
 
+            historyController.SetupController(graph, drawingView);
+            historyController.controllerDelegate = this;
             drawingView.gameObject.SetActive(true);
             drawingView.toolbarView.SetToolbarVisibility(true, animated);
             drawingView.SetExpansion(true, true, tile, callback);
             drawingView.toolbarView.ChangeTool(graph.activeTool, false);
+            drawingView.sideBarView.SetUndoButtonVisibility(
+                historyController.CanUndo());
+            drawingView.sideBarView.SetRedoButtonVisibility(
+                historyController.CanRedo(), true, 0.1f);
+            drawingView.sideBarView.SetSnapButtonVisibility(false, true, 0.2f);
+            drawingView.sideBarView.viewDelegate = this;
             drawingView.LoadContent(graph.content, graph.preferences);
             SetBackgroundColor(graph.preferences.backgroundColor, false);
         }
@@ -81,6 +91,7 @@ namespace Antigear.Graph {
                 drawingView.gameObject.SetActive(false);
                 callback();
             });
+            drawingView.sideBarView.SetVisibility(false, false, false);
         }
 
         void SetBackgroundColor(Color color, bool animated) {
@@ -123,6 +134,13 @@ namespace Antigear.Graph {
             }
         }
 
+        void UpdateHistoryButtonsVisibility() {
+            drawingView.sideBarView.SetUndoButtonVisibility(
+                historyController.CanUndo());
+            drawingView.sideBarView.SetRedoButtonVisibility(
+                historyController.CanRedo());
+        }
+
         #region IPaperDelegate implementation
 
         public void OnPaperBeginDrag(Paper paper, Vector2 pos, 
@@ -136,8 +154,7 @@ namespace Antigear.Graph {
             }
         }
 
-        public void OnPaperDrag(Paper paper, Vector2 pos, 
-            Vector2 screenPos) {
+        public void OnPaperDrag(Paper paper, Vector2 pos, Vector2 screenPos) {
 
             if (toolHandlers.ContainsKey(dragTool)) {
                 toolHandlers[dragTool].OnPaperDrag(pos, screenPos);
@@ -242,6 +259,50 @@ namespace Antigear.Graph {
 
         public void OnSelectionShouldEdit(SelectionHandler handler) {
             throw new NotImplementedException();
+        }
+
+        public void OnChange(SelectionHandler handler, Command cmd) {
+            historyController.Commit(cmd);
+        }
+
+        #endregion
+
+        #region IToolHandlerDelegate implementation
+
+        public void OnChange(ToolHandler handler, Command cmd) {
+            historyController.Commit(cmd);
+        }
+
+        #endregion
+
+        #region ISideBarViewDelegate implementation
+
+        public void OnUndoButtonPress(SideBarView sideBarView) {
+            historyController.Undo();
+        }
+
+        public void OnRedoButtonPress(SideBarView sideBarView) {
+            historyController.Redo();
+        }
+
+        public void OnSnapButtonPress(SideBarView sideBarView) {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region IHistoryControllerDelegate implementation
+
+        public void OnHistoryUndo(HistoryController controller) {
+            UpdateHistoryButtonsVisibility();
+        }
+
+        public void OnHistoryRedo(HistoryController controller) {
+            UpdateHistoryButtonsVisibility();
+        }
+
+        public void OnHistoryCommit(HistoryController controller) {
+            UpdateHistoryButtonsVisibility();
         }
 
         #endregion

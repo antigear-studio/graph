@@ -35,6 +35,8 @@ namespace Antigear.Graph {
 
         // graph content
         public List<Layer> content = new List<Layer>();
+        public Stack<Command> history = new Stack<Command>();
+        public Stack<Command> future = new Stack<Command>();
 
         // graph-specific preferences
 

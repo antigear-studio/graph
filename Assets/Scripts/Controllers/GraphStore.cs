@@ -108,6 +108,8 @@ namespace Antigear.Graph {
         void Awake() {
             path = Application.persistentDataPath + "/Graphs/";
             serializer = new JsonSerializer();
+            serializer.TypeNameHandling = TypeNameHandling.All;
+            serializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
 
             if (!Directory.Exists(path)) {

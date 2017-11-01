@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Antigear.Graph {
@@ -12,6 +13,17 @@ namespace Antigear.Graph {
         public bool visible = true;
         public bool interactive = true;
         public string name = "Layer";
+
+        /// <summary>
+        /// Returns a copy of this object.
+        /// </summary>
+        public virtual Layer Copy() {
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            settings.TypeNameHandling = TypeNameHandling.All;
+            string output = JsonConvert.SerializeObject(this, settings);
+
+            return (Layer)JsonConvert.DeserializeObject(output, settings);
+        }
     }
 }
-

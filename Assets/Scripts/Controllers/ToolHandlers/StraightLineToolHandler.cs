@@ -15,7 +15,7 @@ namespace Antigear.Graph {
             if (previewLineView == null) {
                 int layer = drawingView.GetPreviewLayerIndex();
                 previewLineView = drawingView
-                    .InstantiateToolPrefab(Tool.StraightLine, layer)
+                    .InstantiatePrefab(previewLine, layer)
                     .GetComponent<StraightLineView>();
             }
 
@@ -36,6 +36,16 @@ namespace Antigear.Graph {
                 drawingView.GetGraphLayerParentTransform(graph.activeLayer));
             previewLineView = null;
             graph.content[graph.activeLayer].Add(previewLine);
+
+            if (handlerDelegate != null) {
+                Command cmd = new Command();
+                cmd.type = Command.Type.CreateDrawable;
+                cmd.layerIndex = graph.activeLayer;
+                cmd.drawableIndex = graph.content[graph.activeLayer].Count - 1;
+                cmd.currentDrawable = previewLine;
+                handlerDelegate.OnChange(this, cmd);
+            }
+
             previewLine = null;
         }
 

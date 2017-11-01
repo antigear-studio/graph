@@ -8,8 +8,7 @@ namespace Antigear.Graph {
         public CanvasGroup layerGroup;
 
         /// <summary>
-        /// This updates the layer's display info. Does not modify the actual
-        /// drawing objects.
+        /// This updates the layer's display info.
         /// </summary>
         /// <param name="layer">Layer model to draw info on.</param>
         public void UpdateLayer(Layer layer) {
