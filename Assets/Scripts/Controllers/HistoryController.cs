@@ -9,6 +9,7 @@ namespace Antigear.Graph {
     /// </summary>
     public class HistoryController : MonoBehaviour {
         // Outlets.
+        public IHistoryControllerDelegate controllerDelegate;
 
         // Used to keep track of which actions can be done.
         Stack<Command> history;
@@ -89,6 +90,9 @@ namespace Antigear.Graph {
                         graph.preferences);
                     break;
             }
+
+            if (controllerDelegate != null)
+                controllerDelegate.OnHistoryUndo(this);
         }
 
         public void Redo() {
@@ -143,6 +147,9 @@ namespace Antigear.Graph {
                         .gameObject);
                     break;
             }
+
+            if (controllerDelegate != null)
+                controllerDelegate.OnHistoryRedo(this);
         }
 
         /// <summary>
@@ -152,13 +159,29 @@ namespace Antigear.Graph {
         public void Commit(Command cmd) {
             future.Clear();
             history.Push(cmd);
-        }
 
-        void Update() {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-                Undo();
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-                Redo();
+            if (controllerDelegate != null)
+                controllerDelegate.OnHistoryCommit(this);
         }
+    }
+
+    public interface IHistoryControllerDelegate {
+        /// <summary>
+        /// Raised when the history has been undone.
+        /// </summary>
+        /// <param name="controller">Instance.</param>
+        void OnHistoryUndo(HistoryController controller);
+
+        /// <summary>
+        /// Raised when the history has been redone.
+        /// </summary>
+        /// <param name="controller">Instance.</param>
+        void OnHistoryRedo(HistoryController controller);
+
+        /// <summary>
+        /// Raised when the history has been made.
+        /// </summary>
+        /// <param name="controller">Instance.</param>
+        void OnHistoryCommit(HistoryController controller);
     }
 }

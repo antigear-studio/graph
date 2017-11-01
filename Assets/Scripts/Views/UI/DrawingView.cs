@@ -24,7 +24,7 @@ namespace Antigear.Graph {
         // Outlets.
         public Paper paper;
         public ToolbarView toolbarView;
-        public HistoryBarView historyBarView;
+        public SideBarView sideBarView;
         public DrawingBottomSheet drawingBottomSheet;
         public MaterialShadow drawingViewMaterialShadow;
         public RectMask2D mask;
@@ -34,10 +34,6 @@ namespace Antigear.Graph {
         void Update() {
             if (wasExpanded != isExpanded) {
                 SetExpansion(isExpanded, false);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                selectionMenu.Show();
             }
         }
 
@@ -186,7 +182,8 @@ namespace Antigear.Graph {
             // Clear off the current content.
             Transform canvas = paper.transform.GetChild(0);
 
-            for (int i = 0; i < canvas.childCount; i++) {
+            // Destroy what's necessary.
+            for (int i = content.Count; i < canvas.childCount; i++) {
                 Destroy(canvas.GetChild(i).gameObject);
             }
 
