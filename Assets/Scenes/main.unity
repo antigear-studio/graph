@@ -19312,6 +19312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8dea87a575d94a2abcf8350958d84ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  historyController: {fileID: 2084449761}
   drawingView: {fileID: 1286965338}
   paper: {fileID: 1272704831}
   selectedDrawableView: {fileID: 0}

@@ -9,10 +9,11 @@ namespace Antigear.Graph {
     /// Manages drawing to a graph.
     /// </summary>
     public class DrawingController : MonoBehaviour, IPaperDelegate, 
-    IToolbarViewDelegate, ISelectionHandlerDelegate {
+    IToolbarViewDelegate, ISelectionHandlerDelegate, IToolHandlerDelegate {
         public IDrawingControllerDelegate controllerDelegate;
 
         // Outlets.
+        public HistoryController historyController;
         public DrawingView drawingView;
         public Paper paper;
 
@@ -52,13 +53,14 @@ namespace Antigear.Graph {
             editingGraph = graph;
 
             foreach (ToolHandler handler in toolHandlers.Values) {
-                handler.SetupToolHandler(graph, drawingView);
+                handler.SetupToolHandler(graph, drawingView, this);
             }
 
             foreach (SelectionHandler handler in selectionHandlers.Values) {
                 handler.SetupSelectionHandler(graph, drawingView, this);
             }
 
+            historyController.SetupController(graph, drawingView);
             drawingView.gameObject.SetActive(true);
             drawingView.toolbarView.SetToolbarVisibility(true, animated);
             drawingView.SetExpansion(true, true, tile, callback);
@@ -136,8 +138,7 @@ namespace Antigear.Graph {
             }
         }
 
-        public void OnPaperDrag(Paper paper, Vector2 pos, 
-            Vector2 screenPos) {
+        public void OnPaperDrag(Paper paper, Vector2 pos, Vector2 screenPos) {
 
             if (toolHandlers.ContainsKey(dragTool)) {
                 toolHandlers[dragTool].OnPaperDrag(pos, screenPos);
@@ -242,6 +243,18 @@ namespace Antigear.Graph {
 
         public void OnSelectionShouldEdit(SelectionHandler handler) {
             throw new NotImplementedException();
+        }
+
+        public void OnChange(SelectionHandler handler, Command cmd) {
+            historyController.Commit(cmd);
+        }
+
+        #endregion
+
+        #region IToolHandlerDelegate implementation
+
+        public void OnChange(ToolHandler handler, Command cmd) {
+            historyController.Commit(cmd);
         }
 
         #endregion

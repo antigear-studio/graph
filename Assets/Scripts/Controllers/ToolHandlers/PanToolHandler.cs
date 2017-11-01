@@ -5,13 +5,6 @@ namespace Antigear.Graph {
     public class PanToolHandler : ToolHandler {
         Vector2 panBeginPaperPosition;
         Vector2 panBeginScreenPosition;
-        RectTransform contentTransform;
-
-        public override void SetupToolHandler(Graph graph, 
-            DrawingView drawingView) {
-            base.SetupToolHandler(graph, drawingView);
-            contentTransform = drawingView.paper.content;
-        }
 
         public override void OnToolSelected() {
             UpdateValueText();
@@ -22,7 +15,7 @@ namespace Antigear.Graph {
         }
 
         public override void OnPaperBeginDrag(Vector2 pos, Vector2 screenPos) {
-            panBeginPaperPosition = contentTransform.anchoredPosition;
+            panBeginPaperPosition = drawingView.paper.content.anchoredPosition;
             panBeginScreenPosition = screenPos;
             UpdateValueText();
         }
@@ -30,21 +23,22 @@ namespace Antigear.Graph {
         public override void OnPaperDrag(Vector2 pos, Vector2 screenPos) {
             Vector2 begin, end;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                contentTransform, screenPos, Camera.main, out end);
+                drawingView.paper.content, screenPos, Camera.main, out end);
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                contentTransform, panBeginScreenPosition, Camera.main, 
+                drawingView.paper.content, panBeginScreenPosition, Camera.main, 
                 out begin);
 
-            Vector2 dl = (end - begin) * contentTransform.localScale.x;
+            Vector2 dl = (end - begin) * drawingView.paper.content.localScale.x;
 
             // Offset by that much.
-            contentTransform.anchoredPosition = panBeginPaperPosition + dl;
+            drawingView.paper.content.anchoredPosition = 
+                panBeginPaperPosition + dl;
             UpdateValueText();
         }
 
         void UpdateValueText() {
-            Vector2 pos = -contentTransform.anchoredPosition / 
-                contentTransform.localScale.x;
+            Vector2 pos = -drawingView.paper.content.anchoredPosition / 
+                drawingView.paper.content.localScale.x;
 
             string x = string.Format("{0:0.0}", pos.x);
             string y = string.Format("{0:0.0}", pos.y);

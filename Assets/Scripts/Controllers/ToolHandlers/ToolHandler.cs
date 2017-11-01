@@ -8,16 +8,19 @@ namespace Antigear.Graph {
     public abstract class ToolHandler {
         protected Graph graph;
         protected DrawingView drawingView;
+        protected IToolHandlerDelegate handlerDelegate;
 
         /// <summary>
         /// Setups the tool handler with the given graph and view.
         /// </summary>
         /// <param name="graph">Graph.</param>
         /// <param name="drawingView">Drawing view.</param>
+        /// <param name="handlerDelegate">Delegate for controller.</param>
         public virtual void SetupToolHandler(Graph graph, 
-            DrawingView drawingView) {
+            DrawingView drawingView, IToolHandlerDelegate handlerDelegate) {
             this.graph = graph;
             this.drawingView = drawingView;
+            this.handlerDelegate = handlerDelegate;
         }
 
         /// <summary>
@@ -51,5 +54,15 @@ namespace Antigear.Graph {
         /// Raised when a drag is cancelled while this tool is selected by user.
         /// </summary>
         public virtual void OnPaperCancelDrag() {}
+    }
+
+    public interface IToolHandlerDelegate {
+        /// <summary>
+        /// Raises when the graph object changes in a way supported by History
+        /// Controller for undo/redo.
+        /// </summary>
+        /// <param name="handler">Handler triggering this event</param>
+        /// <param name="cmd">Command that records this change.</param>
+        void OnChange(ToolHandler handler, Command cmd);
     }
 }

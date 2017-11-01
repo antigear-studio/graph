@@ -8,6 +8,8 @@ namespace Antigear.Graph {
     /// commands for each action user does.
     /// </summary>
     public class HistoryController : MonoBehaviour {
+        // Outlets.
+
         // Used to keep track of which actions can be done.
         Stack<Command> history;
         Stack<Command> future;
@@ -37,7 +39,7 @@ namespace Antigear.Graph {
         public void Undo() {
             if (!CanUndo())
                 return;
-
+            
             Command cmd = history.Pop();
             future.Push(cmd);
 
@@ -57,14 +59,17 @@ namespace Antigear.Graph {
                         .GetChild(cmd.drawableIndex)
                         .GetComponent<DrawableView>()
                         .UpdateView(cmd.previousDrawable, graph.preferences, 
-                            true);
+                        true);
                     break;
                 case Command.Type.DeleteDrawable:
                     graph.content[cmd.layerIndex]
                         .Insert(cmd.drawableIndex, cmd.previousDrawable);
-                    drawingView
-                        .InstantiatePrefab(cmd.previousDrawable, cmd.layerIndex)
-                        .transform.SetSiblingIndex(cmd.drawableIndex);
+                    DrawableView drawableView = drawingView
+                        .InstantiatePrefab(cmd.previousDrawable, 
+                                                    cmd.layerIndex);
+                    drawableView.transform.SetSiblingIndex(cmd.drawableIndex);
+                    drawableView.UpdateView(cmd.previousDrawable, 
+                        graph.preferences, true);
                     break;
                 case Command.Type.CreateLayer:
                     graph.content.RemoveAt(cmd.layerIndex);
@@ -97,9 +102,11 @@ namespace Antigear.Graph {
                 case Command.Type.CreateDrawable:
                     graph.content[cmd.layerIndex]
                         .Insert(cmd.drawableIndex, cmd.currentDrawable);
-                    drawingView
-                        .InstantiatePrefab(cmd.currentDrawable, cmd.layerIndex)
-                        .transform.SetSiblingIndex(cmd.drawableIndex);
+                    DrawableView drawableView = drawingView
+                        .InstantiatePrefab(cmd.currentDrawable, cmd.layerIndex);
+                    drawableView.transform.SetSiblingIndex(cmd.drawableIndex);
+                    drawableView.UpdateView(cmd.currentDrawable,
+                        graph.preferences, true);
                     break;
                 case Command.Type.UpdateDrawable:
                     graph.content[cmd.layerIndex]
@@ -110,7 +117,7 @@ namespace Antigear.Graph {
                         .GetChild(cmd.drawableIndex)
                         .GetComponent<DrawableView>()
                         .UpdateView(cmd.currentDrawable, graph.preferences, 
-                            true);
+                        true);
                     break;
                 case Command.Type.DeleteDrawable:
                     graph.content[cmd.layerIndex]
@@ -145,6 +152,13 @@ namespace Antigear.Graph {
         public void Commit(Command cmd) {
             future.Clear();
             history.Push(cmd);
+        }
+
+        void Update() {
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+                Undo();
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+                Redo();
         }
     }
 }

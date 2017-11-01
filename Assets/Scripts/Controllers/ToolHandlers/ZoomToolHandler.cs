@@ -10,13 +10,6 @@ namespace Antigear.Graph {
         Vector2 zoomBeginPosition;
         Vector2 zoomBeginScreenPosition;
         float zoomBeginScale;
-        RectTransform contentTransform;
-
-        public override void SetupToolHandler(Graph graph, 
-            DrawingView drawingView) {
-            base.SetupToolHandler(graph, drawingView);
-            contentTransform = drawingView.paper.content;
-        }
 
         public override void OnToolSelected() {
             UpdateValueText();
@@ -27,10 +20,11 @@ namespace Antigear.Graph {
         }
 
         public override void OnPaperBeginDrag(Vector2 pos, Vector2 screenPos) {
-            zoomBeginTransformPosition = contentTransform.anchoredPosition;
+            zoomBeginTransformPosition = 
+                drawingView.paper.content.anchoredPosition;
             zoomBeginPosition = pos / drawingView.paper.scaler.scaleFactor;
             zoomBeginScreenPosition = screenPos;
-            zoomBeginScale = contentTransform.localScale.x;
+            zoomBeginScale = drawingView.paper.content.localScale.x;
             UpdateValueText();
         }
 
@@ -41,17 +35,18 @@ namespace Antigear.Graph {
             // Up is zoom in, down is zoom out. Amount is 50% of initial.
             float v = Mathf.Max(MIN_ZOOM, 
                 Mathf.Min(MAX_ZOOM, (1 + dy) * zoomBeginScale));
-            contentTransform.localScale = new Vector3(v, v, 1);
+            drawingView.paper.content.localScale = new Vector3(v, v, 1);
 
             // Shift canvas such that zoomBeginPos stays at the same position.
-            contentTransform.anchoredPosition = zoomBeginTransformPosition - 
+            drawingView.paper.content.anchoredPosition = 
+                zoomBeginTransformPosition - 
                 dy * zoomBeginPosition * zoomBeginScale;
 
             UpdateValueText();
         }
 
         void UpdateValueText() {
-            float v = 100 * contentTransform.localScale.x;
+            float v = 100 * drawingView.paper.content.localScale.x;
 
             if (v > 1) {
                 drawingView.toolbarView.valueText.text = 
