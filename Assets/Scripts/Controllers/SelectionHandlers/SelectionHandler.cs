@@ -104,7 +104,6 @@ namespace Antigear.Graph {
         }
 
         protected virtual void OnCopy() {
-            int drawableIndex = selectedView.transform.GetSiblingIndex();
             int layerIndex = selectedView.transform.parent.GetSiblingIndex();
             Drawable copy = selected.Copy();
             copy.Offset(OffsetAmount);

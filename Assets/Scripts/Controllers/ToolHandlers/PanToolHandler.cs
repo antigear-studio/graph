@@ -33,14 +33,16 @@ namespace Antigear.Graph {
             // Offset by that much.
             drawingView.paper.content.anchoredPosition = 
                 panBeginPaperPosition + dl;
-
-            Vector2 location = -drawingView.paper.content.anchoredPosition / 
-                drawingView.paper.content.localScale.x;
-            UpdateValueText(location);
-            graph.lastVisitedPosition = location;
+            
+            UpdateValueText();
+            graph.lastVisitedPosition = 
+                drawingView.paper.content.anchoredPosition;
         }
 
-        void UpdateValueText(Vector2 pos) {
+        void UpdateValueText() {
+            Vector2 pos = -drawingView.paper.content.anchoredPosition / 
+                drawingView.paper.content.localScale.x;
+            
             string x = string.Format("{0:0.0}", pos.x);
             string y = string.Format("{0:0.0}", pos.y);
 

@@ -42,13 +42,12 @@ namespace Antigear.Graph {
                 zoomBeginTransformPosition - 
                 dy * zoomBeginPosition * zoomBeginScale;
 
-            float scale = drawingView.paper.content.localScale.x;
-            UpdateValueText(scale);
-            graph.lastScale = scale;
+            UpdateValueText();
+            graph.lastScale = drawingView.paper.content.localScale.x;
         }
 
-        void UpdateValueText(float scale) {
-            float v = scale * 100;
+        void UpdateValueText() {
+            float v = drawingView.paper.content.localScale.x * 100;
 
             if (v > 1) {
                 drawingView.toolbarView.valueText.text = 
