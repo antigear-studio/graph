@@ -25,6 +25,8 @@ namespace Antigear.Graph {
         public DateTime timeModified;
         public int activeLayer;
         public Preference preferences = new Preference();
+        public Vector2 lastVisitedPosition;
+        public float lastScale = 1;
 
         [JsonIgnore]
         public string localFileName;
