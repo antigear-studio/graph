@@ -27,7 +27,6 @@ namespace Antigear.Graph {
         public SideBarView sideBarView;
         public DrawingBottomSheet drawingBottomSheet;
         public MaterialShadow drawingViewMaterialShadow;
-        public RectMask2D mask;
         public MaterialDropdown selectionMenu;
         public GameObject selectionMenuMask;
 
@@ -101,16 +100,11 @@ namespace Antigear.Graph {
                     if (shouldExpand) {
                         t1 = TweenManager.TweenVector2(
                             v => rectTransform.offsetMin = v, offsetMinToTile, 
-                            expandedOffsetMin, animationDuration, 0, () => {
-                                if (handler != null)
-                                    handler();
-                                mask.enabled = false;
-                            });
+                            expandedOffsetMin, animationDuration, 0, handler);
                         t2 = TweenManager.TweenVector2(
                             v => rectTransform.offsetMax = v, offsetMaxToTile, 
                             expandedOffsetMax, animationDuration);
                     } else {
-                        mask.enabled = true;
                         t1 = TweenManager.TweenVector2(
                             v => rectTransform.offsetMin = v, 
                             () => rectTransform.offsetMin, offsetMinToTile, 
@@ -134,14 +128,8 @@ namespace Antigear.Graph {
                     if (shouldExpand) {
                         t = TweenManager.TweenVector2(
                             v => rectTransform.offsetMax = v, drawingViewHeight, 
-                            expandedOffsetMax, animationDuration, 0, () => {
-                                if (handler != null)
-                                    handler();
-                                mask.enabled = false;
-                            });
+                            expandedOffsetMax, animationDuration, 0, handler);
                     } else {
-                        mask.enabled = true;
-
                         t = TweenManager.TweenVector2(
                             v => rectTransform.offsetMax = v,
                             () => expandedOffsetMax, drawingViewHeight, 
@@ -162,8 +150,6 @@ namespace Antigear.Graph {
                     rectTransform.offsetMin = shrunkOffset;
                     rectTransform.offsetMax = -shrunkOffset;
                 }
-
-                mask.enabled = !shouldExpand;
 
                 if (handler != null)
                     handler();

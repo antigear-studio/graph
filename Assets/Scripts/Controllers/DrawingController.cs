@@ -64,6 +64,11 @@ namespace Antigear.Graph {
             historyController.SetupController(graph, drawingView);
             historyController.controllerDelegate = this;
             drawingView.gameObject.SetActive(true);
+
+            drawingView.paper.content.anchoredPosition = 
+                graph.lastVisitedPosition;
+            drawingView.paper.content.localScale = 
+                new Vector3(graph.lastScale, graph.lastScale, 1);
             drawingView.toolbarView.SetToolbarVisibility(true, animated);
             drawingView.SetExpansion(true, true, tile, callback);
             drawingView.toolbarView.ChangeTool(graph.activeTool, false);

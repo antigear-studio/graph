@@ -33,13 +33,16 @@ namespace Antigear.Graph {
             // Offset by that much.
             drawingView.paper.content.anchoredPosition = 
                 panBeginPaperPosition + dl;
+            
             UpdateValueText();
+            graph.lastVisitedPosition = 
+                drawingView.paper.content.anchoredPosition;
         }
 
         void UpdateValueText() {
             Vector2 pos = -drawingView.paper.content.anchoredPosition / 
                 drawingView.paper.content.localScale.x;
-
+            
             string x = string.Format("{0:0.0}", pos.x);
             string y = string.Format("{0:0.0}", pos.y);
 
@@ -47,7 +50,6 @@ namespace Antigear.Graph {
                 x = string.Format("{0:0.##e+0}", pos.x);
             }
 
-            // Analysis disable once CompareOfFloatsByEqualityOperator
             if (Mathf.Abs(pos.y) >= 1000) {
                 y = string.Format("{0:0.##e+0}", pos.y);
             }
