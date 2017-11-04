@@ -51,6 +51,27 @@ namespace Antigear.Graph {
         public virtual void OnPaperEndDrag(Vector2 pos, Vector2 screenPos) {}
 
         /// <summary>
+        /// Raises the paper begin double drag event.
+        /// </summary>
+        public virtual void OnPaperBeginDoubleDrag(Paper paper, Vector2 pos1, 
+            Vector2 pos2, Vector2 screenPos1, Vector2 screenPos2) {
+        }
+
+        /// <summary>
+        /// Raises the paper double drag event.
+        /// </summary>
+        public virtual void OnPaperDoubleDrag(Paper paper, Vector2 pos1,
+            Vector2 pos2, Vector2 screenPos1, Vector2 screenPos2) {
+        }
+
+        /// <summary>
+        /// Raises the paper end double drag event.
+        /// </summary>
+        public virtual void OnPaperEndDoubleDrag(Paper paper, Vector2 pos1, 
+            Vector2 pos2, Vector2 screenPos1, Vector2 screenPos2) {
+        }
+
+        /// <summary>
         /// Raised when a drag is cancelled while this tool is selected by user.
         /// </summary>
         public virtual void OnPaperCancelDrag() {}

@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Antigear.Graph {
     public class ZoomToolHandler : ToolHandler {
-        const float MAX_ZOOM = 1000;
-        const float MIN_ZOOM = 0.001f;
+        public const float MAX_ZOOM = 1000;
+        public const float MIN_ZOOM = 0.001f;
 
         Vector2 zoomBeginTransformPosition;
         Vector2 zoomBeginPosition;
@@ -44,6 +44,8 @@ namespace Antigear.Graph {
 
             UpdateValueText();
             graph.lastScale = drawingView.paper.content.localScale.x;
+            graph.lastVisitedPosition = 
+                drawingView.paper.content.anchoredPosition;
         }
 
         void UpdateValueText() {
