@@ -35,6 +35,9 @@ namespace Antigear.Graph {
                 { Tool.Pan, new PanToolHandler() }
             };
 
+        // Special handler for two finger gestures.
+        DoubleDragToolHandler doubleDragHandler = new DoubleDragToolHandler();
+
         // Handlers for each object type.
         readonly Dictionary<Type, SelectionHandler> selectionHandlers = 
             new Dictionary<Type, SelectionHandler> {
@@ -60,6 +63,8 @@ namespace Antigear.Graph {
             foreach (SelectionHandler handler in selectionHandlers.Values) {
                 handler.SetupSelectionHandler(graph, drawingView, this);
             }
+
+            doubleDragHandler.SetupToolHandler(graph, drawingView, this);
 
             historyController.SetupController(graph, drawingView);
             historyController.controllerDelegate = this;
@@ -186,14 +191,20 @@ namespace Antigear.Graph {
         // Implement double drag for pan + zoom with these callbacks.
         public void OnPaperBeginDoubleDrag(Paper paper, Vector2 pos1, 
             Vector2 pos2, Vector2 screenPos1, Vector2 screenPos2) {
+            doubleDragHandler.OnPaperBeginDoubleDrag(paper, pos1, pos2,
+                screenPos1, screenPos2);
         }
 
         public void OnPaperDoubleDrag(Paper paper, Vector2 pos1, Vector2 pos2, 
             Vector2 screenPos1, Vector2 screenPos2) {
+            doubleDragHandler.OnPaperDoubleDrag(paper, pos1, pos2, screenPos1,
+                screenPos2);
         }
 
         public void OnPaperEndDoubleDrag(Paper paper, Vector2 pos1, 
             Vector2 pos2, Vector2 screenPos1, Vector2 screenPos2) {
+            doubleDragHandler.OnPaperEndDoubleDrag(paper, pos1, pos2,
+                screenPos1, screenPos2);
         }
 
         public void OnPaperTap(Paper paper, Vector2 pos, Vector2 screenPos, 
