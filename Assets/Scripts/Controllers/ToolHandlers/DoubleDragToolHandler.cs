@@ -39,7 +39,11 @@ namespace Antigear.Graph {
             float scale = Mathf.Max(ZoomToolHandler.MIN_ZOOM, Mathf.Min(
                 ZoomToolHandler.MAX_ZOOM, currentMagnitude / beginMagnitude * 
                     doubleDragBeginScale));
-            // drawingView.paper.content.localScale = new Vector3(scale, scale, 1);
+            drawingView.paper.content.localScale = new Vector3(scale, scale, 1);
+            float dy = scale - doubleDragBeginScale;
+            Vector2 doubleDragBeginPosition = (doubleDragBeginPosition1 + 
+                doubleDragBeginPosition2) / 2;
+            Vector2 offset = dy * doubleDragBeginPosition;
 
             Vector2 screenPos = (screenPos1 + screenPos2) / 2;
             Vector2 doubleDragBeginScreenPosition = 
@@ -54,7 +58,7 @@ namespace Antigear.Graph {
                 Camera.main, out begin);
 
             Vector2 dl = (end - begin) * drawingView.paper.content.localScale.x;
-            Vector2 pos = doubleDragBeginTransformPosition + dl;
+            Vector2 pos = doubleDragBeginTransformPosition + dl - offset;
             drawingView.paper.content.anchoredPosition = pos;
 
             UpdateValueText();
