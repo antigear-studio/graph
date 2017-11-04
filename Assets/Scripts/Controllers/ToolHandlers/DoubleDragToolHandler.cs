@@ -81,7 +81,16 @@ namespace Antigear.Graph {
                 y = string.Format("{0:0.##e+0}", pos.y);
             }
 
-            drawingView.toolbarView.valueText.text = "(" + x + ", " + y + ")";
+            float v = drawingView.paper.content.localScale.x * 100;
+            string text = string.Format("{0:0}%", v);
+
+            if (v <= 1) {
+                text = string.Format("{0:0.#}%", v);
+            }
+
+            text += "\n(" + x + ", " + y + ")";
+
+            drawingView.toolbarView.valueText.text = text;
         }
     }
 }

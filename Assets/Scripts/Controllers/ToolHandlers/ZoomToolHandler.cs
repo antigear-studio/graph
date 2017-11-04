@@ -33,14 +33,14 @@ namespace Antigear.Graph {
                 (screenPos.y - zoomBeginScreenPosition.y) / Screen.height;
 
             // Up is zoom in, down is zoom out. Amount is 50% of initial.
-            float v = Mathf.Max(MIN_ZOOM, 
+            float scale = Mathf.Max(MIN_ZOOM, 
                 Mathf.Min(MAX_ZOOM, (1 + dy) * zoomBeginScale));
-            drawingView.paper.content.localScale = new Vector3(v, v, 1);
+            drawingView.paper.content.localScale = new Vector3(scale, scale, 1);
 
             // Shift canvas such that zoomBeginPos stays at the same position.
             drawingView.paper.content.anchoredPosition = 
-                zoomBeginTransformPosition - 
-                dy * zoomBeginPosition * zoomBeginScale;
+                zoomBeginTransformPosition - (scale - zoomBeginScale) * 
+                zoomBeginPosition;
 
             UpdateValueText();
             graph.lastScale = drawingView.paper.content.localScale.x;
