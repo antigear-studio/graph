@@ -169,7 +169,7 @@ namespace Antigear.Graph {
             Transform canvas = paper.transform.GetChild(0);
 
             // Destroy what's necessary.
-            for (int i = content.Count; i < canvas.childCount; i++) {
+            for (int i = content.Count; i < canvas.childCount - 2; i++) {
                 Destroy(canvas.GetChild(i).gameObject);
             }
 
@@ -177,14 +177,6 @@ namespace Antigear.Graph {
                 Layer layer = content[i];
                 LoadLayer(layer, i, preferences);
             }
-
-            // Create a special layer for preview object creation.
-            GameObject previewLayer = new GameObject("Preview Layer", 
-                typeof(RectTransform));
-            previewLayer.transform.SetParent(canvas);
-            RectTransform r = previewLayer.transform as RectTransform;
-            r.sizeDelta = Vector2.zero;
-            r.anchoredPosition3D = Vector3.zero;
         }
 
         public void LoadLayer(Layer layer, int index, 
@@ -243,6 +235,10 @@ namespace Antigear.Graph {
         }
 
         public int GetPreviewLayerIndex() {
+            return paper.transform.GetChild(0).childCount - 2;
+        }
+
+        public int GetEditLayerIndex() {
             return paper.transform.GetChild(0).childCount - 1;
         }
     }

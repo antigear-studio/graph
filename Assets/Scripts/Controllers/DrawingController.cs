@@ -10,7 +10,7 @@ namespace Antigear.Graph {
     /// </summary>
     public class DrawingController : MonoBehaviour, IPaperDelegate, 
     IToolbarViewDelegate, ISelectionHandlerDelegate, IToolHandlerDelegate, 
-    ISideBarViewDelegate, IHistoryControllerDelegate {
+    ISideBarViewDelegate, IHistoryControllerDelegate, IEditHandlerDelegate {
         public IDrawingControllerDelegate controllerDelegate;
 
         // Outlets.
@@ -38,10 +38,16 @@ namespace Antigear.Graph {
         // Special handler for two finger gestures.
         DoubleDragToolHandler doubleDragHandler = new DoubleDragToolHandler();
 
-        // Handlers for each object type.
+        // Selection handlers for each object type.
         readonly Dictionary<Type, SelectionHandler> selectionHandlers = 
             new Dictionary<Type, SelectionHandler> {
                 { typeof(StraightLine), new StraightLineSelectionHandler() }
+            };
+
+        // Edit handlers for each object type.
+        readonly Dictionary<Type, EditHandler> editHandlers = 
+            new Dictionary<Type, EditHandler> {
+                { typeof(StraightLine), new StraightLineEditHandler() }
             };
 
         /// <summary>
@@ -62,6 +68,10 @@ namespace Antigear.Graph {
 
             foreach (SelectionHandler handler in selectionHandlers.Values) {
                 handler.SetupSelectionHandler(graph, drawingView, this);
+            }
+
+            foreach (EditHandler handler in editHandlers.Values) {
+                handler.SetupEditHandler(graph, drawingView, this);
             }
 
             doubleDragHandler.SetupToolHandler(graph, drawingView, this);
@@ -137,10 +147,26 @@ namespace Antigear.Graph {
             selectedDrawableView = drawableView;
 
             if (drawable != null && drawableView != null &&
-                selectionHandlers.ContainsKey(selectedDrawable.GetType())) {
-                selectionHandlers[selectedDrawable.GetType()]
-                    .OnDrawableSelected(selectedDrawable, selectedDrawableView, 
-                    pos);
+                selectionHandlers.ContainsKey(drawable.GetType())) {
+                selectionHandlers[drawable.GetType()]
+                    .OnDrawableSelected(drawable, drawableView, pos);
+            }
+        }
+
+        void EditObject(Drawable drawable, DrawableView drawableView) {
+            if (editingDrawable != null &&
+                editHandlers.ContainsKey(editingDrawable.GetType())) {
+                editHandlers[editingDrawable.GetType()]
+                    .OnDrawableEditEnd(editingDrawable, editingDrawableView);
+            }
+
+            editingDrawable = drawable;
+            editingDrawableView = drawableView;
+
+            if (drawable != null && drawableView != null &&
+                editHandlers.ContainsKey(drawable.GetType())) {
+                editHandlers[drawable.GetType()]
+                    .OnDrawableEditBegin(drawable, drawableView);
             }
         }
 
@@ -155,25 +181,44 @@ namespace Antigear.Graph {
 
         public void OnPaperBeginDrag(Paper paper, Vector2 pos, 
             Vector2 screenPos) {
-            // Switch tool. Depending on which tool we initiate different
-            // actions.
-            dragTool = editingGraph.activeTool;
+            if (editingDrawable != null) {
+                // Editing, so we should relay this info to edit handler.
+                if (editHandlers.ContainsKey(editingDrawable.GetType())) {
+                    editHandlers[editingDrawable.GetType()]
+                        .OnPaperBeginDrag(paper, pos, screenPos);
+                }
+            } else {
+                // Switch tool. Depending on which tool we initiate different
+                // actions.
+                dragTool = editingGraph.activeTool;
 
-            if (toolHandlers.ContainsKey(dragTool)) {
-                toolHandlers[dragTool].OnPaperBeginDrag(pos, screenPos);
+                if (toolHandlers.ContainsKey(dragTool)) {
+                    toolHandlers[dragTool].OnPaperBeginDrag(pos, screenPos);
+                }
             }
         }
 
         public void OnPaperDrag(Paper paper, Vector2 pos, Vector2 screenPos) {
-
-            if (toolHandlers.ContainsKey(dragTool)) {
+            if (editingDrawable != null) {
+                // Editing, so we should relay this info to edit handler.
+                if (editHandlers.ContainsKey(editingDrawable.GetType())) {
+                    editHandlers[editingDrawable.GetType()]
+                        .OnPaperDrag(paper, pos, screenPos);
+                }
+            } else if (toolHandlers.ContainsKey(dragTool)) {
                 toolHandlers[dragTool].OnPaperDrag(pos, screenPos);
             }
         }
 
         public void OnPaperEndDrag(Paper paper, Vector2 pos, 
             Vector2 screenPos) {
-            if (toolHandlers.ContainsKey(dragTool)) {
+            if (editingDrawable != null) {
+                // Editing, so we should relay this info to edit handler.
+                if (editHandlers.ContainsKey(editingDrawable.GetType())) {
+                    editHandlers[editingDrawable.GetType()]
+                        .OnPaperEndDrag(paper, pos, screenPos);
+                }
+            } else if (toolHandlers.ContainsKey(dragTool)) {
                 toolHandlers[dragTool].OnPaperEndDrag(pos, screenPos);
             }
 
@@ -181,7 +226,13 @@ namespace Antigear.Graph {
         }
 
         public void OnPaperCancelDrag(Paper paper) {
-            if (toolHandlers.ContainsKey(dragTool)) {
+            if (editingDrawable != null) {
+                // Editing, so we should relay this info to edit handler.
+                if (editHandlers.ContainsKey(editingDrawable.GetType())) {
+                    editHandlers[editingDrawable.GetType()]
+                        .OnPaperCancelDrag(paper);
+                }
+            } else if (toolHandlers.ContainsKey(dragTool)) {
                 toolHandlers[dragTool].OnPaperCancelDrag();
             }
 
@@ -209,45 +260,55 @@ namespace Antigear.Graph {
 
         public void OnPaperTap(Paper paper, Vector2 pos, Vector2 screenPos, 
             int count) {
-            if (count > 0) {
-                // Handle selection in current layer.
-                Ray r = RectTransformUtility.ScreenPointToRay(Camera.main, 
-                            screenPos);
-                RaycastHit2D[] hits = Physics2D.RaycastAll(r.origin, 
-                                          r.direction, 100);
-                Transform activeLayer = drawingView
+            if (editingDrawable == null) {
+                if (count > 0) {
+                    // Handle selection in current layer.
+                    Ray r = RectTransformUtility.ScreenPointToRay(Camera.main, 
+                                screenPos);
+                    RaycastHit2D[] hits = Physics2D.RaycastAll(r.origin, 
+                                              r.direction, 100);
+                    Transform activeLayer = drawingView
                     .GetGraphLayerParentTransform(editingGraph.activeLayer);
 
-                DrawableView highestEligibleView = null;
-                Drawable highestEligibleDrawable = null;
-                int highestChildIndex = -1;
+                    DrawableView highestEligibleView = null;
+                    Drawable highestEligibleDrawable = null;
+                    int highestChildIndex = -1;
 
-                foreach (var hit in hits) {
-                    DrawableView v = hit.transform.GetComponent<DrawableView>();
+                    foreach (var hit in hits) {
+                        DrawableView v = 
+                            hit.transform.GetComponent<DrawableView>();
 
-                    if (v == null || hit.transform.parent != activeLayer)
-                        continue;
-                    
-                    Drawable drawable = editingGraph.content[activeLayer.GetSiblingIndex()][hit.transform.GetSiblingIndex()];
+                        if (v == null || hit.transform.parent != activeLayer)
+                            continue;
 
-                    if (!drawable.Selectible()) {
-                        continue;
+                        int layer = activeLayer.GetSiblingIndex();
+                        int index = hit.transform.GetSiblingIndex();
+                        Drawable drawable = editingGraph.content[layer][index];
+
+                        if (!drawable.Selectible()) {
+                            continue;
+                        }
+
+                        if (highestChildIndex <
+                            hit.transform.GetSiblingIndex()) {
+                            highestChildIndex = hit.transform.GetSiblingIndex();
+                            highestEligibleView = v;
+                            highestEligibleDrawable = drawable;
+                        }
                     }
 
-                    if (highestChildIndex < hit.transform.GetSiblingIndex()) {
-                        highestChildIndex = hit.transform.GetSiblingIndex();
-                        highestEligibleView = v;
-                        highestEligibleDrawable = drawable;
-                    }
+                    // Deselect.
+                    SelectObject(highestEligibleDrawable, highestEligibleView, 
+                        screenPos);
+                } else if (count == 2) {
+                    // Handle double tap action.
                 }
-
-                // Deselect.
-                SelectObject(highestEligibleDrawable, highestEligibleView, 
-                    screenPos);
-            }
-
-            if (count == 2) {
-                // Handle double tap action.
+            } else {
+                // Editing, so we should relay this info to edit handler.
+                if (editHandlers.ContainsKey(editingDrawable.GetType())) {
+                    editHandlers[editingDrawable.GetType()]
+                        .OnPaperTap(paper, pos, screenPos, count);
+                }
             }
         }
 
@@ -273,8 +334,9 @@ namespace Antigear.Graph {
             SelectObject(null, null, Vector2.zero);
         }
 
-        public void OnSelectionShouldEdit(SelectionHandler handler) {
-            throw new NotImplementedException();
+        public void OnSelectionShouldEdit(SelectionHandler handler,
+            Drawable selected, DrawableView selectedView) {
+            EditObject(selected, selectedView);
         }
 
         public void OnChange(SelectionHandler handler, Command cmd) {
@@ -319,6 +381,18 @@ namespace Antigear.Graph {
 
         public void OnHistoryCommit(HistoryController controller) {
             UpdateHistoryButtonsVisibility();
+        }
+
+        #endregion
+
+        #region IEditHandlerDelegate implementation
+
+        public void OnEditShouldEnd(EditHandler handler) {
+            EditObject(null, null);
+        }
+
+        public void OnChange(EditHandler handler, Command cmd) {
+            historyController.Commit(cmd);
         }
 
         #endregion

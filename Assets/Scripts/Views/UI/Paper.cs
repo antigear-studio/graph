@@ -29,6 +29,7 @@ namespace Antigear.Graph {
 
         // Outlets.
         public Image backgroundImage;
+        public GameObject editLayerObject;
         public IPaperDelegate paperDelegate;
         public RectTransform content;
 
