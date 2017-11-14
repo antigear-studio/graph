@@ -357,10 +357,20 @@ namespace Antigear.Graph {
         #region ISideBarViewDelegate implementation
 
         public void OnUndoButtonPress(SideBarView sideBarView) {
+            // Quit editing if in editing mode.
+            if (editingDrawable != null) {
+                EditObject(null, null);
+            }
+
             historyController.Undo();
         }
 
         public void OnRedoButtonPress(SideBarView sideBarView) {
+            // Quit editing if in editing mode.
+            if (editingDrawable != null) {
+                EditObject(null, null);
+            }
+
             historyController.Redo();
         }
 
