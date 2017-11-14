@@ -44,7 +44,7 @@ namespace Antigear.Graph {
                 cmd.type = Command.Type.CreateDrawable;
                 cmd.layerIndex = graph.activeLayer;
                 cmd.drawableIndex = graph.content[graph.activeLayer].Count - 1;
-                cmd.currentDrawable = previewLine;
+                cmd.currentDrawable = previewLine.Copy();
                 handlerDelegate.OnChange(this, cmd);
             }
 

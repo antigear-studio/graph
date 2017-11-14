@@ -50,5 +50,13 @@ namespace Antigear.Graph {
                 vectorLine.vectorLine.SetColor(target);
             }
         }
+
+        protected void Start() {
+            base.Start();
+        }
+    }
+
+    public interface LineViewDelegate : DrawableViewDelegate {
+        
     }
 }

@@ -6,12 +6,19 @@ namespace Antigear.Graph {
     /// Handles drawable editing. This separates the logic of editing of each 
     /// object into different files.
     /// </summary>
-    public abstract class EditHandler : IPaperDelegate {
+    public abstract class EditHandler : IPaperDelegate, DrawableViewDelegate {
         protected Graph graph;
         protected DrawingView drawingView;
+        protected Drawable editing;
+        protected DrawableView editingView;
 
-        Drawable editing;
-        DrawableView editingView;
+        // Used to implement undo/redo commands by copying the drawable before
+        // any modification. Operation count accounts for multiple modifications
+        // going on simultaneously. The command is only pushed when the counter
+        // returns to 0.
+        protected Drawable copy;
+        protected int operationCount;
+
         int layer;
         int index;
         protected IEditHandlerDelegate handlerDelegate;
@@ -38,6 +45,7 @@ namespace Antigear.Graph {
             DrawableView editingView) {
             this.editing = editing;
             this.editingView = editingView;
+            this.editingView.viewDelegate = this;
             editing.isEditing = true;
             editingView.UpdateView(editing, graph.preferences, true);
             index = editingView.transform.GetSiblingIndex();
@@ -55,12 +63,51 @@ namespace Antigear.Graph {
         public virtual void OnDrawableEditEnd(Drawable editing, 
             DrawableView editingView) {
             editing.isEditing = false;
+            editingView.viewDelegate = null;
             editingView.UpdateView(editing, graph.preferences, true);
             editingView.transform.SetParent(drawingView
                 .GetGraphLayerParentTransform(layer));
             editingView.transform.SetSiblingIndex(index);
             drawingView.paper.editLayerObject.SetActive(false);
         }
+
+        /// <summary>
+        /// Begins the modification of some state. This is used to indicate that
+        /// a copy of the drawable should be cached, if not already. This object
+        /// is then used again at EndModification to construct a Command object
+        /// to support undo/redo. While multiple BeginModification can be called
+        /// the number of BeginModification() and EndModification() must equal.
+        /// The Command object is constructed when the modification stack is
+        /// empty.
+        /// </summary>
+        protected void BeginModification() {
+            if (operationCount++ == 0)
+                copy = editing.Copy();
+        }
+
+        /// <summary>
+        /// Ends the modification of some state. See BeginModification() for how
+        /// this works.
+        /// </summary>
+        protected void EndModification() {
+            operationCount = Mathf.Max(0, operationCount - 1);
+
+            if (operationCount == 0 && copy != null) {
+                if (handlerDelegate != null) {
+                    Command cmd = new Command();
+                    cmd.type = Command.Type.UpdateDrawable;
+                    cmd.layerIndex = layer;
+                    cmd.drawableIndex = index;
+                    cmd.currentDrawable = editing.Copy();
+                    cmd.previousDrawable = copy;
+                    handlerDelegate.OnChange(this, cmd);
+                }
+
+                copy = null;
+            }
+        }
+
+
 
         #region IPaperDelegate implementation
 

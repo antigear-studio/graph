@@ -80,6 +80,7 @@ namespace Antigear.Graph {
             historyController.controllerDelegate = this;
             drawingView.gameObject.SetActive(true);
 
+            drawingView.toolbarView.valueText.text = "";
             drawingView.paper.content.anchoredPosition = 
                 graph.lastVisitedPosition;
             drawingView.paper.content.localScale = 
