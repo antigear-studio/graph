@@ -21,5 +21,10 @@ namespace Antigear.Graph {
             startPoint += amount;
             endPoint += amount;
         }
+
+        public override Rect GetBoundary() {
+            return new Rect(startPoint.x, startPoint.y, 
+                endPoint.x - startPoint.x, endPoint.y - startPoint.y);
+        }
     }
 }

@@ -51,7 +51,7 @@ namespace Antigear.Graph {
             }
         }
 
-        protected void Start() {
+        protected override void Start() {
             base.Start();
         }
     }

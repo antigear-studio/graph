@@ -79,7 +79,7 @@ namespace Antigear.Graph {
 
         #endregion
 
-        protected void Start() {
+        protected override void Start() {
             base.Start();
             beginControl.controlDelegate = this;
             endControl.controlDelegate = this;

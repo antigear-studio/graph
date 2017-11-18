@@ -33,24 +33,6 @@ namespace Antigear.Graph {
         public IPaperDelegate paperDelegate;
         public RectTransform content;
 
-        /// <summary>
-        /// The root MaterialUIScaler.
-        /// </summary>
-        MaterialUIScaler m_Scaler;
-        /// <summary>
-        /// The root MaterialUIScaler.
-        /// If null, gets the root scaler if one exists.
-        /// </summary>
-        public MaterialUIScaler scaler {
-            get {
-                if (m_Scaler == null) {
-                    m_Scaler = MaterialUIScaler.GetParentScaler(transform);
-                }
-
-                return m_Scaler;
-            }
-        }
-
         // Private.
         int colorAnimationTweenId = -1;
         int pointer1Id = -2;
@@ -97,8 +79,7 @@ namespace Antigear.Graph {
                 pointer1Id = eventData.pointerId;
                 timeSinceFirstTouch = Time.time;
 
-                pointer1Pos = 
-                    ScreenToLocal(eventData.position) * scaler.scaleFactor;
+                pointer1Pos = ScreenToLocal(eventData.position);
                 pointer1ScreenPos = eventData.position;
 
                 if (paperDelegate != null) {
@@ -110,8 +91,7 @@ namespace Antigear.Graph {
                 isDoubleDrag = true;
                 pointer2Id = eventData.pointerId;
 
-                pointer2Pos = 
-                    ScreenToLocal(eventData.position) * scaler.scaleFactor;
+                pointer2Pos = ScreenToLocal(eventData.position);
                 pointer2ScreenPos = eventData.position;
 
                 if (paperDelegate != null) {
@@ -132,12 +112,10 @@ namespace Antigear.Graph {
             bool pointer2Dragged = eventData.pointerId == pointer2Id;
 
             if (pointer1Dragged) {
-                pointer1Pos = 
-                    ScreenToLocal(eventData.position) * scaler.scaleFactor;
+                pointer1Pos = ScreenToLocal(eventData.position);
                 pointer1ScreenPos = eventData.position;
             } else if (pointer2Dragged) {
-                pointer2Pos = 
-                    ScreenToLocal(eventData.position) * scaler.scaleFactor;
+                pointer2Pos = ScreenToLocal(eventData.position);
                 pointer2ScreenPos = eventData.position;
             }
 
@@ -170,12 +148,10 @@ namespace Antigear.Graph {
             }
 
             if (pointer1Ended) {
-                pointer1Pos = 
-                    ScreenToLocal(eventData.position) * scaler.scaleFactor;
+                pointer1Pos = ScreenToLocal(eventData.position);
                 pointer1ScreenPos = eventData.position;
             } else if (pointer2Ended) {
-                pointer2Pos = 
-                    ScreenToLocal(eventData.position) * scaler.scaleFactor;
+                pointer2Pos = ScreenToLocal(eventData.position);
                 pointer2ScreenPos = eventData.position;
             }
 
@@ -208,8 +184,8 @@ namespace Antigear.Graph {
                 Vector2 pt;
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(content, 
                     eventData.position, Camera.main, out pt);
-                paperDelegate.OnPaperTap(this, pt * scaler.scaleFactor,
-                    eventData.position, eventData.clickCount);
+                paperDelegate.OnPaperTap(this, pt, eventData.position, 
+                    eventData.clickCount);
             }
         }
 
@@ -248,7 +224,6 @@ namespace Antigear.Graph {
         /// Called when drag was mistakenly detected and should be undone.
         /// </summary>
         /// <param name="paper">Paper.</param>
-        /// </param>
         void OnPaperCancelDrag(Paper paper);
 
         /// <summary>

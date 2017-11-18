@@ -17,10 +17,8 @@ namespace Antigear.Graph {
 
             doubleDragBeginTransformPosition = 
                 drawingView.paper.content.anchoredPosition;
-            doubleDragBeginPosition1 = 
-                pos1 / drawingView.paper.scaler.scaleFactor;
-            doubleDragBeginPosition2 = 
-                pos2 / drawingView.paper.scaler.scaleFactor;
+            doubleDragBeginPosition1 = pos1;
+            doubleDragBeginPosition2 = pos2;
             doubleDragBeginScreenPosition1 = screenPos1;
             doubleDragBeginScreenPosition2 = screenPos2;
             doubleDragBeginScale = drawingView.paper.content.localScale.x;

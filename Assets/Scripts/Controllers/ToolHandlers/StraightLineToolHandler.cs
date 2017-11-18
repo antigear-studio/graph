@@ -31,7 +31,7 @@ namespace Antigear.Graph {
         public override void OnPaperEndDrag(Vector2 pos, Vector2 screenPos) {
             // Add the line to graph. Remove preview object.
             previewLine.endPoint = pos;
-            previewLine.rotationPivot = 
+            previewLine.pivot = 
                 (previewLine.startPoint + previewLine.endPoint) / 2;
             previewLineView.UpdateView(previewLine, graph.preferences, true);
             previewLineView.transform.SetParent(

@@ -11,11 +11,11 @@ namespace Antigear.Graph {
             pivotTransform.gameObject.SetActive(drawable.isEditing);
 
             if (drawable.isEditing) {
-                pivotTransform.anchoredPosition = drawable.rotationPivot;
+                pivotTransform.anchoredPosition = drawable.pivot;
             }
         }
 
-        protected void Start() {
+        protected virtual void Start() {
         }
     }
 

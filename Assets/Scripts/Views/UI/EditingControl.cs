@@ -14,24 +14,6 @@ namespace Antigear.Graph {
         // Outlets.
         public IEditingControlDelegate controlDelegate;
 
-        /// <summary>
-        /// The root MaterialUIScaler.
-        /// </summary>
-        MaterialUIScaler m_Scaler;
-        /// <summary>
-        /// The root MaterialUIScaler.
-        /// If null, gets the root scaler if one exists.
-        /// </summary>
-        public MaterialUIScaler scaler {
-            get {
-                if (m_Scaler == null) {
-                    m_Scaler = MaterialUIScaler.GetParentScaler(transform);
-                }
-
-                return m_Scaler;
-            }
-        }
-
         // Private.
         int pointerId = -2;
 
@@ -52,8 +34,7 @@ namespace Antigear.Graph {
 
                 if (controlDelegate != null) {
                     controlDelegate.OnEditingControlBeginDrag(this,
-                        ScreenToLocal(eventData.position) * scaler.scaleFactor, 
-                        eventData.position);
+                        ScreenToLocal(eventData.position), eventData.position);
                 }
             }
         }
@@ -68,8 +49,7 @@ namespace Antigear.Graph {
 
             if (pointer1Dragged) {
                 controlDelegate.OnEditingControlDrag(this, 
-                    ScreenToLocal(eventData.position) * scaler.scaleFactor,
-                    eventData.position);
+                    ScreenToLocal(eventData.position), eventData.position);
             }
         }
 
@@ -82,8 +62,7 @@ namespace Antigear.Graph {
                 pointerId = -2;
                 if (controlDelegate != null) {
                     controlDelegate.OnEditingControlEndDrag(this,
-                        ScreenToLocal(eventData.position) * scaler.scaleFactor,
-                        eventData.position);
+                        ScreenToLocal(eventData.position), eventData.position);
                 }
             }
         }

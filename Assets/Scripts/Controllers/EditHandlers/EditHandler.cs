@@ -11,6 +11,7 @@ namespace Antigear.Graph {
         protected DrawingView drawingView;
         protected Drawable editing;
         protected DrawableView editingView;
+        protected IEditHandlerDelegate handlerDelegate;
 
         // Used to implement undo/redo commands by copying the drawable before
         // any modification. Operation count accounts for multiple modifications
@@ -21,7 +22,9 @@ namespace Antigear.Graph {
 
         int layer;
         int index;
-        protected IEditHandlerDelegate handlerDelegate;
+        bool isReposition;
+        Vector2 beginPosition;
+        float beginAngle;
 
         /// <summary>
         /// Setups the selection handler with the given graph and view.
@@ -72,6 +75,17 @@ namespace Antigear.Graph {
         }
 
         /// <summary>
+        /// Sets the position of the drawable with pivot as the reference point.
+        /// </summary>
+        protected virtual void SetPosition(Vector2 pivotPosition) {}
+
+        /// <summary>
+        /// Sets the rotation of the drawable.
+        /// </summary>
+        /// <param name="angle">Angle in degrees.</param>
+        protected virtual void SetRotation(float angle) {}
+
+        /// <summary>
         /// Begins the modification of some state. This is used to indicate that
         /// a copy of the drawable should be cached, if not already. This object
         /// is then used again at EndModification to construct a Command object
@@ -107,19 +121,68 @@ namespace Antigear.Graph {
             }
         }
 
+        /// <summary>
+        /// Cancels the modification of some state. Essentially an 
+        /// EndModification() without submitting a command.
+        /// </summary>
+        protected void CancelModification() {
+            operationCount = Mathf.Max(0, operationCount - 1);
 
+            if (operationCount == 0 && copy != null) {
+                copy = null;
+            }
+        }
+
+        bool HitEditingObject(Vector2 screenPos) {
+            Ray r = RectTransformUtility.ScreenPointToRay(Camera.main, 
+                screenPos);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(r.origin, r.direction, 
+                100);
+            Transform activeLayer = drawingView
+                .GetGraphLayerParentTransform(drawingView.GetEditLayerIndex());
+
+            foreach (var hit in hits) {
+                DrawableView v = 
+                    hit.transform.GetComponent<DrawableView>();
+
+                if (v != null && hit.transform.parent == activeLayer) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         #region IPaperDelegate implementation
 
         public void OnPaperBeginDrag(Paper paper, Vector2 pos,
-            Vector2 screenPos) {}
+            Vector2 screenPos) {
+            // Determine whether the drag position hits the drawing object. If
+            // so, this will drag the object. Otherwise, this will rotate the
+            // object.
+            BeginModification();
+            isReposition = HitEditingObject(screenPos);
+            // TODO: figure out how pivot in lines work!!
+            // TODO: figure out how rotation in lines work!!
+        }
 
-        public void OnPaperDrag(Paper paper, Vector2 pos, Vector2 screenPos) {}
+        public void OnPaperDrag(Paper paper, Vector2 pos, Vector2 screenPos) {
+            // Reposition or rotate the object.
+            if (isReposition) {
+                
+            }
+        }
 
         public void OnPaperEndDrag(Paper paper, Vector2 pos,
-            Vector2 screenPos) {}
+            Vector2 screenPos) {
+            // Submit cmd to history controller.
+            EndModification();
+        }
 
-        public void OnPaperCancelDrag(Paper paper) {}
+        public void OnPaperCancelDrag(Paper paper) {
+            // Reset to original state.
+            CancelModification();
+        }
 
         public void OnPaperTap(Paper paper, Vector2 pos, Vector2 screenPos,
             int count) {
