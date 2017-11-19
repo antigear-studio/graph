@@ -63,9 +63,8 @@ namespace Antigear.Graph {
         public virtual void Offset(Vector2 amount) {}
 
         /// <summary>
-        /// Gets the bounding box that contains the entire drawable, in paper
-        /// coordinates. This maybe a negative rect to correctly mirror pivot
-        /// point when width/height are inverted.
+        /// Gets the bounding box that contains the entire drawable, in layer
+        /// coordinates. 
         /// </summary>
         /// <returns>The boundary.</returns>
         public virtual Rect GetBoundary() {

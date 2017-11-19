@@ -25,8 +25,10 @@ namespace Antigear.Graph {
 
             // Update the two points.
             if (drawable.isEditing) {
-                beginGraphicTransform.anchoredPosition = line.startPoint;
-                endGraphicTransform.anchoredPosition = line.endPoint;
+                beginGraphicTransform.anchoredPosition = 
+                    Paper2Local(line.startPoint);
+                endGraphicTransform.anchoredPosition = 
+                    Paper2Local(line.endPoint);
             }
 
             beginControl.gameObject.SetActive(drawable.isEditing);
@@ -35,44 +37,53 @@ namespace Antigear.Graph {
 
         #region IEditingControlDelegate implementation
 
-        public void OnEditingControlBeginDrag(EditingControl editingControl,
-            Vector2 pos, Vector2 screenPos) {
+        public override void OnEditingControlBeginDrag(
+            EditingControl editingControl, Vector2 pos, Vector2 screenPos) {
+            base.OnEditingControlBeginDrag(editingControl, pos, screenPos);
+
             IStraightLineViewDelegate del = 
                 viewDelegate as IStraightLineViewDelegate;
             
             if (del != null) {
                 if (editingControl == beginControl) {
-                    del.OnBeginControlBeginDrag(this, pos, screenPos);
+                    del.OnBeginControlBeginDrag(this, Local2Paper(pos), 
+                        screenPos);
                 } else if (editingControl == endControl) {
-                    del.OnEndControlBeginDrag(this, pos, screenPos);
+                    del.OnEndControlBeginDrag(this, Local2Paper(pos), 
+                        screenPos);
                 }
             }
         }
 
-        public void OnEditingControlDrag(EditingControl editingControl,
+        public override void OnEditingControlDrag(EditingControl editingControl,
             Vector2 pos, Vector2 screenPos) {
+            base.OnEditingControlDrag(editingControl, pos, screenPos);
+
             IStraightLineViewDelegate del = 
                 viewDelegate as IStraightLineViewDelegate;
             
             if (del != null) {
                 if (editingControl == beginControl) {
-                    del.OnBeginControlDrag(this, pos, screenPos);
+                    del.OnBeginControlDrag(this, Local2Paper(pos), screenPos);
                 } else if (editingControl == endControl) {
-                    del.OnEndControlDrag(this, pos, screenPos);
+                    del.OnEndControlDrag(this, Local2Paper(pos), screenPos);
                 }
             }
         }
 
-        public void OnEditingControlEndDrag(EditingControl editingControl,
-            Vector2 pos, Vector2 screenPos) {
+        public override void OnEditingControlEndDrag(
+            EditingControl editingControl, Vector2 pos, Vector2 screenPos) {
+            base.OnEditingControlEndDrag(editingControl, pos, screenPos);
+
             IStraightLineViewDelegate del = 
                 viewDelegate as IStraightLineViewDelegate;
             
             if (del != null) {
                 if (editingControl == beginControl) {
-                    del.OnBeginControlEndDrag(this, pos, screenPos);
+                    del.OnBeginControlEndDrag(this, Local2Paper(pos),
+                        screenPos);
                 } else if (editingControl == endControl) {
-                    del.OnEndControlEndDrag(this, pos, screenPos);
+                    del.OnEndControlEndDrag(this, Local2Paper(pos), screenPos);
                 }
             }
         }

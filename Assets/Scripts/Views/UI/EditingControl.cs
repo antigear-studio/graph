@@ -47,7 +47,7 @@ namespace Antigear.Graph {
             // Update whichever point is recorded.
             bool pointer1Dragged = eventData.pointerId == pointerId;
 
-            if (pointer1Dragged) {
+            if (pointer1Dragged && controlDelegate != null) {
                 controlDelegate.OnEditingControlDrag(this, 
                     ScreenToLocal(eventData.position), eventData.position);
             }
@@ -60,6 +60,7 @@ namespace Antigear.Graph {
         public void OnEndDrag(PointerEventData eventData) {
             if (eventData.pointerId == pointerId) {
                 pointerId = -2;
+
                 if (controlDelegate != null) {
                     controlDelegate.OnEditingControlEndDrag(this,
                         ScreenToLocal(eventData.position), eventData.position);

@@ -8,12 +8,15 @@ namespace Antigear.Graph {
     /// </summary>
     [Serializable]
     public class StraightLine : Line {
+        /// <summary>
+        /// Start point of the line in layer coordinates.
+        /// </summary>
         public Vector2 startPoint;
-        public Vector2 endPoint;
 
-        public override List<Vector2> GetPoints() {
-            return new List<Vector2> { startPoint, endPoint };
-        }
+        /// <summary>
+        /// End point of the line in layer coordinates.
+        /// </summary>
+        public Vector2 endPoint;
 
         public override void Offset(Vector2 amount) {
             base.Offset(amount);
@@ -22,9 +25,15 @@ namespace Antigear.Graph {
             endPoint += amount;
         }
 
+        public override List<Vector2> GetPoints() {
+            return new List<Vector2> { startPoint, endPoint };
+        }
+
         public override Rect GetBoundary() {
-            return new Rect(startPoint.x, startPoint.y, 
-                endPoint.x - startPoint.x, endPoint.y - startPoint.y);
+            return Rect.MinMaxRect(Mathf.Min(startPoint.x, endPoint.x), 
+                Mathf.Min(startPoint.y, endPoint.y), 
+                Mathf.Max(startPoint.x, endPoint.x), 
+                Mathf.Max(startPoint.y, endPoint.y));
         }
     }
 }

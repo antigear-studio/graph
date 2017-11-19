@@ -199,6 +199,30 @@ namespace Antigear.Graph {
             Vector2 pos2, Vector2 screenPos1, Vector2 screenPos2) {}
 
         #endregion
+
+        #region DrawableViewDelegate implementation
+
+        public void OnPivotControlBeginDrag(DrawableView view, Vector2 pos,
+            Vector2 screenPos) {
+            BeginModification();
+        }
+
+        public void OnPivotControlDrag(DrawableView view, Vector2 pos,
+            Vector2 screenPos) {
+            Rect bounds = editing.GetBoundary();
+
+            editing.pivot.x = (pos.x - bounds.position.x) / bounds.width;
+            editing.pivot.y = (pos.y - bounds.position.y) / bounds.height;
+
+            view.UpdateView(editing, graph.preferences, false);
+        }
+
+        public void OnPivotControlEndDrag(DrawableView view, Vector2 pos,
+            Vector2 screenPos) {
+            EndModification();
+        }
+
+        #endregion
     }
 
     public interface IEditHandlerDelegate {
