@@ -23,7 +23,7 @@ namespace Antigear.Graph {
         int layer;
         int index;
         bool isReposition;
-        Vector2 beginPosition;
+        Vector2 lastPosition;
         float beginAngle;
 
         /// <summary>
@@ -162,6 +162,7 @@ namespace Antigear.Graph {
             // object.
             BeginModification();
             isReposition = HitEditingObject(screenPos);
+            lastPosition = pos;
             // TODO: figure out how pivot in lines work!!
             // TODO: figure out how rotation in lines work!!
         }
@@ -169,7 +170,10 @@ namespace Antigear.Graph {
         public void OnPaperDrag(Paper paper, Vector2 pos, Vector2 screenPos) {
             // Reposition or rotate the object.
             if (isReposition) {
-                
+                Vector2 delta = pos - lastPosition;
+                editing.Offset(delta);
+                lastPosition = pos;
+                editingView.UpdateView(editing, graph.preferences, false);
             }
         }
 
