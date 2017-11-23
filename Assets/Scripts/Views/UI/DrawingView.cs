@@ -197,6 +197,7 @@ namespace Antigear.Graph {
                 r.SetSiblingIndex(index);
                 r.sizeDelta = Vector2.zero;
                 r.anchoredPosition3D = Vector3.zero;
+                r.localScale = Vector3.one;
                 layerView = layerViewObject.GetComponent<LayerView>();
                 CanvasGroup group = layerViewObject.GetComponent<CanvasGroup>();
                 layerView.layerGroup = group;

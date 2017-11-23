@@ -34,6 +34,7 @@ namespace Antigear.Graph {
             previewLineView.UpdateView(previewLine, graph.preferences, true);
             previewLineView.transform.SetParent(
                 drawingView.GetGraphLayerParentTransform(graph.activeLayer));
+
             previewLineView = null;
             graph.content[graph.activeLayer].Add(previewLine);
 
