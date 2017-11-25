@@ -5,7 +5,6 @@ namespace Antigear.Graph {
     IEditingControlDelegate {
         // Outlets
         public DrawableViewDelegate viewDelegate;
-        public RectTransform pivotGraphicTransform;
         public EditingControl pivotControl;
 
         protected RectTransform rectTransform;
@@ -21,9 +20,10 @@ namespace Antigear.Graph {
             rectTransform.anchoredPosition =
                 bounds.position + Vector2.Scale(bounds.size, drawable.pivot);
 
-            // Update pivot control position.
-            pivotGraphicTransform.anchoredPosition = Vector2.Scale(bounds.size,
-                drawable.pivot - new Vector2(0.5f, 0.5f));
+            // Update pivot control.
+            pivotControl.UpdateView(drawingPreferences);
+            pivotControl.graphicsRoot.anchoredPosition = Vector2.Scale(
+                bounds.size, drawable.pivot - new Vector2(0.5f, 0.5f));
         }
 
         #region IEditingControlDelegate implementation

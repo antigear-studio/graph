@@ -7,8 +7,6 @@ namespace Antigear.Graph {
     /// </summary>
     public class StraightLineView : LineView, IEditingControlDelegate {
         // Outlets
-        public RectTransform beginGraphicTransform;
-        public RectTransform endGraphicTransform;
         public EditingControl beginControl;
         public EditingControl endControl;
 
@@ -24,10 +22,13 @@ namespace Antigear.Graph {
             }
 
             // Update the two points.
+            beginControl.UpdateView(drawingPreferences);
+            endControl.UpdateView(drawingPreferences);
+
             if (drawable.isEditing) {
-                beginGraphicTransform.anchoredPosition = 
+                beginControl.graphicsRoot.anchoredPosition = 
                     Paper2Local(line.startPoint);
-                endGraphicTransform.anchoredPosition = 
+                endControl.graphicsRoot.anchoredPosition = 
                     Paper2Local(line.endPoint);
             }
 

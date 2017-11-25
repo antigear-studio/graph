@@ -18,6 +18,11 @@ namespace Antigear.Graph {
             public string name = "";
             public Color backgroundColor = Color.white;
             public Color selectionHighlightColor = Color.green;
+            public Color controlPointFillColor = 
+                new Color(1, 0.92f, 0.016f, 0.5f);
+            public Color controlPointRimColor = Color.yellow;
+            public Color auxillaryLineColor = Color.red;
+            public float controlPointSize = 56.0f;
         }
 
         // graph metadata

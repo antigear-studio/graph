@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Vectrosity;
 
 namespace Antigear.Graph {
     /// <summary>
@@ -13,6 +14,10 @@ namespace Antigear.Graph {
     IDragHandler, IEndDragHandler {
         // Outlets.
         public IEditingControlDelegate controlDelegate;
+        public ConstantScreenResizer resizer;
+        public VectorImage fillImage;
+        public VectorObject2D rimObject;
+        public RectTransform graphicsRoot;
 
         // Private.
         int pointerId = -2;
@@ -23,6 +28,21 @@ namespace Antigear.Graph {
                 transform as RectTransform, pos, Camera.main, out pt);
 
             return pt;
+        }
+
+        /// <summary>
+        /// Updates the editing control given the preferences.
+        /// </summary>
+        /// <param name="drawingPreferences">Drawing preferences.</param>
+        public void UpdateView(Graph.Preference drawingPreferences) {
+            resizer.width = drawingPreferences.controlPointSize;
+            resizer.height = drawingPreferences.controlPointSize;
+            rimObject.vectorLine.MakeCircle(Vector2.zero, 
+                drawingPreferences.controlPointSize / 2 - 4);
+            rimObject.vectorLine.color = 
+                drawingPreferences.controlPointRimColor;
+            rimObject.vectorLine.Draw();
+            fillImage.color = drawingPreferences.controlPointFillColor;
         }
 
         #region IBeginDragHandler implementation
