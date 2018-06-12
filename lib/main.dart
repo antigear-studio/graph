@@ -30,7 +30,60 @@ class GraphPickerPageState extends State<GraphPickerPage> {
         actions: [
           new IconButton(
             icon: new Icon(Icons.more_horiz),
-            onPressed: null,
+            onPressed: () => showModalBottomSheet(
+                context: context,
+                builder: (context) => new BottomSheet(
+                    onClosing: () {},
+                    builder: (context) => new Column(
+                      children: <Widget>[
+                        new Container(
+                          height: 56.0,
+                          child: new FlatButton(
+                            onPressed: () => debugPrint("Search pressed!"),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Icon(Icons.search),
+                                new SizedBox(width: 20.0),
+                                new Expanded(
+                                    child: new Text(
+                                        "Search",
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    )
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        new Container(
+                          height: 56.0,
+                          child: new FlatButton(
+                            onPressed: () => debugPrint("Sort pressed!"),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Icon(Icons.sort_by_alpha),
+                                new SizedBox(width: 20.0),
+                                new Expanded(
+                                    child: new Text(
+                                      "Sort...",
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    )
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                    ),
+                ),
+            ),
           ),
         ],
       ),
