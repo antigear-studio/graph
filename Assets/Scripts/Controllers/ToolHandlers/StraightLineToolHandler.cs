@@ -34,6 +34,7 @@ namespace Antigear.Graph {
             previewLineView.UpdateView(previewLine, graph.preferences, true);
             previewLineView.transform.SetParent(
                 drawingView.GetGraphLayerParentTransform(graph.activeLayer));
+
             previewLineView = null;
             graph.content[graph.activeLayer].Add(previewLine);
 
@@ -42,7 +43,7 @@ namespace Antigear.Graph {
                 cmd.type = Command.Type.CreateDrawable;
                 cmd.layerIndex = graph.activeLayer;
                 cmd.drawableIndex = graph.content[graph.activeLayer].Count - 1;
-                cmd.currentDrawable = previewLine;
+                cmd.currentDrawable = previewLine.Copy();
                 handlerDelegate.OnChange(this, cmd);
             }
 

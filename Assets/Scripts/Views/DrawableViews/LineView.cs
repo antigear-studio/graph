@@ -1,4 +1,5 @@
 ﻿using MaterialUI;
+using System.Collections.Generic;
 using UnityEngine;
 using Vectrosity;
 
@@ -22,7 +23,18 @@ namespace Antigear.Graph {
             }
 
             Line line = drawable as Line;
-            vectorLine.vectorLine.points2 = line.GetPoints();
+
+            // Line points are in paper frame. Needs to translate into local
+            // frame. But since vector line disregard pivot, we use custom
+            // translation.
+            List<Vector2> pts = line.GetPoints();
+            RectTransform t = transform as RectTransform;
+
+            for (int i = 0; i < pts.Count; i++) {
+                pts[i] = pts[i] - rectTransform.anchoredPosition;
+            }
+
+            vectorLine.vectorLine.points2 = pts;
             vectorLine.vectorLine.lineWidth = line.width + 1;
 
             Color targetColor = drawable.isSelected ? 
@@ -44,11 +56,16 @@ namespace Antigear.Graph {
                 colorAnimationTweenId = TweenManager.TweenColor(v => {
                     vectorLine.vectorLine.SetColor(v);
                     vectorLine.vectorLine.Draw();
-                }, vectorLine.vectorLine.GetColor(0), target, COLOR_ANIM_DURATION);
+                }, vectorLine.vectorLine.GetColor(0), target, 
+                    COLOR_ANIM_DURATION);
 
             } else {
                 vectorLine.vectorLine.SetColor(target);
             }
         }
+    }
+
+    public interface LineViewDelegate : DrawableViewDelegate {
+        
     }
 }

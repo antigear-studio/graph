@@ -32,7 +32,12 @@ namespace Antigear.Graph {
         [JsonIgnore]
         public bool isEditing;
 
-        public Vector2 rotationPivot;
+        /// <summary>
+        /// The pivot of the drawable, in units of boundary box width/height.
+        /// E.g. a pivot of (0, 1) will position the graphic such that the pivot
+        /// is at the top left corner of the bounding box.
+        /// </summary>
+        public Vector2 pivot = new Vector2(0.5f, 0.5f);
 
         public virtual bool Selectible() {
             return Time.time - timeLastSelected > 
@@ -56,5 +61,21 @@ namespace Antigear.Graph {
         /// </summary>
         /// <param name="amount">Amount.</param>
         public virtual void Offset(Vector2 amount) {}
+
+        /// <summary>
+        /// Gets the bounding box that contains the entire drawable, in layer
+        /// coordinates. 
+        /// </summary>
+        /// <returns>The boundary.</returns>
+        public virtual Rect GetBoundary() {
+            return Rect.zero;
+        }
+
+        /// <summary>
+        /// Called when the boundary box changes in any way.
+        /// </summary>
+        public void UpdatePivot() {
+            // How will the transform in the scene look like??
+        }
     }
 }

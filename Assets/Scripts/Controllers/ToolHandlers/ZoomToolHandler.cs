@@ -22,7 +22,7 @@ namespace Antigear.Graph {
         public override void OnPaperBeginDrag(Vector2 pos, Vector2 screenPos) {
             zoomBeginTransformPosition = 
                 drawingView.paper.content.anchoredPosition;
-            zoomBeginPosition = pos / drawingView.paper.scaler.scaleFactor;
+            zoomBeginPosition = pos;
             zoomBeginScreenPosition = screenPos;
             zoomBeginScale = drawingView.paper.content.localScale.x;
             UpdateValueText();

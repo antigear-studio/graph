@@ -44,51 +44,35 @@ namespace Antigear.Graph {
             Command cmd = history.Pop();
             future.Push(cmd);
 
-            switch (cmd.type) {
-                case Command.Type.CreateDrawable:
-                    graph.content[cmd.layerIndex]
-                        .RemoveAt(cmd.drawableIndex);
-                    Destroy(drawingView.paper.content.GetChild(cmd.layerIndex)
-                        .GetChild(cmd.drawableIndex).gameObject);
-                    break;
-                case Command.Type.UpdateDrawable:
-                    graph.content[cmd.layerIndex]
-                        .RemoveAt(cmd.drawableIndex);
-                    graph.content[cmd.layerIndex]
-                        .Insert(cmd.drawableIndex, cmd.previousDrawable);
-                    drawingView.paper.content.GetChild(cmd.layerIndex)
-                        .GetChild(cmd.drawableIndex)
-                        .GetComponent<DrawableView>()
-                        .UpdateView(cmd.previousDrawable, graph.preferences, 
-                        true);
-                    break;
-                case Command.Type.DeleteDrawable:
-                    graph.content[cmd.layerIndex]
-                        .Insert(cmd.drawableIndex, cmd.previousDrawable);
-                    DrawableView drawableView = drawingView
-                        .InstantiatePrefab(cmd.previousDrawable, 
-                                                    cmd.layerIndex);
-                    drawableView.transform.SetSiblingIndex(cmd.drawableIndex);
-                    drawableView.UpdateView(cmd.previousDrawable, 
-                        graph.preferences, true);
-                    break;
-                case Command.Type.CreateLayer:
-                    graph.content.RemoveAt(cmd.layerIndex);
-                    Destroy(drawingView.paper.content.GetChild(cmd.layerIndex)
-                        .gameObject);
-                    break;
-                case Command.Type.UpdateLayer:
-                    graph.content.RemoveAt(cmd.layerIndex);
-                    graph.content.Insert(cmd.layerIndex, cmd.previousLayer);
-                    drawingView.LoadLayer(cmd.previousLayer, cmd.layerIndex, 
-                        graph.preferences);
-                    break;
-                case Command.Type.DeleteLayer:
-                    graph.content.Insert(cmd.layerIndex, 
-                        cmd.previousLayer);
-                    drawingView.LoadLayer(cmd.previousLayer, cmd.layerIndex, 
-                        graph.preferences);
-                    break;
+            if (cmd.type == Command.Type.CreateDrawable) {
+                graph.content[cmd.layerIndex].RemoveAt(cmd.drawableIndex);
+                Destroy(drawingView.paper.content.GetChild(cmd.layerIndex).GetChild(cmd.drawableIndex).gameObject);
+            } else if (cmd.type == Command.Type.UpdateDrawable) {
+                Drawable copy = cmd.previousDrawable.Copy();
+                graph.content[cmd.layerIndex].RemoveAt(cmd.drawableIndex);
+                graph.content[cmd.layerIndex].Insert(cmd.drawableIndex, copy);
+                drawingView.paper.content.GetChild(cmd.layerIndex)
+                    .GetChild(cmd.drawableIndex).GetComponent<DrawableView>()
+                    .UpdateView(copy, graph.preferences, true);
+            } else if (cmd.type == Command.Type.DeleteDrawable) {
+                Drawable copy = cmd.previousDrawable.Copy();
+                graph.content[cmd.layerIndex].Insert(cmd.drawableIndex, copy);
+                DrawableView drawableView = drawingView.InstantiatePrefab(
+                    cmd.previousDrawable, cmd.layerIndex);
+                drawableView.transform.SetSiblingIndex(cmd.drawableIndex);
+                drawableView.UpdateView(copy, graph.preferences, true);
+            } else if (cmd.type == Command.Type.CreateLayer) {
+                graph.content.RemoveAt(cmd.layerIndex);
+                Destroy(drawingView.paper.content.GetChild(cmd.layerIndex).gameObject);
+            } else if (cmd.type == Command.Type.UpdateLayer) {
+                Layer copy = cmd.previousLayer.Copy();
+                graph.content.RemoveAt(cmd.layerIndex);
+                graph.content.Insert(cmd.layerIndex, copy);
+                drawingView.LoadLayer(copy, cmd.layerIndex, graph.preferences);
+            } else if (cmd.type == Command.Type.DeleteLayer) {
+                Layer copy = cmd.previousLayer.Copy();
+                graph.content.Insert(cmd.layerIndex, copy);
+                drawingView.LoadLayer(copy, cmd.layerIndex, graph.preferences);
             }
 
             if (controllerDelegate != null)
@@ -102,50 +86,37 @@ namespace Antigear.Graph {
             Command cmd = future.Pop();
             history.Push(cmd);
 
-            switch (cmd.type) {
-                case Command.Type.CreateDrawable:
-                    graph.content[cmd.layerIndex]
-                        .Insert(cmd.drawableIndex, cmd.currentDrawable);
-                    DrawableView drawableView = drawingView
-                        .InstantiatePrefab(cmd.currentDrawable, cmd.layerIndex);
-                    drawableView.transform.SetSiblingIndex(cmd.drawableIndex);
-                    drawableView.UpdateView(cmd.currentDrawable,
-                        graph.preferences, true);
-                    break;
-                case Command.Type.UpdateDrawable:
-                    graph.content[cmd.layerIndex]
-                        .RemoveAt(cmd.drawableIndex);
-                    graph.content[cmd.layerIndex]
-                        .Insert(cmd.drawableIndex, cmd.currentDrawable);
-                    drawingView.paper.content.GetChild(cmd.layerIndex)
-                        .GetChild(cmd.drawableIndex)
-                        .GetComponent<DrawableView>()
-                        .UpdateView(cmd.currentDrawable, graph.preferences, 
-                        true);
-                    break;
-                case Command.Type.DeleteDrawable:
-                    graph.content[cmd.layerIndex]
-                        .RemoveAt(cmd.drawableIndex);
-                    Destroy(drawingView.paper.content.GetChild(cmd.layerIndex)
-                        .GetChild(cmd.drawableIndex).gameObject);
-                    break;
-                case Command.Type.CreateLayer:
-                    graph.content.Insert(cmd.layerIndex, 
-                        cmd.currentLayer);
-                    drawingView.LoadLayer(cmd.currentLayer, cmd.layerIndex, 
-                        graph.preferences);
-                    break;
-                case Command.Type.UpdateLayer:
-                    graph.content.RemoveAt(cmd.layerIndex);
-                    graph.content.Insert(cmd.layerIndex, cmd.currentLayer);
-                    drawingView.LoadLayer(cmd.currentLayer, cmd.layerIndex, 
-                        graph.preferences);
-                    break;
-                case Command.Type.DeleteLayer:
-                    graph.content.RemoveAt(cmd.layerIndex);
-                    Destroy(drawingView.paper.content.GetChild(cmd.layerIndex)
-                        .gameObject);
-                    break;
+            if (cmd.type == Command.Type.CreateDrawable) {
+                Drawable copy = cmd.currentDrawable.Copy();
+                graph.content[cmd.layerIndex].Insert(cmd.drawableIndex, copy);
+                DrawableView drawableView = 
+                    drawingView.InstantiatePrefab(copy, cmd.layerIndex);
+                drawableView.transform.SetSiblingIndex(cmd.drawableIndex);
+                drawableView.UpdateView(copy, graph.preferences, true);
+            } else if (cmd.type == Command.Type.UpdateDrawable) {
+                graph.content[cmd.layerIndex].RemoveAt(cmd.drawableIndex);
+                Drawable copy = cmd.currentDrawable.Copy();
+                graph.content[cmd.layerIndex].Insert(cmd.drawableIndex, copy);
+                drawingView.paper.content.GetChild(cmd.layerIndex)
+                    .GetChild(cmd.drawableIndex).GetComponent<DrawableView>()
+                    .UpdateView(copy, graph.preferences, true);
+            } else if (cmd.type == Command.Type.DeleteDrawable) {
+                graph.content[cmd.layerIndex].RemoveAt(cmd.drawableIndex);
+                Destroy(drawingView.paper.content.GetChild(cmd.layerIndex)
+                    .GetChild(cmd.drawableIndex).gameObject);
+            } else if (cmd.type == Command.Type.CreateLayer) {
+                Layer copy = cmd.currentLayer.Copy();
+                graph.content.Insert(cmd.layerIndex, copy);
+                drawingView.LoadLayer(copy, cmd.layerIndex, graph.preferences);
+            } else if (cmd.type == Command.Type.UpdateLayer) {
+                Layer copy = cmd.currentLayer.Copy();
+                graph.content.RemoveAt(cmd.layerIndex);
+                graph.content.Insert(cmd.layerIndex, copy);
+                drawingView.LoadLayer(copy, cmd.layerIndex, graph.preferences);
+            } else if (cmd.type == Command.Type.DeleteLayer) {
+                graph.content.RemoveAt(cmd.layerIndex);
+                Destroy(drawingView.paper.content.GetChild(cmd.layerIndex)
+                    .gameObject);
             }
 
             if (controllerDelegate != null)

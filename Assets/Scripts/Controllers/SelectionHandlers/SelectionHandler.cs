@@ -100,7 +100,7 @@ namespace Antigear.Graph {
         }
 
         protected virtual void OnEdit() {
-            handlerDelegate.OnSelectionShouldEdit(this);
+            handlerDelegate.OnSelectionShouldEdit(this, selected, selectedView);
         }
 
         protected virtual void OnCopy() {
@@ -189,7 +189,10 @@ namespace Antigear.Graph {
         /// selected object should be edited.
         /// </summary>
         /// <param name="handler">Handler.</param>
-        void OnSelectionShouldEdit(SelectionHandler handler);
+        /// <param name="selected">Selected drawable.</param>
+        /// <param name="selectedView">View for selected drawable.</param>
+        void OnSelectionShouldEdit(SelectionHandler handler, Drawable selected, 
+            DrawableView selectedView);
 
         /// <summary>
         /// Raises when the graph object changes in a way supported by History
