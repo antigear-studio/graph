@@ -5,7 +5,18 @@ class GraphPickerPage extends StatefulWidget {
   createState() => new GraphPickerPageState();
 }
 
+enum SortOrder { lastModified, alphabetical, created }
+
 class GraphPickerPageState extends State<GraphPickerPage> {
+  /// The sort order for graphs. By default this sorts with last modified date.
+  SortOrder _sortOrder = SortOrder.lastModified;
+
+  /// Whether the sort is in ascending or descending order. By default this is
+  /// ascending. To enforce consistency, we treat dates in lastModified in
+  /// reverse. That is, we sort by using the difference of time between now and
+  /// graph's last edit timestamp, instead of its last edit timestamp directly.
+  bool _sortAscending = true;
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -58,15 +69,42 @@ class GraphPickerPageState extends State<GraphPickerPage> {
   }
 
   void _onAlphabeticalSortButtonPressed() {
+    Navigator.pop(context);
 
+    if (_sortOrder != SortOrder.alphabetical) {
+      setState(() {
+        _sortOrder = SortOrder.alphabetical;
+        _sortAscending = true;
+      });
+    } else {
+      setState(() => _sortAscending = !_sortAscending);
+    }
   }
 
   void _onCreationDateSortButtonPressed() {
+    Navigator.pop(context);
 
+    if (_sortOrder != SortOrder.created) {
+      setState(() {
+        _sortOrder = SortOrder.created;
+        _sortAscending = true;
+      });
+    } else {
+      setState(() => _sortAscending = !_sortAscending);
+    }
   }
 
   void _onLastModifiedDateSortButtonPressed() {
-
+    Navigator.pop(context);
+    
+    if (_sortOrder != SortOrder.lastModified) {
+      setState(() {
+        _sortOrder = SortOrder.lastModified;
+        _sortAscending = true;
+      });
+    } else {
+      setState(() => _sortAscending = !_sortAscending);
+    }
   }
 
   /// Builds the bottom sheet that is shown after user taps the "more button" on
@@ -101,6 +139,23 @@ class GraphPickerPageState extends State<GraphPickerPage> {
   /// Builds the bottom sheet that is shown after user taps the "sort button" on
   /// the "more bottom sheet".
   BottomSheet _buildSortBottomSheet(BuildContext context) {
+    Icon alphabeticalIcon = new Icon(null);
+    Icon lastModifiedIcon = new Icon(null);
+    Icon createdIcon = new Icon(null);
+    IconData arrow = _sortAscending ? Icons.arrow_upward : Icons.arrow_downward;
+
+    switch (_sortOrder) {
+      case SortOrder.alphabetical:
+        alphabeticalIcon = new Icon(arrow);
+        break;
+      case SortOrder.lastModified:
+        lastModifiedIcon = new Icon(arrow);
+        break;
+      case SortOrder.created:
+        createdIcon = new Icon(arrow);
+        break;
+    }
+
     return new BottomSheet(
       onClosing: () {},
       builder: (context) => new Column(
@@ -109,17 +164,17 @@ class GraphPickerPageState extends State<GraphPickerPage> {
                 title: new Text("Sort by..."),
               ),
               new ListTile(
-                leading: new Icon(null),
+                leading: alphabeticalIcon,
                 title: new Text("Alphabetical order"),
                 onTap: _onAlphabeticalSortButtonPressed,
               ),
               new ListTile(
-                leading: new Icon(Icons.arrow_upward),
+                leading: lastModifiedIcon,
                 title: new Text("Last modified date"),
                 onTap: _onLastModifiedDateSortButtonPressed,
               ),
               new ListTile(
-                leading: new Icon(Icons.arrow_downward),
+                leading: createdIcon,
                 title: new Text("Creation date"),
                 onTap: _onCreationDateSortButtonPressed,
               ),
