@@ -24,6 +24,7 @@ class GraphPickerPageState extends State<GraphPickerPage> {
       drawer: new Drawer(
         semanticLabel: "Side Menu",
       ),
+      body: _buildGridView(context),
       floatingActionButton: new FloatingActionButton(
         tooltip: 'New Graph',
         child: new Icon(Icons.add),
@@ -96,7 +97,7 @@ class GraphPickerPageState extends State<GraphPickerPage> {
 
   void _onLastModifiedDateSortButtonPressed() {
     Navigator.pop(context);
-    
+
     if (_sortOrder != SortOrder.lastModified) {
       setState(() {
         _sortOrder = SortOrder.lastModified;
@@ -183,5 +184,34 @@ class GraphPickerPageState extends State<GraphPickerPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
           ),
     );
+  }
+
+  static const maxCrossAxisExtent = 150.0;
+  static const childAspectRatio = 1.0;
+  static const gridSpacing = 8.0;
+
+  final _scrollController = new ScrollController();
+
+  /// Builds the grid view that displays all the graphs.
+  Widget _buildGridView(BuildContext context) {
+    var gridDelegate = new SliverGridDelegateWithMaxCrossAxisExtent(
+      maxCrossAxisExtent: maxCrossAxisExtent,
+      childAspectRatio: childAspectRatio,
+      crossAxisSpacing: gridSpacing,
+      mainAxisSpacing: gridSpacing,
+    );
+    int itemCount = 15;
+
+    return new GridView.builder(
+      itemCount: itemCount,
+      gridDelegate: gridDelegate,
+      controller: _scrollController,
+      padding: const EdgeInsets.all(8.0),
+      itemBuilder: _gridItemBuilder,
+    );
+  }
+
+  Widget _gridItemBuilder(BuildContext context, int index) {
+    return new GridTile(child: new Container(color: Colors.white));
   }
 }
