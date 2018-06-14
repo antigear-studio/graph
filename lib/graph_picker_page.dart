@@ -1,7 +1,10 @@
 import "dart:async";
 
 import "package:flutter/material.dart";
+import "package:collection/collection.dart";
 
+import "graph.dart";
+import "graph_editor_page.dart";
 import "graph_manager.dart";
 
 class GraphPickerPage extends StatefulWidget {
@@ -19,9 +22,8 @@ class GraphPickerPageState extends State<GraphPickerPage> {
   SortOrder _sortOrder = SortOrder.lastModified;
 
   /// Whether the sort is in ascending or descending order. By default this is
-  /// ascending. To enforce consistency, we treat dates in lastModified in
-  /// reverse. That is, we sort by using the difference of time between now and
-  /// graph's last edit timestamp, instead of its last edit timestamp directly.
+  /// ascending. To be more useful, dates are actually in reverse. In ascending,
+  /// more recent dates are placed before older dates.
   bool _sortAscending = true;
 
   @override
@@ -67,7 +69,10 @@ class GraphPickerPageState extends State<GraphPickerPage> {
 
   /// Event handler for floating action button press.
   void _onNewGraphButtonPressed() {
-    setState(() => _graphManager.createGraph());
+    setState(() {
+      _graphManager.createGraph();
+      _sortGraphStore(_sortOrder, _sortAscending);
+    });
   }
 
   /// Event handler for app bar "more button" press.
@@ -93,6 +98,7 @@ class GraphPickerPageState extends State<GraphPickerPage> {
     print("Select button is pressed!");
   }
 
+  /// Event handler for "sort bottom sheet"'s "alphabetical sort button" press.
   void _onAlphabeticalSortButtonPressed() {
     Navigator.pop(context);
 
@@ -100,12 +106,17 @@ class GraphPickerPageState extends State<GraphPickerPage> {
       setState(() {
         _sortOrder = SortOrder.alphabetical;
         _sortAscending = true;
+        _sortGraphStore(_sortOrder, _sortAscending);
       });
     } else {
-      setState(() => _sortAscending = !_sortAscending);
+      setState(() {
+        _sortAscending = !_sortAscending;
+        _sortGraphStore(_sortOrder, _sortAscending);
+      });
     }
   }
 
+  /// Event handler for "sort bottom sheet"'s "creation date sort button" press.
   void _onCreationDateSortButtonPressed() {
     Navigator.pop(context);
 
@@ -113,12 +124,17 @@ class GraphPickerPageState extends State<GraphPickerPage> {
       setState(() {
         _sortOrder = SortOrder.created;
         _sortAscending = true;
+        _sortGraphStore(_sortOrder, _sortAscending);
       });
     } else {
-      setState(() => _sortAscending = !_sortAscending);
+      setState(() {
+        _sortAscending = !_sortAscending;
+        _sortGraphStore(_sortOrder, _sortAscending);
+      });
     }
   }
 
+  /// Event handler for "sort bottom sheet"'s "last modified sort button" press.
   void _onLastModifiedDateSortButtonPressed() {
     Navigator.pop(context);
 
@@ -126,9 +142,13 @@ class GraphPickerPageState extends State<GraphPickerPage> {
       setState(() {
         _sortOrder = SortOrder.lastModified;
         _sortAscending = true;
+        _sortGraphStore(_sortOrder, _sortAscending);
       });
     } else {
-      setState(() => _sortAscending = !_sortAscending);
+      setState(() {
+        _sortAscending = !_sortAscending;
+        _sortGraphStore(_sortOrder, _sortAscending);
+      });
     }
   }
 
@@ -213,6 +233,7 @@ class GraphPickerPageState extends State<GraphPickerPage> {
   static const maxCrossAxisExtent = 150.0;
   static const childAspectRatio = 1.0;
   static const gridSpacing = 8.0;
+  static const gridMargin = 8.0;
 
   final _scrollController = new ScrollController();
 
@@ -224,25 +245,73 @@ class GraphPickerPageState extends State<GraphPickerPage> {
       crossAxisSpacing: gridSpacing,
       mainAxisSpacing: gridSpacing,
     );
-    int itemCount = _graphManager.graphStore.keys.length;
+    int itemCount = _graphManager.graphStore.length;
 
     return new GridView.builder(
       itemCount: itemCount,
       gridDelegate: gridDelegate,
       controller: _scrollController,
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(gridMargin),
       itemBuilder: _gridItemBuilder,
     );
   }
 
+  static TextStyle _subtitleStyle = new TextStyle(fontSize: 12.0);
+
+  /// Builds a single graph grid tile.
   Widget _gridItemBuilder(BuildContext context, int index) {
+    Graph graph = _graphManager.graphStore[index];
+    String title =
+        graph.title == null || graph.title == "" ? "Untitled" : graph.title;
+    String subtitle = _dateTimeToString(graph.updatedOn.toLocal());
+
     return new GridTile(
-      child: new Container(color: Colors.white),
+      child: new Container(
+        color: Colors.white,
+        child: new FlatButton(
+          onPressed: () => _onGraphGridTilePressed(index),
+          child: null,
+        ),
+      ),
       footer: new GridTileBar(
-        title: new Text("Title"),
-        subtitle: new Text("Subtitle"),
+        title: new Text(title),
+        subtitle: new Text(
+          subtitle,
+          style: _subtitleStyle,
+        ),
         backgroundColor: Colors.black26,
       ),
     );
+  }
+
+  /// Converts a date time into a short string.
+  String _dateTimeToString(DateTime t) {
+    return "${t.hour}:${t.minute} ${t.year}-${t.month}-${t.day}";
+  }
+
+  /// Event handler for graph grid selection.
+  void _onGraphGridTilePressed(int index) {
+    print("Graph grid tile at index $index is pressed!");
+    var graph = _graphManager.graphStore[index];
+    Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => new GraphEditorPage(graph)),
+    );
+  }
+
+  /// Sorts the graph store according to the given order.
+  void _sortGraphStore(SortOrder order, bool isAscending) {
+    _graphManager.graphStore.sort((a, b) {
+      int sign = isAscending ? 1 : -1;
+
+      switch (order) {
+        case SortOrder.alphabetical:
+          return compareNatural(a.title, b.title) * sign;
+        case SortOrder.lastModified:
+          return b.updatedOn.compareTo(a.updatedOn) * sign;
+        case SortOrder.created:
+          return b.createdOn.compareTo(a.createdOn) * sign;
+      }
+    });
   }
 }

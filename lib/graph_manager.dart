@@ -16,8 +16,9 @@ class GraphManager {
   /// The path suffix for the folder that stores graphs.
   static const graphFolder = "graphs";
 
-  /// The graph store mapping graph to its id.
-  Map<Graph, String> graphStore = {};
+  /// The graph store mapping graph to its id. This list can be sorted in
+  /// arbitrary ways.
+  List<Graph> graphStore = [];
 
   /// Gets the graph storage path. Creates the folder if it doesn't exist.
   Future<Directory> get _graphDirectory async {
@@ -32,17 +33,25 @@ class GraphManager {
   }
 
   /// Loads all graphs from disk. Only valid graphs will be added to the store.
+  /// Existing graphs may be overwritten if overwrite is true.
   Future<void> loadGraphs({bool overwrite = false}) async {
     var entities = (await _graphDirectory).listSync(followLinks: false);
 
-    for (FileSystemEntity entity in entities) {
+    outer: for (FileSystemEntity entity in entities) {
       if (entity is File) {
         String graphId = entity.path.split("/").last.split(".").first;
         String content = await entity.readAsString();
         Graph graph = Graph.deserialize(content);
 
-        if (graph != null && (!graphStore.containsKey(graphId) || overwrite)) {
-          graphStore[graph] = graphId;
+        if (graph != null) {
+          for (int i = 0; i < graphStore.length; i++) {
+            if (graphStore[i].id == graphId && overwrite) {
+              graphStore[i] = graph;
+              continue outer;
+            }
+          }
+
+          graphStore.add(graph);
         }
       }
     }
@@ -50,7 +59,7 @@ class GraphManager {
 
   /// Saves the current list of graphs to disk.
   Future<void> saveGraphs() async {
-    for (var graph in graphStore.keys) {
+    for (var graph in graphStore) {
       await saveGraph(graph);
     }
   }
@@ -58,7 +67,7 @@ class GraphManager {
   /// Saves the given graph to disk.
   Future<void> saveGraph(Graph graph) async {
     Directory directory = await _graphDirectory;
-    File file = new File("${directory.path}${graphStore[graph]}.svg");
+    File file = new File("${directory.path}${graph.id}.svg");
     await file.writeAsString(graph.serialize());
   }
 
@@ -66,7 +75,10 @@ class GraphManager {
   Graph createGraph() {
     var uuid = Uuid();
     var graph = new Graph();
-    graphStore[graph] = uuid.v1();
+    graph.id = uuid.v1();
+    graph.createdOn = new DateTime.now().toUtc();
+    graph.updatedOn = graph.createdOn;
+    graphStore.add(graph);
 
     return graph;
   }
