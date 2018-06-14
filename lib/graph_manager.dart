@@ -32,7 +32,7 @@ class GraphManager {
   }
 
   /// Loads all graphs from disk. Only valid graphs will be added to the store.
-  Future<List<Graph>> loadGraphs({bool overwrite = false}) async {
+  Future<void> loadGraphs({bool overwrite = false}) async {
     var entities = (await _graphDirectory).listSync(followLinks: false);
 
     for (FileSystemEntity entity in entities) {
@@ -46,8 +46,6 @@ class GraphManager {
         }
       }
     }
-
-    return graphStore.keys;
   }
 
   /// Saves the current list of graphs to disk.

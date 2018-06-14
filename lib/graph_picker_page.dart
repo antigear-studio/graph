@@ -1,4 +1,8 @@
+import "dart:async";
+
 import "package:flutter/material.dart";
+
+import "graph_manager.dart";
 
 class GraphPickerPage extends StatefulWidget {
   @override
@@ -8,6 +12,9 @@ class GraphPickerPage extends StatefulWidget {
 enum SortOrder { lastModified, alphabetical, created }
 
 class GraphPickerPageState extends State<GraphPickerPage> {
+  /// The graph manager.
+  GraphManager _graphManager = new GraphManager();
+
   /// The sort order for graphs. By default this sorts with last modified date.
   SortOrder _sortOrder = SortOrder.lastModified;
 
@@ -16,6 +23,18 @@ class GraphPickerPageState extends State<GraphPickerPage> {
   /// reverse. That is, we sort by using the difference of time between now and
   /// graph's last edit timestamp, instead of its last edit timestamp directly.
   bool _sortAscending = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _reloadGraphs();
+  }
+
+  /// Reloads the graphs from graph store and refreshes state after loading.
+  Future<void> _reloadGraphs() async {
+    await _graphManager.loadGraphs();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +47,7 @@ class GraphPickerPageState extends State<GraphPickerPage> {
       floatingActionButton: new FloatingActionButton(
         tooltip: 'New Graph',
         child: new Icon(Icons.add),
-        onPressed: () => debugPrint("Add new drawing!"),
+        onPressed: _onNewGraphButtonPressed,
       ),
     );
   }
@@ -44,6 +63,11 @@ class GraphPickerPageState extends State<GraphPickerPage> {
         ),
       ],
     );
+  }
+
+  /// Event handler for floating action button press.
+  void _onNewGraphButtonPressed() {
+    setState(() => _graphManager.createGraph());
   }
 
   /// Event handler for app bar "more button" press.
@@ -200,7 +224,7 @@ class GraphPickerPageState extends State<GraphPickerPage> {
       crossAxisSpacing: gridSpacing,
       mainAxisSpacing: gridSpacing,
     );
-    int itemCount = 15;
+    int itemCount = _graphManager.graphStore.keys.length;
 
     return new GridView.builder(
       itemCount: itemCount,
@@ -212,6 +236,13 @@ class GraphPickerPageState extends State<GraphPickerPage> {
   }
 
   Widget _gridItemBuilder(BuildContext context, int index) {
-    return new GridTile(child: new Container(color: Colors.white));
+    return new GridTile(
+      child: new Container(color: Colors.white),
+      footer: new GridTileBar(
+        title: new Text("Title"),
+        subtitle: new Text("Subtitle"),
+        backgroundColor: Colors.black26,
+      ),
+    );
   }
 }
