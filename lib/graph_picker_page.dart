@@ -247,12 +247,14 @@ class GraphPickerPageState extends State<GraphPickerPage> {
     );
     int itemCount = _graphManager.graphStore.length;
 
-    return new GridView.builder(
-      itemCount: itemCount,
-      gridDelegate: gridDelegate,
-      controller: _scrollController,
-      padding: const EdgeInsets.all(gridMargin),
-      itemBuilder: _gridItemBuilder,
+    return new Scrollbar(
+      child: new GridView.builder(
+        itemCount: itemCount,
+        gridDelegate: gridDelegate,
+        controller: _scrollController,
+        padding: const EdgeInsets.all(gridMargin),
+        itemBuilder: _gridItemBuilder,
+      ),
     );
   }
 
