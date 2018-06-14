@@ -18,6 +18,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_launcher_icons: "^0.5.0"
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
@@ -60,3 +62,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
+
+flutter_icons:
+  # To update run "flutter pub pub run flutter_launcher_icons:main".
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
